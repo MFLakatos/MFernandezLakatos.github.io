@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="estilos/bootstrap.min.css" rel="stylesheet">
+  <link href="estilos/main.css" rel="stylesheet">
+  <title>Proyecto Matías Fernández</title>
+
+</head>
+<body>
+
+<div class="container">
+<h1><center>Tratamiento de Imágenes por Computadora</center></h1>
+<h2><center>Detección del contacto bebé-objeto</center></h2>
+<h3><center>En colaboración con CICEA</center></h3>
+
+<br/>
+<center><p>Estudiante:</center>
+<center>Matías Fernández Lakatos</center><br/>
+<center><p>Docentes:</center>
+<center>Álvaro Gómez</center>
+<center>Gregory Randall</center>
+<center>Camilo Mariño</center>
+<center>Javier Preciozzi</center>
+<br/>
+<center>24 de julio de 2019</center><br/>
+</p>
+<br/>
+<br/>
+
+<h2 id="indice">  Índice</h2>
+<ul>
+<li><a href="#descargables">Descargables</a></li>
+<li><a href="#intro">Introducción</a></li>
+<li><a href="#objetivos">Objetivos</a></li>
+<li><a href="#equi">Equipos y Materiales</a></li>
+<ul>
+<li><a href="#esp">Espacio Físico</a></li>
+<li><a href="#equidisp">Equipo disponible para el proyecto</a></li>
+</ul>
+<li><a href="#mont">Montaje Experimental</a></li>
+<li><a href="#code">Código base</a></li>
+<li><a href="#objetos">Objetos</a></li>
+<li><a href="#espdecolor">Espacio de color de los objetos</a></li>
+<li><a href="#mask">Máscara</a></li>
+<li><a href="#esqueleto">Esqueleto de las personas</a></li>
+<li><a href="#distobjeto">Distancia objeto - muñeca del bebé</a></li>
+<li><a href="#ejec">Ejecución, entrada y salida</a></li>
+<ul>
+<li><a href="#ejecyentrada">Ejecución y entrada</a></li>
+<li><a href="#salida">Salida</a></li>
+</ul>
+<li><a href="#pasaje">Pasaje de conjunto de imágenes a video</a></li>
+<li><a href="#posiblesmejoras">Posibles mejoras</a></li>
+<li><a href="#codigoentero">Código</a></li>
+</ul>
+
+<h2 id="descargables"> Descargables </h2>
+<a href="codes/tracker_objetos_varias_camaras_color-centroide_v3.py" download>tracker_objetos_varias_camaras_color-centroide_v3.py</a>
+
+<h2 id="intro"> Introducción </h2>
+<p>El proyecto se encuentra enmarcado en un proyecto del Centro Interdisciplinario en Cognición para la Enseñanza y el Aprendizaje (CICEA)<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> en el armado de un laboratorio que desea analizar temas en el aprendizaje de la primera infancia (LabAPI-CICEA).</p>
+<h2 id="objetivos">Objetivos</h2>
+<p>En esta instancia se desea automatizar una tarea dentro del estudio de las reacciones del bebé. Se intenta obtener sin necesidad de intermediarios los instantes en los que el bebé toca al objeto, por cuánto tiempo lo hace, si lo llega a sujetar y por cuánto tiempo.</p>
+<h2 id="equi">Equipos y Materiales</h2>
+<h3 id="esp">Espacio Físico</h3>
+<p>La obtención de los datos se realiza en el Laboratorio de Aprendizaje en Primera Infancia CICEA (LabAPI-CICEA) situado en José Enrique Rodó <span class="math inline">1839</span> bis. Este laboratorio puede apreciarse en la figura <a href="#fig:laboratorio" data-reference-type="ref" data-reference="fig:laboratorio">[fig:laboratorio]</a>, y en la figura <a href="#fig:cam" data-reference-type="ref" data-reference="fig:cam">[fig:cam]</a> está una vista ampliada de la cámara a utilizarse.</p>
+
+<figure>
+<center><embed src="imgs/laboratorio.png" id="fig:laboratorio" style="width:50.0%" /><figcaption>Laboratorio de Aprendizaje en Primera Infancia CICEA.<span label="fig:laboratorio"></span></figcaption></center>
+</figure>
+
+<figure>
+<center>
+<img src="imgs/cam.png" alt="Montaje de la cámara." id="fig:cam" style="width:30.0%" /><figcaption>Montaje de la cámara.<span label="fig:cam"></span></figcaption>
+</center>
+</figure>
+
+
+<h3 id="equidisp">Equipo disponible para el proyecto</h3>
+<p>El laboratorio cuenta con tres cámaras Flir Blackfly S, ver figura <a href="#fig:camara" data-reference-type="ref" data-reference="fig:camara">[fig:camara]</a>:</p>
+<ul>
+<li><p>Resolución 1280x1024px.</p></li>
+<li><p>Máximo frame rate 170fps (manteniendo tamaño imagen).</p></li>
+<li><p>Sensor a color.</p></li>
+<li><p>Conector datos y alimentación USB3.1</p></li>
+<li><p>Conector analógico</p></li>
+<li><p>Tamaño del buffer 240 MB</p></li>
+<li><p>Totalmente configurables mediante el uso de la librería Spinnaker de Flir.</p></li>
+<li><p>Cuenta con un interfaz de visualización de nombre Sinview.</p></li>
+</ul>
+
+<figure><center>
+<embed src="imgs/camaras.png" id="fig:camara" style="width:40.0%" /><figcaption>Cámara Flir Blackfly S.<span label="fig:camara"></span></figcaption>
+</center></figure>
+
+<p>La computadora que procesa los datos tiene las siguientes características:</p>
+<ul>
+<li><p>Tarjeta de Video NVidia GTX1060</p></li>
+<li><p>Tarjeta USB 3.1 - 4 puertos, bus independientes</p></li>
+<li><p>32GB RAM</p></li>
+<li><p>SSD 256GB - con SO Ubuntu 18</p></li>
+<li><p>HDD WD Blue 1TB (Procesamiento)</p></li>
+<li><p>HDD WD Purple 4TB (Guardado)</p></li>
+<li><p>HDD WD Purple 4TB (Respaldo)</p></li>
+</ul>
+<h2 id="mont">Montaje Experimental</h2>
+<p>No debe haber presentes objetos de color similar, si bien es capaz de distinguir entre tonalidades distintas mejor no forzar al código. El bebé deberá situarse a la derecha de la madre, considerando la visión de las cámaras. La cámara que se encuentra enfrentada a la puerta de entrada (cámara número <span class="math inline">10</span>) tendrá una perspectiva que tomará al bebé como debajo de la madre. Todas las cámaras se encuentran fijas y no se mueven para distintas tomas.</p>
+<h2 id="code">Código base</h2>
+<p>Para el análisis de los videos se utilizó como base el código proporcionado por Adrian Rosebrock presente en su página web<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>. Más específicamente el código para el <em>Ball Tracking with OpenCV</em><a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>. El mismo fue modificado para que se adaptara a nuestra situación pero utiliza la misma idea.</p>
+<h2 id="objetos">Objetos</h2>
+<p>Los objetos serán simplificados a un punto, el centroide. A continuación vemos cómo extraer este punto del video. Es por esto que las distancias al objeto serán medidas desde este punto.</p>
+<h3 id="espdecolor">Espacio de color de los objetos</h3>
+<p>Previo al análisis se definen los rangos de colores en el espacio de color HSV de los distintos objetos que participarán en los videos. Puede realizarse esto incluso con una imagen extraída del video a analizar. Para esto se utilizó el programa de <em>Range-Detector.py</em> disponible en github <a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>. El mismo consiste en ir variando los límites en el espacio de color HSV (permite también hacerlo en el espacio RGB) hasta quedarse sólo con el objeto. Luego, estos límites son introducidos en el algoritmo de seguimiento de objetos y serán los que definan al objeto a seguir. De esta manera podremos separarlo del resto del video. Es por esta razón que no deben aparecer elementos que se encuentren dentro del subespacio de color asociado a cualquiera de los objetos que se desean seguir. Por lo menos no deben aparecer de forma tal que ocupen un lugar mayor al objeto en cuestión.<br />
+</p>
+<h3 id="mask">Máscara</h3>
+<p>Una vez aplicada la primera máscara de color haremos una sucesión de funciones que erosionarán y dilatarán los espacios que hayan caído dentro del subespacio de color del objeto. Primero se erosiona para eliminar cualquier tipo de ruido pequeño que se encuentre en el video, después se dilata para que el objeto llegue a un tamaño típico del objeto.<br />
+La máscara de color del objeto debe presentar un tamaño considerable para no ser eliminado por la erosión.<br />
+Con el fin de visualizar lo que estamos realizando se despliega la máscara en otra ventana.<br />
+A partir de la máscara obtenemos el centroide que vamos a considerar como el centro del objeto. Otra razón más para no introducir elementos con un código de color similar al objeto seguido.<br />
+El centroide es desplegado como un punto rojo en el video y también se genera una figura amarilla que envuelve el objeto si sus dimensiones son mayores a un cierto tamaño. Esto último se hace con la función cv2.minAreaRect para los objetos con forma de prismas ó cv2.minEnclosingCircle <a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> para aquellos que son más similares a una esfera o una dona.<br />
+A su vez, contamos con una cola de puntos rojos que siguen al centroide del objeto. Mientras haya registro del objeto la cola se irá diluyendo con el tiempo.</p>
+<h2 id="esqueleto">Esqueleto de las personas</h2>
+<p>Una vez obtenido el punto que representará la posición del objeto, el centroide, debemos encontrar aquel punto que represente la mano del bebé y así poder medir la distancia entre él y el objeto.<br />
+Utilizando el programa de OpenPose <a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> podemos obtener el esqueleto de las personas. En otras palabras, tenemos puntos clave, como son las muñecas del sujeto de estudio, disponibles en todo el video como podemos ver en la figura <a href="#fig:img_muestra_OpenPose" data-reference-type="ref" data-reference="fig:img_muestra_OpenPose">[fig:img_muestra_OpenPose]</a>.</p>
+
+<figure><center>
+<embed src="imgs/img_muestra_OpenPose.png" id="fig:img_muestra_OpenPose"  style="width:50.0%" /><figcaption>Captura de video con el esqueleto superpuesto.<span label="fig:img_muestra_OpenPose"> </span></figcaption>
+</center></figure>
+
+<p>Podemos apreciar los puntos de la mano que también son otorgados por OpenPose, la adquisición de estos datos analizando el esqueleto de un bebé es más complicado ya que presentan una confianza menor. Por esta razón, utilizaremos los datos de sus respectivas muñecas. La visualización del algoritmo de seguimiento será de sólo los puntos de las muñecas, el objeto (su centroide) y el trazo que hace este último como podemos ver en la figura <a href="#fig:img_muestra" data-reference-type="ref" data-reference="fig:img_muestra">[fig:img_muestra]</a>.</p>
+
+<figure><center>
+<embed src="imgs/img_muestra.jpg" id="fig:img_muestra"  style="width:50.0%" /><figcaption>Captura de video con distancia muñeca derecha-objeto (azul) y distancia muñeca izquierda-objeto (verde). Datos de esqueleto sólo para muñecas y pulgares.<span label="fig:img_muestra"> </span></figcaption>
+</center></figure>
+
+<p>Debido a que en los videos originales aparece la madre con su bebé el programa OpenPose guardará los dos esqueletos. La información de los esqueletos fue otorgada por el laboratorio y se encuentra en archivos .json. Al momento de importar esta información hay que ser precavido. El bebé estará situado a la derecha de la madre, por lo que de haber dos elementos en el .json que guarda la información de los esqueletos tomaremos aquel en el que la distancia en el eje <span class="math inline"><em>x</em></span> de la nariz sea mayor. Esto vale para las cámaras <span class="math inline">09</span> y <span class="math inline">11</span>, para la <span class="math inline">10</span>, debido a la perspectiva, tomaremos la información del esqueleto que tenga una coordenada <span class="math inline"><em>y</em></span> mayor. En caso de que haya información de un sólo esqueleto no imponemos condición. Tal vez en un trabajo posterior se pueda imponer una restricción para ver si en estos casos el esqueleto es el de la madre o del bebé.</p>
+<h2 id="distobjeto">Distancia objeto - muñeca del bebé</h2>
+<p>Se estudiará cada video por separado pero siempre tomando en cuenta que son diferentes perspectivas de la misma escena. Sabemos que de las tres cámaras, dos se encuentran enfrentadas, y todas distan unos <span class="math inline">90<sup><em>o</em></sup></span> de la más próxima, ver figura <a href="#fig:laboratorio" data-reference-type="ref" data-reference="fig:laboratorio">[fig:laboratorio]</a>. Todas están aproximadamente a una altura entre <span class="math inline">1.3</span> y <span class="math inline">1.4</span> metros del piso. Los sujetos a estudiar estarán sentados por debajo de las cámaras. Esta disposición será importante debido a que si registramos un contacto bebé-objeto en al menos dos cámaras, tendremos un contacto efectivamente.<br />
+Cada vez que la distancia, <span class="math inline"><em>μ</em></span>, entre el objeto y la muñeca del bebé (izquierda y derecha) sea menor a un cierto valor fijo, <span class="math inline"><em>η</em></span>, se guardará la información de los segundos en que sucedió. Consideramos que hay contacto con el objeto si la distancia es menor a <span class="math inline"><em>η</em></span>. Tomamos como <span class="math inline"><em>η</em><sub><em>m</em><em>a</em><em>x</em></sub></span> a la distancia desde la esquina superior izquierda a la inferior derecha. De esta manera, medimos todas las distancias de forma tal que <span class="math inline"><em>η</em><sub><em>m</em><em>a</em><em>x</em></sub> = 100</span> y logrando que se mantengan invariante las distancias frente al reescaleo de la pantalla. Es decir, <br /><span class="math display">$$\mu = 100 \times \dfrac{\sqrt{\big(\mathrm{centroide}[1]-\mathrm{muneca}[1]\big)^2 + \big(\mathrm{centroide}[0]-\mathrm{muneca}[0]\big)^2}}{\sqrt{\mathrm{length} + \mathrm{width}}}$$</span><br /> El valor de la distancia límite debe de ser mejorado ya que no toma en cuenta la profundidad. De todas formas, el problema no es tan grande ya que el espacio en donde se encuentra el bebé será similar en todas las grabaciones. Una vez que la restricción en la distancia se calibra, ésta será una muestra muy buena de lo que uno considera que el bebé se encuentra en contacto con el objeto. La forma de calibrarla es ayudada al mostrar en el video la distancia entre las muñecas y el objeto siendo seguido segundo a segundo. De esta manera, podemos medir la distancia cuando el bebé toque efectivamente al objeto en los videos guardados.<br />
+Si tomáramos la información de una sola cámara podríamos encontrar falsos positivos debido a que no considera la profundidad de los elementos. Por esta razón consideraremos que hay contacto solamente cuando quede registrado para dos cámaras. Siguiendo esta línea de razonamiento, tomaremos el inicio y final del contacto para los momentos en que no haya registro para al menos dos cámaras en el frame anterior y posterior, respectivamente.</p>
+<h2 id="ejec">Ejecución, entrada y salida</h2>
+<h3 id="ejecyentrada">Ejecución y entrada</h3>
+<p>Para llamar al código se deben primero tener todos los paquetes necesarios (ver código). Luego, desde la terminal se debe escribir el siguiente código adaptado a la situación de cada uno: python <span class="math inline">&lt;</span>nombre del código.py<span class="math inline">&gt;</span> –video <span class="math inline">&lt;</span>link a la carpeta donde se encuentran los videos<span class="math inline">&gt;</span> –json <span class="math inline">&lt;</span>link a donde se encuentran los .json<span class="math inline">&gt;</span> –confianza 0.5 –escala 600 –buffer 42 –guardar si –objeto verde</p>
+<p>Se agregaron varias opciones para modificar de la menor manera posible el código. Las opciones son las siguientes:</p>
+<ul>
+<li><p>–video ó -v: link a donde se encuentran los videos, éstos deben tener el siguiente formato: vid_cam_<span class="math inline">&lt;</span>X<span class="math inline">&gt;</span>.mp4 con X = 09, 10 y 11.</p></li>
+<li><p>–json ó -j: link a donde se encuentran los .json. Muy seguramente deban ser modificados en el código cómo llamarlos, en el actual código los .json tienen una estructura como la siguiente:<br />
+000000016300_rendered_182855<span class="math inline">&lt;</span>X<span class="math inline">&gt;</span>_keypoints.json, en este caso comienzan por el número <span class="math inline">16300</span> y luego es rellenado de ceros hasta llegar a los doce dígitos.</p></li>
+<li><p>–confianza ó -c: es la confianza permitida para tomar los puntos tomados del código de OpenPose.</p></li>
+<li><p>–escala ó -e: es el reescaleo que se le hace al video con el único fin de visualizar mejor los videos.</p></li>
+<li><p>–buffer ó -b: El buffer son la cantidad de puntos guardados del centroide. Éstos sirven para ver el haz que sigue al objeto, en este código de color rojo.</p></li>
+<li><p>–guardar ó -g: Si uno pone la opción “si” salva los videos que aparecen.</p></li>
+<li><p>–objeto ó -o: el objeto a seguir: “verde”, “amarillo” ó “rojo”.</p></li>
+</ul>
+<h3 id="salida">Salida</h3>
+<p>Como se menciona en la subsección anterior, si se elije guardar los videos se guardarán con el siguiente formato: “outputcam<span class="math inline">&lt;</span>cámara<span class="math inline">&gt;</span>_e-<span class="math inline">&lt;</span>escala<span class="math inline">&gt;</span>_b-<span class="math inline">&lt;</span>buffer<span class="math inline">&gt;</span>_c-<span class="math inline">&lt;</span>confianza*10<span class="math inline">&gt;</span>_o-<span class="math inline">&lt;</span>objeto<span class="math inline">&gt;</span>.avi”.<br />
+Ejemplo: “outputcam09_e-600_b-42_c-03_o-verde.avi” . Uno por cada cámara.<br />
+También se creará un archivo .dat con la información de los contactos para cada mano. Cuándo se inició, cuándo finalizó y cuánto duró. Un ejemplo de un archivo de nombre “data_objeto_verde.dat” me dio como resultado el siguiente contenido:<br />
+<span class="math inline">#</span> Para el objeto verde, con escala 600, buffer 42 y confianza 0.3:<br />
+Para la distancia objeto - muñeca derecha:</p>
+<p>inicio,final,duración</p>
+<p>2.400 4.960 2.560<br />
+Para la distancia objeto - muñeca izquierda:</p>
+<p>inicio,final,duración</p>
+<p>0.040 4.040 4.000</p>
+<h2 id="pasaje">Pasaje de conjunto de imágenes a video</h2>
+<p>Puede que sea útil en algún momento pasar de un conjunto de imágenes a un video, para ello se puede utilizar el programa <a href="https://ffmpeg.org/ffmpeg.html">FFMPEG</a>.<br />
+La línea de código para realizarlo en la terminal de linux es: ffmpeg -pattern_type glob -i ’*_rendered_182855<span class="math inline">&lt;</span>X<span class="math inline">&gt;</span>.png’ -r 25 vid_cam_09.mp4 con X = 09, 10 u 11.</p>
+<h2 id="posiblesmejoras">Posibles mejoras</h2>
+<p>A lo largo del informe mencioné algunas mejoras que pueden hacerse al código actual. Aquí menciono también la posibilidad de eliminar el fondo de una manera inteligente. Una forma sería adaptar el código de Adrian Rosebrock titulado Basic motion detection and tracking with Python and OpenCV <a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>.<br />
+De esta manera en la pantalla se mostrarían solo los elementos que estén en movimiento, haciendo que los objetos aparezcan sólo al ser movidos, simplificando el análisis.</p>
+
+
+
+<h2 id="ejemplos">Ejemplos</h2>
+
+<video id="vid09" width="320" height="240" controls>
+  <source src="videos/vid_cam_09.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<video id="vid10" width="320" height="240" controls>
+  <source src="videos/vid_cam_10.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<video id="vid11" width="320" height="240" controls>
+  <source src="videos/vid_cam_11.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<br/>
+<video id="cam09" width="320" height="240" controls>
+  <source src="videos/outvid_cam_09.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<video id="cam10" width="320" height="240" controls>
+  <source src="videos/outvid_cam_10.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<video id="cam11" width="320" height="240" controls>
+  <source src="videos/outvid_cam_11.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<br/>
+<video id="mask09" width="320" height="240" controls>
+  <source src="videos/outmask_cam_09.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<video id="mask10" width="320" height="240" controls>
+  <source src="videos/outmask_cam_10.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<video id="mask11" width="320" height="240" controls>
+  <source src="videos/outmask_cam_11.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<div><center>
+<button id="playVid" class="btn-lg btn-primary">Reproducir videos</button>
+</center></div>
+
+<hr>
+<hr>
+
+<h2 id="codigoentero"><center>Código</center></h2>
+<div class="sourceCode" id="cb1" data-language="Python"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">####################### INFORMACIÓN A TENER EN CUENTA: #######################</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># Los videos no deben poseer más de un objeto con igual color. Si bien es posible diferenciar diferentes tonalidades de un color es mejor no llevar al extremo el código.</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co"># Una posible mejora sería combinar este trackeo de color con otro que use la textura del objeto.</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co"># Al ser objetos sencillos no se pueden sacar muchos descriptores y por ende keypoints, por eso se trabaja con el color.</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co"># Un perfeccionamiento para lograr obtener un mejor trackeo de los objetos sería entrenar a un algoritmo con cada objeto en diferentes posiciones y con incidencias de luz variadas, mostrándole cuál es el objeto en cada instante. Deep Learning.</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#1# Los videos de las tres cámaras deben presentarse como vid_cam_09 / 10 / 11</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#2# Los límites de los colores en el espacio HSV de los objetos fueron obtenidos con el archivo range-detector.py</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#3# Los archivos .json tienen la siguiente estructura: &#39;12 dígitos conteniendo el número de la imagen&#39;+ &#39;_rendered_18285509_keypoints&#39; &#39;nada/_1/_2&#39;.json Ejemplo: &#39;000000000321_rendered_18285509_keypoints.json&#39;</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#4# En la terminal se deben poner el siguiente link y adaptarlo a cada sitio donde es arrancado. Abrir la terminal desde la carpeta donde se encuentra el archivo &quot;tracker_objetos_varias_camaras_color-centroide.py&quot;:</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co"># python tracker_objetos_varias_camaras_color-centroide_v2.py --video /home/matias/Escritorio/TIMAG/Proyecto/continuacion_v2 --json /home/matias/Escritorio/TIMAG/Proyecto/continuacion_v2/json --confianza 0.5 --escala 600 --buffer 42 --guardar no --objeto verde</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co"># Las opciones para el objeto (o) son: &#39;rojo&#39; &#39;amarillo&#39; y &#39;verde&#39;</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co"># La confianza (c) es el valor que arroja los .json del OpenPose con respecto a una determinada predicción.</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co"># La escala (e) es con el fin de mejorar la visualización para distintas máquinas</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co"># El buffer (b) corresponde a cuán larga es la curva que sigue al centroide, en mi caso, de color roja.</span></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="co"># Opción disponible para guardar (g) o no los videos. &quot;si&quot;: guarda.</span></a>
+<a class="sourceLine" id="cb1-21" data-line-number="21"><span class="co">##############################################################################</span></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="co"># Paquetes necesarios:</span></a>
+<a class="sourceLine" id="cb1-24" data-line-number="24"><span class="im">from</span> collections <span class="im">import</span> deque</a>
+<a class="sourceLine" id="cb1-25" data-line-number="25"><span class="im">from</span> imutils.video <span class="im">import</span> VideoStream</a>
+<a class="sourceLine" id="cb1-26" data-line-number="26"><span class="im">import</span> numpy <span class="im">as</span> np</a>
+<a class="sourceLine" id="cb1-27" data-line-number="27"><span class="im">import</span> argparse</a>
+<a class="sourceLine" id="cb1-28" data-line-number="28"><span class="im">import</span> cv2</a>
+<a class="sourceLine" id="cb1-29" data-line-number="29"><span class="im">import</span> imutils</a>
+<a class="sourceLine" id="cb1-30" data-line-number="30"><span class="im">import</span> time</a>
+<a class="sourceLine" id="cb1-31" data-line-number="31"><span class="im">import</span> urllib.request <span class="im">as</span> request</a>
+<a class="sourceLine" id="cb1-32" data-line-number="32"><span class="im">import</span> json</a>
+<a class="sourceLine" id="cb1-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb1-34" data-line-number="34"><span class="co"># Llamar a las variables necesarias:</span></a>
+<a class="sourceLine" id="cb1-35" data-line-number="35">ap <span class="op">=</span> argparse.ArgumentParser()</a>
+<a class="sourceLine" id="cb1-36" data-line-number="36">ap.add_argument(<span class="st">&quot;-o&quot;</span>,<span class="st">&quot;--objeto&quot;</span>, <span class="bu">type</span><span class="op">=</span><span class="bu">str</span>, required <span class="op">=</span> <span class="va">True</span>, <span class="bu">help</span><span class="op">=</span><span class="st">&quot;objeto a trackear&quot;</span>)</a>
+<a class="sourceLine" id="cb1-37" data-line-number="37">ap.add_argument(<span class="st">&quot;-v&quot;</span>,<span class="st">&quot;--video&quot;</span>, required <span class="op">=</span> <span class="va">True</span>,<span class="bu">help</span><span class="op">=</span><span class="st">&quot;camino a la carpeta de videos&quot;</span>)</a>
+<a class="sourceLine" id="cb1-38" data-line-number="38">ap.add_argument(<span class="st">&quot;-j&quot;</span>,<span class="st">&quot;--json&quot;</span>, required <span class="op">=</span> <span class="va">True</span>,<span class="bu">help</span><span class="op">=</span><span class="st">&quot;path to the json&#39;s files&quot;</span>)</a>
+<a class="sourceLine" id="cb1-39" data-line-number="39">ap.add_argument(<span class="st">&quot;-c&quot;</span>,<span class="st">&quot;--confianza&quot;</span>,<span class="bu">type</span><span class="op">=</span><span class="bu">float</span>,default<span class="op">=</span><span class="fl">0.2</span>, <span class="bu">help</span><span class="op">=</span><span class="st">&quot;parámetro de confianza para OpenPose&quot;</span>)</a>
+<a class="sourceLine" id="cb1-40" data-line-number="40">ap.add_argument(<span class="st">&quot;-e&quot;</span>,<span class="st">&quot;--escala&quot;</span>, <span class="bu">type</span><span class="op">=</span><span class="bu">int</span>, default<span class="op">=</span><span class="dv">600</span>, <span class="bu">help</span><span class="op">=</span><span class="st">&quot;parámetro de re-escaleo&quot;</span>)</a>
+<a class="sourceLine" id="cb1-41" data-line-number="41">ap.add_argument(<span class="st">&quot;-b&quot;</span>,<span class="st">&quot;--buffer&quot;</span> , <span class="bu">type</span><span class="op">=</span><span class="bu">int</span>, default<span class="op">=</span><span class="dv">64</span> , <span class="bu">help</span><span class="op">=</span><span class="st">&quot;max buffer size&quot;</span>)</a>
+<a class="sourceLine" id="cb1-42" data-line-number="42">ap.add_argument(<span class="st">&quot;-g&quot;</span>,<span class="st">&quot;--guardar&quot;</span>, <span class="bu">type</span><span class="op">=</span><span class="bu">str</span>, required <span class="op">=</span> <span class="va">True</span>, <span class="bu">help</span><span class="op">=</span><span class="st">&quot;guarda si se coloca la opción &#39;si&#39; los videos&quot;</span>)</a>
+<a class="sourceLine" id="cb1-43" data-line-number="43">args <span class="op">=</span> <span class="bu">vars</span>(ap.parse_args())</a>
+<a class="sourceLine" id="cb1-44" data-line-number="44"></a>
+<a class="sourceLine" id="cb1-45" data-line-number="45"></a>
+<a class="sourceLine" id="cb1-46" data-line-number="46"><span class="co"># Definimos los límites de color, en el espacio de color HSV, para cada objeto.</span></a>
+<a class="sourceLine" id="cb1-47" data-line-number="47"><span class="co"># Lo hacemos con el archivo: &quot;range-detector.py&quot;.</span></a>
+<a class="sourceLine" id="cb1-48" data-line-number="48"><span class="cf">if</span> args[<span class="st">&quot;objeto&quot;</span>]<span class="op">==</span><span class="st">&#39;rojo&#39;</span>:</a>
+<a class="sourceLine" id="cb1-49" data-line-number="49">	colorLower <span class="op">=</span> (<span class="dv">0</span>, <span class="dv">187</span>,<span class="dv">0</span>)		<span class="co">#RedLower</span></a>
+<a class="sourceLine" id="cb1-50" data-line-number="50">	colorUpper <span class="op">=</span> (<span class="dv">6</span>, <span class="dv">244</span>,<span class="dv">255</span>)	<span class="co">#RedUpper</span></a>
+<a class="sourceLine" id="cb1-51" data-line-number="51"><span class="cf">elif</span> args[<span class="st">&quot;objeto&quot;</span>]<span class="op">==</span><span class="st">&#39;amarillo&#39;</span>: <span class="co">#v2</span></a>
+<a class="sourceLine" id="cb1-52" data-line-number="52">	colorLower <span class="op">=</span> (<span class="dv">19</span>, <span class="dv">79</span>,<span class="dv">74</span>)	<span class="co">#YellowLower</span></a>
+<a class="sourceLine" id="cb1-53" data-line-number="53">	colorUpper <span class="op">=</span> (<span class="dv">25</span>,<span class="dv">113</span>,<span class="dv">255</span>)	<span class="co">#YellowUpper</span></a>
+<a class="sourceLine" id="cb1-54" data-line-number="54"><span class="cf">elif</span> args[<span class="st">&quot;objeto&quot;</span>]<span class="op">==</span><span class="st">&#39;verde&#39;</span>: <span class="co">#v2</span></a>
+<a class="sourceLine" id="cb1-55" data-line-number="55">	colorLower <span class="op">=</span> (<span class="dv">45</span>,<span class="dv">59</span>,<span class="dv">64</span>)		<span class="co">#VerdeLower</span></a>
+<a class="sourceLine" id="cb1-56" data-line-number="56">	colorUpper <span class="op">=</span> (<span class="dv">78</span>,<span class="dv">100</span>,<span class="dv">255</span>)	<span class="co">#VerdeUpper</span></a>
+<a class="sourceLine" id="cb1-57" data-line-number="57"><span class="cf">elif</span> args[<span class="st">&quot;objeto&quot;</span>]<span class="op">==</span><span class="st">&#39;azul&#39;</span>:</a>
+<a class="sourceLine" id="cb1-58" data-line-number="58">	colorLower <span class="op">=</span> (<span class="dv">92</span>,<span class="dv">39</span>,<span class="dv">84</span>)		<span class="co">#VerdeLower</span></a>
+<a class="sourceLine" id="cb1-59" data-line-number="59">	colorUpper <span class="op">=</span> (<span class="dv">120</span>,<span class="dv">85</span>,<span class="dv">167</span>)	<span class="co">#VerdeUpper</span></a>
+<a class="sourceLine" id="cb1-60" data-line-number="60"></a>
+<a class="sourceLine" id="cb1-61" data-line-number="61"><span class="co"># Puntos de la traza de centroides detectados. Uno para cada video.</span></a>
+<a class="sourceLine" id="cb1-62" data-line-number="62">pts <span class="op">=</span> [ deque(maxlen<span class="op">=</span>args[<span class="st">&quot;buffer&quot;</span>]), deque(maxlen<span class="op">=</span>args[<span class="st">&quot;buffer&quot;</span>]), deque(maxlen<span class="op">=</span>args[<span class="st">&quot;buffer&quot;</span>]) ] </a>
+<a class="sourceLine" id="cb1-63" data-line-number="63"></a>
+<a class="sourceLine" id="cb1-64" data-line-number="64"><span class="co"># Importo los videos de las tres cámaras:</span></a>
+<a class="sourceLine" id="cb1-65" data-line-number="65">vs <span class="op">=</span> [cv2.VideoCapture(args[<span class="st">&quot;video&quot;</span>]<span class="op">+</span><span class="st">&#39;/vid_cam_09.mp4&#39;</span>), cv2.VideoCapture(args[<span class="st">&quot;video&quot;</span>]<span class="op">+</span><span class="st">&#39;/vid_cam_10.mp4&#39;</span>), cv2.VideoCapture(args[<span class="st">&quot;video&quot;</span>]<span class="op">+</span><span class="st">&#39;/vid_cam_11.mp4&#39;</span>)]</a>
+<a class="sourceLine" id="cb1-66" data-line-number="66"></a>
+<a class="sourceLine" id="cb1-67" data-line-number="67"><span class="co"># Descriptores de los videos (tomo cam09 como la representativa):</span></a>
+<a class="sourceLine" id="cb1-68" data-line-number="68">length <span class="op">=</span> <span class="bu">int</span>(vs[<span class="dv">0</span>].get(cv2.CAP_PROP_FRAME_COUNT))</a>
+<a class="sourceLine" id="cb1-69" data-line-number="69">width  <span class="op">=</span> <span class="bu">int</span>(vs[<span class="dv">0</span>].get(cv2.CAP_PROP_FRAME_WIDTH))</a>
+<a class="sourceLine" id="cb1-70" data-line-number="70">height <span class="op">=</span> <span class="bu">int</span>(vs[<span class="dv">0</span>].get(cv2.CAP_PROP_FRAME_HEIGHT))</a>
+<a class="sourceLine" id="cb1-71" data-line-number="71">fps    <span class="op">=</span> vs[<span class="dv">0</span>].get(cv2.CAP_PROP_FPS)</a>
+<a class="sourceLine" id="cb1-72" data-line-number="72"><span class="bu">print</span>(<span class="st">&#39;cantidad de frames:&#39;</span>,length,<span class="st">&#39;largo del video:&#39;</span>,width,<span class="st">&#39;ancho del video:&#39;</span> ,height,<span class="st">&#39;fps:&#39;</span>,fps)</a>
+<a class="sourceLine" id="cb1-73" data-line-number="73"></a>
+<a class="sourceLine" id="cb1-74" data-line-number="74"><span class="co"># Genero los elementos que harán la escala y el video que guardaré</span></a>
+<a class="sourceLine" id="cb1-75" data-line-number="75">Factor_escala <span class="op">=</span>  args[<span class="st">&quot;escala&quot;</span>]</a>
+<a class="sourceLine" id="cb1-76" data-line-number="76">imgScale      <span class="op">=</span>  Factor_escala<span class="op">/</span>width</a>
+<a class="sourceLine" id="cb1-77" data-line-number="77">newX,newY     <span class="op">=</span>  width<span class="op">*</span>imgScale, height<span class="op">*</span>imgScale</a>
+<a class="sourceLine" id="cb1-78" data-line-number="78"><span class="cf">if</span> args[<span class="st">&quot;guardar&quot;</span>]<span class="op">==</span><span class="st">&#39;si&#39;</span>:</a>
+<a class="sourceLine" id="cb1-79" data-line-number="79">	fourcc        <span class="op">=</span>  cv2.VideoWriter_fourcc(<span class="op">*</span><span class="st">&#39;XVID&#39;</span>)</a>
+<a class="sourceLine" id="cb1-80" data-line-number="80">	out           <span class="op">=</span>  [ </a>
+<a class="sourceLine" id="cb1-81" data-line-number="81">cv2.VideoWriter(args[<span class="st">&quot;video&quot;</span>]<span class="op">+</span><span class="st">&#39;/outputcam09_e-&#39;</span><span class="op">+</span><span class="bu">repr</span>(args[<span class="st">&quot;escala&quot;</span>])<span class="op">+</span> <span class="st">&#39;_b-&#39;</span><span class="op">+</span><span class="bu">repr</span>(args[<span class="st">&quot;buffer&quot;</span>])<span class="op">+</span> <span class="st">&#39;_c-0&#39;</span><span class="op">+</span><span class="bu">repr</span>(<span class="bu">int</span>(<span class="dv">10</span><span class="op">*</span>args[<span class="st">&quot;confianza&quot;</span>]))<span class="op">+</span> <span class="st">&#39;_o-&#39;</span><span class="op">+</span>args[<span class="st">&quot;objeto&quot;</span>]<span class="op">+</span> <span class="st">&#39;.avi&#39;</span>,fourcc, <span class="fl">20.0</span>, (<span class="bu">int</span>(newX),<span class="bu">int</span>(newY))), </a>
+<a class="sourceLine" id="cb1-82" data-line-number="82">cv2.VideoWriter(args[<span class="st">&quot;video&quot;</span>]<span class="op">+</span><span class="st">&#39;/outputcam10_e-&#39;</span><span class="op">+</span><span class="bu">repr</span>(args[<span class="st">&quot;escala&quot;</span>])<span class="op">+</span> <span class="st">&#39;_b-&#39;</span><span class="op">+</span><span class="bu">repr</span>(args[<span class="st">&quot;buffer&quot;</span>])<span class="op">+</span> <span class="st">&#39;_c-0&#39;</span><span class="op">+</span><span class="bu">repr</span>(<span class="bu">int</span>(<span class="dv">10</span><span class="op">*</span>args[<span class="st">&quot;confianza&quot;</span>]))<span class="op">+</span> <span class="st">&#39;_o-&#39;</span><span class="op">+</span>args[<span class="st">&quot;objeto&quot;</span>]<span class="op">+</span> <span class="st">&#39;.avi&#39;</span>,fourcc, <span class="fl">20.0</span>, (<span class="bu">int</span>(newX),<span class="bu">int</span>(newY))), </a>
+<a class="sourceLine" id="cb1-83" data-line-number="83">cv2.VideoWriter(args[<span class="st">&quot;video&quot;</span>]<span class="op">+</span><span class="st">&#39;/outputcam11_e-&#39;</span><span class="op">+</span><span class="bu">repr</span>(args[<span class="st">&quot;escala&quot;</span>])<span class="op">+</span> <span class="st">&#39;_b-&#39;</span><span class="op">+</span><span class="bu">repr</span>(args[<span class="st">&quot;buffer&quot;</span>])<span class="op">+</span> <span class="st">&#39;_c-0&#39;</span><span class="op">+</span><span class="bu">repr</span>(<span class="bu">int</span>(<span class="dv">10</span><span class="op">*</span>args[<span class="st">&quot;confianza&quot;</span>]))<span class="op">+</span> <span class="st">&#39;_o-&#39;</span><span class="op">+</span>args[<span class="st">&quot;objeto&quot;</span>]<span class="op">+</span> <span class="st">&#39;.avi&#39;</span>, fourcc, <span class="fl">20.0</span>, (<span class="bu">int</span>(newX),<span class="bu">int</span>(newY)))]</a>
+<a class="sourceLine" id="cb1-84" data-line-number="84"></a>
+<a class="sourceLine" id="cb1-85" data-line-number="85"><span class="co">#iniciar conteos:</span></a>
+<a class="sourceLine" id="cb1-86" data-line-number="86">tiempo_R_toca <span class="op">=</span> np.zeros((length<span class="op">+</span><span class="dv">1</span>,<span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb1-87" data-line-number="87">tiempo_L_toca <span class="op">=</span> np.zeros((length<span class="op">+</span><span class="dv">1</span>,<span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb1-88" data-line-number="88">cambia <span class="op">=</span> <span class="st">&#39;si&#39;</span>		<span class="co"># Utilizo esta variable a modo de switch para graficar o no los puntos de OpenPose, la prendo al grabar nueva info en niño, la pago al finalizar el loop</span></a>
+<a class="sourceLine" id="cb1-89" data-line-number="89">restriccion_distancia <span class="op">=</span> <span class="fl">6.5</span>  <span class="co"># Para distancias menores a ésta considero que el bebé toca el objeto.</span></a>
+<a class="sourceLine" id="cb1-90" data-line-number="90"></a>
+<a class="sourceLine" id="cb1-91" data-line-number="91"><span class="co"># Loop para las tres cámaras:</span></a>
+<a class="sourceLine" id="cb1-92" data-line-number="92"><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</a>
+<a class="sourceLine" id="cb1-93" data-line-number="93">	counter_frames <span class="op">=</span> <span class="dv">0</span></a>
+<a class="sourceLine" id="cb1-94" data-line-number="94">	<span class="cf">while</span> <span class="va">True</span>:</a>
+<a class="sourceLine" id="cb1-95" data-line-number="95">		<span class="co"># Toma el frame del video.</span></a>
+<a class="sourceLine" id="cb1-96" data-line-number="96">		oriframe<span class="op">=</span> vs[j].read()</a>
+<a class="sourceLine" id="cb1-97" data-line-number="97">		oriframe <span class="op">=</span> oriframe[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb1-98" data-line-number="98">		</a>
+<a class="sourceLine" id="cb1-99" data-line-number="99">		<span class="co"># Si es el final del video, que rompa el while.</span></a>
+<a class="sourceLine" id="cb1-100" data-line-number="100">		<span class="cf">if</span> oriframe <span class="kw">is</span> <span class="va">None</span>:</a>
+<a class="sourceLine" id="cb1-101" data-line-number="101">			<span class="cf">break</span></a>
+<a class="sourceLine" id="cb1-102" data-line-number="102">		<span class="co"># Sumamos un frame más ya que continuamos en el loop</span></a>
+<a class="sourceLine" id="cb1-103" data-line-number="103">		counter_frames <span class="op">+=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb1-104" data-line-number="104"></a>
+<a class="sourceLine" id="cb1-105" data-line-number="105">		<span class="co"># (resize the frame)</span></a>
+<a class="sourceLine" id="cb1-106" data-line-number="106">		frame <span class="op">=</span> cv2.resize(oriframe,(<span class="bu">int</span>(newX),<span class="bu">int</span>(newY)))</a>
+<a class="sourceLine" id="cb1-107" data-line-number="107">		<span class="co"># Borroneamos para hacer un pasa alto en las frecuencias: blur</span></a>
+<a class="sourceLine" id="cb1-108" data-line-number="108">		blurred <span class="op">=</span> cv2.GaussianBlur(frame, (<span class="dv">11</span>, <span class="dv">11</span>), <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb1-109" data-line-number="109">		<span class="co"># Pasamos al espacio de color HSV</span></a>
+<a class="sourceLine" id="cb1-110" data-line-number="110">		hsv     <span class="op">=</span> cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)</a>
+<a class="sourceLine" id="cb1-111" data-line-number="111"></a>
+<a class="sourceLine" id="cb1-112" data-line-number="112">		<span class="co"># Construimos una máscara con los límites impuestos en el espacio de color</span></a>
+<a class="sourceLine" id="cb1-113" data-line-number="113">		mask<span class="op">=</span> cv2.inRange(hsv, colorLower, colorUpper)</a>
+<a class="sourceLine" id="cb1-114" data-line-number="114"></a>
+<a class="sourceLine" id="cb1-115" data-line-number="115">		<span class="co"># a series of dilations and erosions to remove any small</span></a>
+<a class="sourceLine" id="cb1-116" data-line-number="116">		<span class="co"># blobs left in the mask</span></a>
+<a class="sourceLine" id="cb1-117" data-line-number="117"><span class="co"># Estas dos líneas son análogas a cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel).</span></a>
+<a class="sourceLine" id="cb1-118" data-line-number="118"><span class="co"># Mediante dilataciones y erosiones removemos las pequeñas burbujas que quedan en la máscara</span></a>
+<a class="sourceLine" id="cb1-119" data-line-number="119"><span class="co"># Aquí se presenta la solución al problema de los puntos falsos positivos de la máscara de color que es distinto para cada objeto.</span></a>
+<a class="sourceLine" id="cb1-120" data-line-number="120"><span class="co"># Es más artesanal este paso, y adaptado a cada objeto.</span></a>
+<a class="sourceLine" id="cb1-121" data-line-number="121">		<span class="cf">if</span> args[<span class="st">&quot;objeto&quot;</span>]   <span class="op">==</span> <span class="st">&#39;rojo&#39;</span>:</a>
+<a class="sourceLine" id="cb1-122" data-line-number="122">			mask <span class="op">=</span> cv2.erode(mask,  <span class="va">None</span>, iterations<span class="op">=</span><span class="dv">3</span>)	 </a>
+<a class="sourceLine" id="cb1-123" data-line-number="123">			mask <span class="op">=</span> cv2.dilate(mask, <span class="va">None</span>, iterations<span class="op">=</span><span class="dv">3</span>)	</a>
+<a class="sourceLine" id="cb1-124" data-line-number="124">		<span class="cf">elif</span> args[<span class="st">&quot;objeto&quot;</span>] <span class="op">==</span> <span class="st">&#39;amarillo&#39;</span> <span class="kw">or</span> args[<span class="st">&quot;objeto&quot;</span>] <span class="op">==</span> <span class="st">&#39;verde&#39;</span>:</a>
+<a class="sourceLine" id="cb1-125" data-line-number="125">			mask <span class="op">=</span> cv2.erode(mask,  <span class="va">None</span>, iterations<span class="op">=</span><span class="dv">2</span>)	</a>
+<a class="sourceLine" id="cb1-126" data-line-number="126">			mask <span class="op">=</span> cv2.dilate(mask, <span class="va">None</span>, iterations<span class="op">=</span><span class="dv">2</span>)	 </a>
+<a class="sourceLine" id="cb1-127" data-line-number="127"><span class="co">#Para visualizar lo que ve el algorítmo como máscara:</span></a>
+<a class="sourceLine" id="cb1-128" data-line-number="128">		cv2.imshow(<span class="st">&quot;Mask&quot;</span>, mask)</a>
+<a class="sourceLine" id="cb1-129" data-line-number="129">	</a>
+<a class="sourceLine" id="cb1-130" data-line-number="130">		<span class="co"># Encuentra los contornos de la máscara</span></a>
+<a class="sourceLine" id="cb1-131" data-line-number="131">		cnts <span class="op">=</span> cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)</a>
+<a class="sourceLine" id="cb1-132" data-line-number="132">		<span class="co"># SIMPLE (guarda menos elementos, más rápida) / 	NONE	</span></a>
+<a class="sourceLine" id="cb1-133" data-line-number="133">		<span class="co"># Toma la versión correcta de OpenCV</span></a>
+<a class="sourceLine" id="cb1-134" data-line-number="134">		cnts <span class="op">=</span> imutils.grab_contours(cnts)</a>
+<a class="sourceLine" id="cb1-135" data-line-number="135">		center <span class="op">=</span> <span class="va">None</span></a>
+<a class="sourceLine" id="cb1-136" data-line-number="136">		radius <span class="op">=</span> <span class="va">None</span></a>
+<a class="sourceLine" id="cb1-137" data-line-number="137">		rect   <span class="op">=</span> <span class="va">None</span></a>
+<a class="sourceLine" id="cb1-138" data-line-number="138">		<span class="co"># only proceed if at least one contour was found</span></a>
+<a class="sourceLine" id="cb1-139" data-line-number="139">		<span class="cf">if</span> <span class="bu">len</span>(cnts) <span class="op">&gt;</span> <span class="dv">0</span>: </a>
+<a class="sourceLine" id="cb1-140" data-line-number="140">			<span class="co"># Encuentra el controno más grande de la máscara y lo utiliza para encontrar la 			# mínima figura correspondiente al objeto y su respectivo centroide. Por ejemplo, 				# un rectángulo o un círculo</span></a>
+<a class="sourceLine" id="cb1-141" data-line-number="141">			c <span class="op">=</span> <span class="bu">max</span>(cnts, key<span class="op">=</span>cv2.contourArea)</a>
+<a class="sourceLine" id="cb1-142" data-line-number="142">			<span class="co"># Sabemos la figura que se adapta a cada objeto</span></a>
+<a class="sourceLine" id="cb1-143" data-line-number="143">			<span class="cf">if</span> args[<span class="st">&quot;objeto&quot;</span>]<span class="op">==</span><span class="st">&#39;rojo&#39;</span>:</a>
+<a class="sourceLine" id="cb1-144" data-line-number="144">				rect <span class="op">=</span> cv2.minAreaRect(c)</a>
+<a class="sourceLine" id="cb1-145" data-line-number="145">			<span class="cf">elif</span> args[<span class="st">&quot;objeto&quot;</span>]<span class="op">==</span><span class="st">&#39;amarillo&#39;</span> <span class="kw">or</span> args[<span class="st">&quot;objeto&quot;</span>]<span class="op">==</span><span class="st">&#39;verde&#39;</span>:</a>
+<a class="sourceLine" id="cb1-146" data-line-number="146">				((x, y), radius) <span class="op">=</span> cv2.minEnclosingCircle(c)	</a>
+<a class="sourceLine" id="cb1-147" data-line-number="147">				</a>
+<a class="sourceLine" id="cb1-148" data-line-number="148">			<span class="co"># moments trae el centroide:</span></a>
+<a class="sourceLine" id="cb1-149" data-line-number="149">			<span class="co"># cx = int(M[&#39;m10&#39;]/M[&#39;m00&#39;]) &amp; cy = int(M[&#39;m01&#39;]/M[&#39;m00&#39;])</span></a>
+<a class="sourceLine" id="cb1-150" data-line-number="150">			M <span class="op">=</span> cv2.moments(c) </a>
+<a class="sourceLine" id="cb1-151" data-line-number="151">			center <span class="op">=</span> (<span class="bu">int</span>(M[<span class="st">&quot;m10&quot;</span>] <span class="op">/</span> M[<span class="st">&quot;m00&quot;</span>]), <span class="bu">int</span>(M[<span class="st">&quot;m01&quot;</span>] <span class="op">/</span> M[<span class="st">&quot;m00&quot;</span>]))</a>
+<a class="sourceLine" id="cb1-152" data-line-number="152">			<span class="co"># Dibujo el centroide de color Rojo (0,0,255) [BGR]</span></a>
+<a class="sourceLine" id="cb1-153" data-line-number="153">			cv2.circle(frame, center, <span class="bu">int</span>(<span class="dv">10</span><span class="op">*</span>imgScale), (<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">255</span>), <span class="dv">-1</span>) </a>
+<a class="sourceLine" id="cb1-154" data-line-number="154">			<span class="co"># Procede si radio mayor a un valor,</span></a>
+<a class="sourceLine" id="cb1-155" data-line-number="155">			<span class="cf">if</span> radius <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</a>
+<a class="sourceLine" id="cb1-156" data-line-number="156">				<span class="cf">if</span> radius <span class="op">&gt;</span> <span class="dv">10</span><span class="op">*</span>imgScale:</a>
+<a class="sourceLine" id="cb1-157" data-line-number="157">					<span class="co"># Dibuja un círculo amarillo (0, 255,255) centrado en el centroide</span></a>
+<a class="sourceLine" id="cb1-158" data-line-number="158">					cv2.circle(frame, (<span class="bu">int</span>(x), <span class="bu">int</span>(y)), <span class="bu">int</span>(radius),(<span class="dv">0</span>, <span class="dv">255</span>,<span class="dv">255</span>), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb1-159" data-line-number="159">			<span class="co"># o altura AND ancho mayor a un valor.</span></a>
+<a class="sourceLine" id="cb1-160" data-line-number="160">			<span class="cf">if</span> rect <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</a>
+<a class="sourceLine" id="cb1-161" data-line-number="161">				<span class="cf">if</span> rect[<span class="dv">1</span>][<span class="dv">0</span>]<span class="op">&gt;</span><span class="dv">10</span><span class="op">*</span>imgScale <span class="kw">and</span> rect[<span class="dv">1</span>][<span class="dv">1</span>]<span class="op">&gt;</span><span class="dv">10</span><span class="op">*</span>imgScale:</a>
+<a class="sourceLine" id="cb1-162" data-line-number="162">					box <span class="op">=</span> cv2.boxPoints(rect)</a>
+<a class="sourceLine" id="cb1-163" data-line-number="163">					box <span class="op">=</span> np.int0(box)</a>
+<a class="sourceLine" id="cb1-164" data-line-number="164">					<span class="co"># Dibuja un rect amarillo (0, 255,255) centrado en el centroide</span></a>
+<a class="sourceLine" id="cb1-165" data-line-number="165">					cv2.drawContours(frame,[box],<span class="dv">0</span>,(<span class="dv">0</span>,<span class="dv">255</span>,<span class="dv">255</span>),<span class="dv">2</span>) </a>
+<a class="sourceLine" id="cb1-166" data-line-number="166">					</a>
+<a class="sourceLine" id="cb1-167" data-line-number="167">		</a>
+<a class="sourceLine" id="cb1-168" data-line-number="168"><span class="co"># Actualiza los puntos de trackeo (queue). Lo hace tal que los va colocando a la izquierda, por eso la definción de thickness más adelante.</span></a>
+<a class="sourceLine" id="cb1-169" data-line-number="169">			pts[j].appendleft(center)</a>
+<a class="sourceLine" id="cb1-170" data-line-number="170">		<span class="co"># Loop en los puntos de trackeo. Acá hago el haz que se va desintegrando</span></a>
+<a class="sourceLine" id="cb1-171" data-line-number="171">		<span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(pts[j])):</a>
+<a class="sourceLine" id="cb1-172" data-line-number="172">			</a>
+<a class="sourceLine" id="cb1-173" data-line-number="173">			<span class="co"># Si alguno de los dos últimos en None, los ignoro</span></a>
+<a class="sourceLine" id="cb1-174" data-line-number="174">			<span class="cf">if</span> pts[j][i <span class="op">-</span> <span class="dv">1</span>] <span class="kw">is</span> <span class="va">None</span> <span class="kw">or</span> pts[j][i] <span class="kw">is</span> <span class="va">None</span>:</a>
+<a class="sourceLine" id="cb1-175" data-line-number="175">				<span class="cf">continue</span></a>
+<a class="sourceLine" id="cb1-176" data-line-number="176">	</a>
+<a class="sourceLine" id="cb1-177" data-line-number="177">			<span class="co"># Si no, defino el ancho de la línea que conecta los puntos de forma tal que</span></a>
+<a class="sourceLine" id="cb1-178" data-line-number="178">			<span class="co"># cuanto más &quot;viejos&quot; sean los puntos más se achiquen. </span></a>
+<a class="sourceLine" id="cb1-179" data-line-number="179">			thickness <span class="op">=</span> <span class="dv">1</span><span class="op">+</span><span class="bu">int</span>(np.sqrt(args[<span class="st">&quot;buffer&quot;</span>] <span class="op">/</span> <span class="bu">float</span>(i <span class="op">+</span> <span class="dv">1</span>)) <span class="op">*</span> <span class="dv">2</span><span class="op">*</span>imgScale)</a>
+<a class="sourceLine" id="cb1-180" data-line-number="180">			cv2.line(frame, <span class="bu">tuple</span>(pts[j][i<span class="dv">-1</span>]),<span class="bu">tuple</span>(pts[j][i]), (<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">255</span>), thickness)</a>
+<a class="sourceLine" id="cb1-181" data-line-number="181">			</a>
+<a class="sourceLine" id="cb1-182" data-line-number="182"></a>
+<a class="sourceLine" id="cb1-183" data-line-number="183"><span class="co">#########################################	JASON FILES	###########################################</span></a>
+<a class="sourceLine" id="cb1-184" data-line-number="184">		<span class="co"># Archivos: 000000016300_rendered_182855 09 10 11_keypoints.json	</span></a>
+<a class="sourceLine" id="cb1-185" data-line-number="185">		</a>
+<a class="sourceLine" id="cb1-186" data-line-number="186">		<span class="co"># Hay 12 dígitos de números, pongo el número de la imagen y lleno de ceros hasta completar los 12 dígitos		</span></a>
+<a class="sourceLine" id="cb1-187" data-line-number="187">		num_archivo <span class="op">=</span> <span class="bu">repr</span>(<span class="dv">16300</span> <span class="op">+</span> counter_frames<span class="dv">-1</span>).zfill(<span class="dv">12</span>)</a>
+<a class="sourceLine" id="cb1-188" data-line-number="188">		<span class="cf">if</span> j<span class="op">==</span><span class="dv">0</span>:</a>
+<a class="sourceLine" id="cb1-189" data-line-number="189">			<span class="cf">with</span> <span class="bu">open</span>(args[<span class="st">&quot;json&quot;</span>]<span class="op">+</span><span class="st">&#39;/&#39;</span><span class="op">+</span>num_archivo<span class="op">+</span><span class="st">&#39;_rendered_18285509_keypoints.json&#39;</span>) <span class="im">as</span> f:</a>
+<a class="sourceLine" id="cb1-190" data-line-number="190">				data <span class="op">=</span> json.load(f)</a>
+<a class="sourceLine" id="cb1-191" data-line-number="191">		<span class="cf">elif</span> j<span class="op">==</span><span class="dv">1</span>:</a>
+<a class="sourceLine" id="cb1-192" data-line-number="192">			<span class="cf">with</span> <span class="bu">open</span>(args[<span class="st">&quot;json&quot;</span>]<span class="op">+</span><span class="st">&#39;/&#39;</span><span class="op">+</span>num_archivo<span class="op">+</span><span class="st">&#39;_rendered_18285510_keypoints.json&#39;</span>) <span class="im">as</span> f:</a>
+<a class="sourceLine" id="cb1-193" data-line-number="193">				data <span class="op">=</span> json.load(f)</a>
+<a class="sourceLine" id="cb1-194" data-line-number="194">		<span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb1-195" data-line-number="195">			<span class="cf">with</span> <span class="bu">open</span>(args[<span class="st">&quot;json&quot;</span>]<span class="op">+</span><span class="st">&#39;/&#39;</span><span class="op">+</span>num_archivo<span class="op">+</span><span class="st">&#39;_rendered_18285511_keypoints.json&#39;</span>) <span class="im">as</span> f:</a>
+<a class="sourceLine" id="cb1-196" data-line-number="196">				data <span class="op">=</span> json.load(f)</a>
+<a class="sourceLine" id="cb1-197" data-line-number="197"></a>
+<a class="sourceLine" id="cb1-198" data-line-number="198">		<span class="co"># Extraigo valores del json:</span></a>
+<a class="sourceLine" id="cb1-199" data-line-number="199">		persona_1 <span class="op">=</span> data[<span class="st">&#39;people&#39;</span>][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb1-200" data-line-number="200">		pose_keypoints_2d_1 <span class="op">=</span> persona_1[<span class="st">&quot;pose_keypoints_2d&quot;</span>]	</a>
+<a class="sourceLine" id="cb1-201" data-line-number="201">		pos_cabeza <span class="op">=</span> <span class="dv">1</span> <span class="co"># posición en el archivo .json			</span></a>
+<a class="sourceLine" id="cb1-202" data-line-number="202">		xc1 <span class="op">=</span> pose_keypoints_2d_1[<span class="bu">int</span>((pos_cabeza<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span>)]</a>
+<a class="sourceLine" id="cb1-203" data-line-number="203">		yc1 <span class="op">=</span> pose_keypoints_2d_1[<span class="bu">int</span>((pos_cabeza<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span><span class="op">+</span><span class="dv">1</span>)]</a>
+<a class="sourceLine" id="cb1-204" data-line-number="204">		<span class="co"># Prueba ver si hay datos de otro esqueleto y compara con el que ya está para ver si el segundo es el niño o es simplemente el primero</span></a>
+<a class="sourceLine" id="cb1-205" data-line-number="205">		<span class="cf">try</span>:</a>
+<a class="sourceLine" id="cb1-206" data-line-number="206">			persona_2 <span class="op">=</span> data[<span class="st">&#39;people&#39;</span>][<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb1-207" data-line-number="207">			pose_keypoints_2d_2 <span class="op">=</span> persona_2[<span class="st">&quot;pose_keypoints_2d&quot;</span>]</a>
+<a class="sourceLine" id="cb1-208" data-line-number="208">			xc2 <span class="op">=</span> pose_keypoints_2d_2[<span class="bu">int</span>((pos_cabeza<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span>)]</a>
+<a class="sourceLine" id="cb1-209" data-line-number="209">			yc2 <span class="op">=</span> pose_keypoints_2d_2[<span class="bu">int</span>((pos_cabeza<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span><span class="op">+</span><span class="dv">1</span>)] </a>
+<a class="sourceLine" id="cb1-210" data-line-number="210"><span class="co"># En la cámara 10, la opuesta a la puerta, el niño tiene la condición de que está a una y menor, no una x mayor. </span></a>
+<a class="sourceLine" id="cb1-211" data-line-number="211">			<span class="cf">if</span> (xc1<span class="op">-</span>xc2<span class="op">&lt;</span><span class="dv">0</span>) <span class="kw">and</span> j <span class="op">!=</span> <span class="dv">1</span>: 	<span class="co"># Si xc1 &lt; xc2 -&gt; me quedo con xc2 (niño derecha)</span></a>
+<a class="sourceLine" id="cb1-212" data-line-number="212">				niño   <span class="op">=</span> data[<span class="st">&#39;people&#39;</span>][<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb1-213" data-line-number="213">			<span class="cf">elif</span> (yc1<span class="op">-</span>yc2<span class="op">&lt;</span><span class="dv">0</span>) <span class="kw">and</span> j <span class="op">==</span> <span class="dv">1</span>: 	<span class="co"># Si yc1 &lt; yc2 -&gt; me quedo con yc2 (niño abajo)</span></a>
+<a class="sourceLine" id="cb1-214" data-line-number="214">				niño   <span class="op">=</span> data[<span class="st">&#39;people&#39;</span>][<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb1-215" data-line-number="215">		<span class="cf">except</span>:</a>
+<a class="sourceLine" id="cb1-216" data-line-number="216">			niño   <span class="op">=</span> data[<span class="st">&#39;people&#39;</span>][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb1-217" data-line-number="217">		</a>
+<a class="sourceLine" id="cb1-218" data-line-number="218">		pose_keypoints_2d <span class="op">=</span> niño[<span class="st">&quot;pose_keypoints_2d&quot;</span>]	</a>
+<a class="sourceLine" id="cb1-219" data-line-number="219">		hand_left  	  <span class="op">=</span> niño[<span class="st">&quot;hand_left_keypoints_2d&quot;</span>]</a>
+<a class="sourceLine" id="cb1-220" data-line-number="220">		hand_right 	  <span class="op">=</span> niño[<span class="st">&quot;hand_right_keypoints_2d&quot;</span>]</a>
+<a class="sourceLine" id="cb1-221" data-line-number="221">		<span class="cf">if</span> cambia <span class="op">==</span> <span class="st">&#39;si&#39;</span>:</a>
+<a class="sourceLine" id="cb1-222" data-line-number="222">			<span class="co"># Cabeza:</span></a>
+<a class="sourceLine" id="cb1-223" data-line-number="223">			xc <span class="op">=</span> pose_keypoints_2d[<span class="bu">int</span>((pos_cabeza<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span>)]</a>
+<a class="sourceLine" id="cb1-224" data-line-number="224">			yc <span class="op">=</span> pose_keypoints_2d[<span class="bu">int</span>((pos_cabeza<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span><span class="op">+</span><span class="dv">1</span>)] </a>
+<a class="sourceLine" id="cb1-225" data-line-number="225">			cc <span class="op">=</span> pose_keypoints_2d[<span class="bu">int</span>((pos_cabeza<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span><span class="op">+</span><span class="dv">2</span>)]</a>
+<a class="sourceLine" id="cb1-226" data-line-number="226">			cabeza_pos <span class="op">=</span> (<span class="bu">int</span>(xc<span class="op">*</span>imgScale),<span class="bu">int</span>(yc<span class="op">*</span>imgScale))</a>
+<a class="sourceLine" id="cb1-227" data-line-number="227">			cv2.circle(frame, cabeza_pos, <span class="bu">int</span>(<span class="dv">8</span><span class="op">*</span>imgScale), (<span class="dv">255</span>,<span class="dv">255</span>,<span class="dv">255</span>), <span class="dv">-1</span>) 	<span class="co">#Blanco</span></a>
+<a class="sourceLine" id="cb1-228" data-line-number="228"></a>
+<a class="sourceLine" id="cb1-229" data-line-number="229">		<span class="co"># Pulgar de la mano derecha:</span></a>
+<a class="sourceLine" id="cb1-230" data-line-number="230">		pos_pulgar_RHand <span class="op">=</span> <span class="dv">4</span> <span class="co"># posición en el archivo .json	</span></a>
+<a class="sourceLine" id="cb1-231" data-line-number="231">		xpRH <span class="op">=</span> hand_right[<span class="bu">int</span>((pos_pulgar_RHand<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span>)]</a>
+<a class="sourceLine" id="cb1-232" data-line-number="232">		ypRH <span class="op">=</span> hand_right[<span class="bu">int</span>((pos_pulgar_RHand<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span><span class="op">+</span><span class="dv">1</span>)] </a>
+<a class="sourceLine" id="cb1-233" data-line-number="233">		cpRH <span class="op">=</span> hand_right[<span class="bu">int</span>((pos_pulgar_RHand<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span><span class="op">+</span><span class="dv">2</span>)]</a>
+<a class="sourceLine" id="cb1-234" data-line-number="234">		<span class="co"># Junto con la imagen, las posiciones se ajustan a la nueva escala.</span></a>
+<a class="sourceLine" id="cb1-235" data-line-number="235">		<span class="co">#Factor_escala = 600</span></a>
+<a class="sourceLine" id="cb1-236" data-line-number="236">		<span class="co">#imgScale = Factor_escala/width</span></a>
+<a class="sourceLine" id="cb1-237" data-line-number="237">		RHand_pulgar_pos <span class="op">=</span> (<span class="bu">int</span>(xpRH<span class="op">*</span>imgScale),<span class="bu">int</span>(ypRH<span class="op">*</span>imgScale))</a>
+<a class="sourceLine" id="cb1-238" data-line-number="238">		cv2.circle(frame, RHand_pulgar_pos, <span class="bu">int</span>(<span class="dv">8</span><span class="op">*</span>imgScale), (<span class="dv">255</span>,<span class="dv">51</span>,<span class="dv">51</span>), <span class="dv">-1</span>) 	<span class="co">#azul claro</span></a>
+<a class="sourceLine" id="cb1-239" data-line-number="239"></a>
+<a class="sourceLine" id="cb1-240" data-line-number="240">		<span class="co"># Pulgar de la mano izquierda:</span></a>
+<a class="sourceLine" id="cb1-241" data-line-number="241">		pos_pulgar_LHand <span class="op">=</span> <span class="dv">4</span>	</a>
+<a class="sourceLine" id="cb1-242" data-line-number="242">		xpLH <span class="op">=</span> hand_left[<span class="bu">int</span>((pos_pulgar_LHand<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span>)]</a>
+<a class="sourceLine" id="cb1-243" data-line-number="243">		ypLH <span class="op">=</span> hand_left[<span class="bu">int</span>((pos_pulgar_LHand<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span><span class="op">+</span><span class="dv">1</span>)] </a>
+<a class="sourceLine" id="cb1-244" data-line-number="244">		cpLH <span class="op">=</span> hand_left[<span class="bu">int</span>((pos_pulgar_LHand<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span><span class="op">+</span><span class="dv">2</span>)]</a>
+<a class="sourceLine" id="cb1-245" data-line-number="245">		LHand_pulgar_pos <span class="op">=</span> (<span class="bu">int</span>(xpLH<span class="op">*</span>imgScale),<span class="bu">int</span>(ypLH<span class="op">*</span>imgScale))</a>
+<a class="sourceLine" id="cb1-246" data-line-number="246">		cv2.circle(frame, LHand_pulgar_pos, <span class="bu">int</span>(<span class="dv">8</span><span class="op">*</span>imgScale), (<span class="dv">0</span> ,<span class="dv">204</span>, <span class="dv">0</span>), <span class="dv">-1</span>) 	<span class="co">#verde claro</span></a>
+<a class="sourceLine" id="cb1-247" data-line-number="247"></a>
+<a class="sourceLine" id="cb1-248" data-line-number="248">		<span class="co"># Muñeca derecha:</span></a>
+<a class="sourceLine" id="cb1-249" data-line-number="249">		pos_RWrist <span class="op">=</span> <span class="dv">5</span>	</a>
+<a class="sourceLine" id="cb1-250" data-line-number="250">		xRW <span class="op">=</span> pose_keypoints_2d[<span class="bu">int</span>((pos_RWrist<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span>)]</a>
+<a class="sourceLine" id="cb1-251" data-line-number="251">		yRW <span class="op">=</span> pose_keypoints_2d[<span class="bu">int</span>((pos_RWrist<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span><span class="op">+</span><span class="dv">1</span>)] </a>
+<a class="sourceLine" id="cb1-252" data-line-number="252">		cRW <span class="op">=</span> pose_keypoints_2d[<span class="bu">int</span>((pos_RWrist<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span><span class="op">+</span><span class="dv">2</span>)]</a>
+<a class="sourceLine" id="cb1-253" data-line-number="253">		RWrist_pos <span class="op">=</span> (<span class="bu">int</span>(xRW<span class="op">*</span>imgScale),<span class="bu">int</span>(yRW<span class="op">*</span>imgScale))</a>
+<a class="sourceLine" id="cb1-254" data-line-number="254">		cv2.circle(frame, RWrist_pos, <span class="bu">int</span>(<span class="dv">8</span><span class="op">*</span>imgScale), (<span class="dv">255</span>,<span class="dv">255</span>,<span class="dv">51</span>), <span class="dv">-1</span>) 	<span class="co">#celeste</span></a>
+<a class="sourceLine" id="cb1-255" data-line-number="255"></a>
+<a class="sourceLine" id="cb1-256" data-line-number="256">		<span class="co"># Muñeca izquierda:</span></a>
+<a class="sourceLine" id="cb1-257" data-line-number="257">		pos_LWrist <span class="op">=</span> <span class="dv">8</span> </a>
+<a class="sourceLine" id="cb1-258" data-line-number="258">		xLW <span class="op">=</span> pose_keypoints_2d[<span class="bu">int</span>((pos_LWrist<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span>)]</a>
+<a class="sourceLine" id="cb1-259" data-line-number="259">		yLW <span class="op">=</span> pose_keypoints_2d[<span class="bu">int</span>((pos_LWrist<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span><span class="op">+</span><span class="dv">1</span>)] </a>
+<a class="sourceLine" id="cb1-260" data-line-number="260">		cLW <span class="op">=</span> pose_keypoints_2d[<span class="bu">int</span>((pos_LWrist<span class="dv">-1</span>)<span class="op">*</span><span class="dv">3</span><span class="op">+</span><span class="dv">2</span>)]</a>
+<a class="sourceLine" id="cb1-261" data-line-number="261">		LWrist_pos <span class="op">=</span> (<span class="bu">int</span>(xLW<span class="op">*</span>imgScale),<span class="bu">int</span>(yLW<span class="op">*</span>imgScale))</a>
+<a class="sourceLine" id="cb1-262" data-line-number="262">		cv2.circle(frame, LWrist_pos, <span class="bu">int</span>(<span class="dv">8</span><span class="op">*</span>imgScale), (<span class="dv">102</span>,<span class="dv">255</span>,<span class="dv">178</span>), <span class="dv">-1</span>) 	<span class="co">#verde agua</span></a>
+<a class="sourceLine" id="cb1-263" data-line-number="263">		</a>
+<a class="sourceLine" id="cb1-264" data-line-number="264"><span class="co">##################################################################################</span></a>
+<a class="sourceLine" id="cb1-265" data-line-number="265">		<span class="co"># Defino la distancia de forma tal que si estan los objetos lo más alejado posible da 100.</span></a>
+<a class="sourceLine" id="cb1-266" data-line-number="266">		<span class="cf">if</span> center <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="kw">and</span> center <span class="op">!=</span> (<span class="dv">0</span>,<span class="dv">0</span>):</a>
+<a class="sourceLine" id="cb1-267" data-line-number="267">			<span class="cf">if</span> cRW <span class="op">&gt;</span> args[<span class="st">&quot;confianza&quot;</span>]:</a>
+<a class="sourceLine" id="cb1-268" data-line-number="268">				cambia <span class="op">==</span> <span class="st">&#39;si&#39;</span></a>
+<a class="sourceLine" id="cb1-269" data-line-number="269">				<span class="co"># Distancia objeto-muñeca derecha</span></a>
+<a class="sourceLine" id="cb1-270" data-line-number="270">				<span class="co">#dist_obj_Rwrist = 100*abs((RWrist_pos[0]-center[0]) + (RWrist_pos[1]-center[1]) )/(np.sqrt(newX+newY))</span></a>
+<a class="sourceLine" id="cb1-271" data-line-number="271">				dist_obj_Rwrist <span class="op">=</span> <span class="dv">100</span><span class="op">*</span>np.sqrt((RWrist_pos[<span class="dv">0</span>]<span class="op">-</span>center[<span class="dv">0</span>])<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (RWrist_pos[<span class="dv">1</span>]<span class="op">-</span>center[<span class="dv">1</span>])<span class="op">**</span><span class="dv">2</span> )<span class="op">/</span>(np.sqrt(newX<span class="op">**</span><span class="dv">2</span><span class="op">+</span>newY<span class="op">**</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb1-272" data-line-number="272">				cv2.line(frame, RWrist_pos,(<span class="bu">int</span>(center[<span class="dv">0</span>]),<span class="bu">int</span>(center[<span class="dv">1</span>])), (<span class="dv">255</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="bu">int</span>(<span class="dv">4</span><span class="op">*</span>imgScale))  <span class="co">#En azul</span></a>
+<a class="sourceLine" id="cb1-273" data-line-number="273"><span class="co"># Guardo los puntos potenciales al contacto bebé-objeto:</span></a>
+<a class="sourceLine" id="cb1-274" data-line-number="274"><span class="co"># La distancia no depende de re-escaleo, la fijo en 12 para mi, pero para un bebé debe de ser menor.</span></a>
+<a class="sourceLine" id="cb1-275" data-line-number="275">				<span class="cf">if</span> dist_obj_Rwrist <span class="op">&lt;</span> restriccion_distancia:</a>
+<a class="sourceLine" id="cb1-276" data-line-number="276">					tiempo_R_toca[ counter_frames][j] <span class="op">=</span> counter_frames<span class="op">/</span>fps</a>
+<a class="sourceLine" id="cb1-277" data-line-number="277">					cv2.putText(frame, <span class="st">&quot;TOCA&quot;</span>, (<span class="bu">int</span>(newX<span class="op">*</span><span class="fl">0.02</span>),  <span class="bu">int</span>(newY<span class="op">*</span><span class="fl">0.8</span>)),</a>
+<a class="sourceLine" id="cb1-278" data-line-number="278">					cv2.FONT_HERSHEY_SIMPLEX, <span class="fl">0.6</span>, (<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">255</span>), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb1-279" data-line-number="279">				info_R <span class="op">=</span> [<span class="st">&quot;Dist MD-O&quot;</span>, dist_obj_Rwrist]</a>
+<a class="sourceLine" id="cb1-280" data-line-number="280">				text_R <span class="op">=</span> <span class="st">&quot;</span><span class="sc">{}</span><span class="st">: </span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(info_R[<span class="dv">0</span>],info_R[<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb1-281" data-line-number="281">				cv2.putText(frame, text_R, (<span class="bu">int</span>(newX<span class="op">*</span><span class="fl">0.02</span>),  <span class="bu">int</span>(newY<span class="op">*</span><span class="fl">0.9</span>)),</a>
+<a class="sourceLine" id="cb1-282" data-line-number="282">				cv2.FONT_HERSHEY_SIMPLEX, <span class="fl">0.6</span>, (<span class="dv">255</span>, <span class="dv">255</span>, <span class="dv">255</span>), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb1-283" data-line-number="283">			<span class="cf">if</span> cLW <span class="op">&gt;</span> args[<span class="st">&quot;confianza&quot;</span>]:</a>
+<a class="sourceLine" id="cb1-284" data-line-number="284">				cambia <span class="op">==</span> <span class="st">&#39;si&#39;</span></a>
+<a class="sourceLine" id="cb1-285" data-line-number="285">				<span class="co"># Distancia objeto-muñeca izquierda</span></a>
+<a class="sourceLine" id="cb1-286" data-line-number="286">				<span class="co">#dist_obj_Lwrist = 100*abs(LWrist_pos[0]-center[0] + LWrist_pos[1]-center[1] )/(newX+newY)</span></a>
+<a class="sourceLine" id="cb1-287" data-line-number="287">				dist_obj_Lwrist <span class="op">=</span> <span class="dv">100</span><span class="op">*</span>np.sqrt((LWrist_pos[<span class="dv">0</span>]<span class="op">-</span>center[<span class="dv">0</span>])<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (LWrist_pos[<span class="dv">1</span>]<span class="op">-</span>center[<span class="dv">1</span>])<span class="op">**</span><span class="dv">2</span> )<span class="op">/</span>(np.sqrt(newX<span class="op">**</span><span class="dv">2</span><span class="op">+</span>newY<span class="op">**</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb1-288" data-line-number="288">				cv2.line(frame, LWrist_pos,(<span class="bu">int</span>(center[<span class="dv">0</span>]),<span class="bu">int</span>(center[<span class="dv">1</span>])), (<span class="dv">0</span>,<span class="dv">255</span>,<span class="dv">0</span>), <span class="bu">int</span>(<span class="dv">4</span><span class="op">*</span>imgScale))  <span class="co">#En verde </span></a>
+<a class="sourceLine" id="cb1-289" data-line-number="289">				<span class="cf">if</span> dist_obj_Lwrist <span class="op">&lt;</span> restriccion_distancia:</a>
+<a class="sourceLine" id="cb1-290" data-line-number="290">					tiempo_L_toca[counter_frames][j] <span class="op">=</span> counter_frames<span class="op">/</span>fps</a>
+<a class="sourceLine" id="cb1-291" data-line-number="291">				info_L <span class="op">=</span> [<span class="st">&quot;Dist MI-O&quot;</span>, dist_obj_Lwrist]</a>
+<a class="sourceLine" id="cb1-292" data-line-number="292">				text_L <span class="op">=</span> <span class="st">&quot;</span><span class="sc">{}</span><span class="st">: </span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(info_L[<span class="dv">0</span>],info_L[<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb1-293" data-line-number="293">				cv2.putText(frame, text_L, (<span class="bu">int</span>(newX<span class="op">*</span><span class="fl">0.02</span>),  <span class="bu">int</span>(newY<span class="op">*</span><span class="fl">0.95</span>)),</a>
+<a class="sourceLine" id="cb1-294" data-line-number="294">				cv2.FONT_HERSHEY_SIMPLEX, <span class="fl">0.6</span>, (<span class="dv">255</span>, <span class="dv">255</span>, <span class="dv">255</span>), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb1-295" data-line-number="295">			<span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb1-296" data-line-number="296">				cambia <span class="op">==</span> <span class="st">&#39;no&#39;</span></a>
+<a class="sourceLine" id="cb1-297" data-line-number="297"></a>
+<a class="sourceLine" id="cb1-298" data-line-number="298">		<span class="co"># Muestra el video y la máscara.</span></a>
+<a class="sourceLine" id="cb1-299" data-line-number="299">		cv2.imshow(<span class="st">&quot;Frame&quot;</span>, frame)</a>
+<a class="sourceLine" id="cb1-300" data-line-number="300">		<span class="co"># Escribo el video de salida si se pone la opción &#39;si&#39;</span></a>
+<a class="sourceLine" id="cb1-301" data-line-number="301">		<span class="cf">if</span> args[<span class="st">&quot;guardar&quot;</span>]<span class="op">==</span><span class="st">&#39;si&#39;</span>:</a>
+<a class="sourceLine" id="cb1-302" data-line-number="302">			out[j].write(frame)</a>
+<a class="sourceLine" id="cb1-303" data-line-number="303">		cv2.moveWindow(<span class="st">&#39;Frame&#39;</span>,  <span class="dv">0</span>  ,<span class="dv">0</span>) <span class="co"># x horizontal(izq-der), y vertical(arr-aba)</span></a>
+<a class="sourceLine" id="cb1-304" data-line-number="304">		cv2.moveWindow(<span class="st">&#39;Mask&#39;</span> , <span class="dv">700</span> ,<span class="dv">0</span>) </a>
+<a class="sourceLine" id="cb1-305" data-line-number="305">		key <span class="op">=</span> cv2.waitKey(<span class="dv">5</span>) <span class="op">&amp;</span> <span class="bn">0xFF</span></a>
+<a class="sourceLine" id="cb1-306" data-line-number="306">		<span class="co"># Si la tecla &#39;q&#39; es presionada, termina el loop de esta cámara</span></a>
+<a class="sourceLine" id="cb1-307" data-line-number="307">		<span class="cf">if</span> key <span class="op">==</span> <span class="bu">ord</span>(<span class="st">&quot;q&quot;</span>):</a>
+<a class="sourceLine" id="cb1-308" data-line-number="308">			<span class="bu">print</span>(<span class="st">&#39;cantidad de frames hasta ahora:&#39;</span>,counter_frames)</a>
+<a class="sourceLine" id="cb1-309" data-line-number="309">			<span class="cf">break</span></a>
+<a class="sourceLine" id="cb1-310" data-line-number="310"></a>
+<a class="sourceLine" id="cb1-311" data-line-number="311">vs[<span class="dv">2</span>].release()</a>
+<a class="sourceLine" id="cb1-312" data-line-number="312"><span class="co"># Cierra todas las ventanas</span></a>
+<a class="sourceLine" id="cb1-313" data-line-number="313">cv2.destroyAllWindows()</a>
+<a class="sourceLine" id="cb1-314" data-line-number="314"><span class="co"># Supongo que el video no empieza con el bebé tocando un objeto</span></a>
+<a class="sourceLine" id="cb1-315" data-line-number="315"><span class="co"># tiempo_RL_toca es una variable auxiliar para simplificar código, el for que recorre las &#39;k&#39; es para tomar tanto la muñeca derecha como la izquierda en un sólo pedazo de código.</span></a>
+<a class="sourceLine" id="cb1-316" data-line-number="316">tiempo_RL_toca<span class="op">=</span> [tiempo_R_toca,tiempo_L_toca]</a>
+<a class="sourceLine" id="cb1-317" data-line-number="317"><span class="co"># contacto[0] será para la muñeca derecha, contacto[1] para la izquierda</span></a>
+<a class="sourceLine" id="cb1-318" data-line-number="318">contacto <span class="op">=</span> [[],[]]</a>
+<a class="sourceLine" id="cb1-319" data-line-number="319"><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</a>
+<a class="sourceLine" id="cb1-320" data-line-number="320">	tiempo_contacto <span class="op">=</span> tiempo_RL_toca[k]</a>
+<a class="sourceLine" id="cb1-321" data-line-number="321">	<span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">int</span>(length)):</a>
+<a class="sourceLine" id="cb1-322" data-line-number="322">		<span class="co"># Todos tendrán la misma información, el tema es ver si son diferentes a cero</span></a>
+<a class="sourceLine" id="cb1-323" data-line-number="323">		<span class="co"># A continuación vemos si dos para al menos dos cámaras el bebé toca el objeto	</span></a>
+<a class="sourceLine" id="cb1-324" data-line-number="324">		a, b, c     <span class="op">=</span> tiempo_RL_toca[k][i<span class="dv">-1</span>,<span class="dv">0</span>], tiempo_RL_toca[k][i<span class="dv">-1</span>,<span class="dv">1</span>], tiempo_RL_toca[k][i<span class="dv">-1</span>,<span class="dv">2</span>] <span class="co">#pasado</span></a>
+<a class="sourceLine" id="cb1-325" data-line-number="325">		<span class="bu">print</span>(a,b,c)</a>
+<a class="sourceLine" id="cb1-326" data-line-number="326">		aa, bb, cc  <span class="op">=</span> tiempo_RL_toca[k][i<span class="op">+</span><span class="dv">0</span>,<span class="dv">0</span>], tiempo_RL_toca[k][i<span class="op">+</span><span class="dv">0</span>,<span class="dv">1</span>], tiempo_RL_toca[k][i<span class="op">+</span><span class="dv">0</span>,<span class="dv">2</span>] <span class="co">#presente</span></a>
+<a class="sourceLine" id="cb1-327" data-line-number="327">		aaa,bbb,ccc <span class="op">=</span> tiempo_RL_toca[k][i<span class="op">+</span><span class="dv">1</span>,<span class="dv">0</span>], tiempo_RL_toca[k][i<span class="op">+</span><span class="dv">1</span>,<span class="dv">1</span>], tiempo_RL_toca[k][i<span class="op">+</span><span class="dv">1</span>,<span class="dv">2</span>] <span class="co">#futuro</span></a>
+<a class="sourceLine" id="cb1-328" data-line-number="328">		<span class="co"># Si la cámara &#39;a&#39; y la cámara &#39;b&#39; detecta contacto, entonces...</span></a>
+<a class="sourceLine" id="cb1-329" data-line-number="329">		<span class="cf">if</span> (aa<span class="op">*</span>bb <span class="op">!=</span> <span class="dv">0</span>):</a>
+<a class="sourceLine" id="cb1-330" data-line-number="330">			<span class="co"># Si en el paso anterior no hubo contacto para UNA o NINGUNA CÁMARA entonces estamos en el inicio del contacto (un contacto no es considerado contacto)</span></a>
+<a class="sourceLine" id="cb1-331" data-line-number="331">			<span class="cf">if</span>  (<span class="bu">sum</span>([a<span class="op">==</span><span class="dv">0</span>,b<span class="op">==</span><span class="dv">0</span>,c<span class="op">==</span><span class="dv">0</span>])<span class="op">&gt;=</span><span class="dv">2</span>):</a>
+<a class="sourceLine" id="cb1-332" data-line-number="332">				inicio <span class="op">=</span> aa <span class="co"># puede ser bb también.</span></a>
+<a class="sourceLine" id="cb1-333" data-line-number="333">			<span class="co"># Si en el próximo ínidice termina el video, entonces </span></a>
+<a class="sourceLine" id="cb1-334" data-line-number="334">			<span class="cf">if</span> i<span class="op">+</span><span class="dv">1</span> <span class="op">==</span> <span class="bu">int</span>(length):</a>
+<a class="sourceLine" id="cb1-335" data-line-number="335">				<span class="co"># Si no detecta ningún contacto en alguna cámara, se termina ya</span></a>
+<a class="sourceLine" id="cb1-336" data-line-number="336">				<span class="cf">if</span> (aaa<span class="op">+</span>bbb<span class="op">+</span>ccc <span class="op">==</span> <span class="dv">0</span>):</a>
+<a class="sourceLine" id="cb1-337" data-line-number="337">					final <span class="op">=</span> aa</a>
+<a class="sourceLine" id="cb1-338" data-line-number="338">				<span class="co"># De lo contrario, termina el video tocando el objeto				</span></a>
+<a class="sourceLine" id="cb1-339" data-line-number="339">				<span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb1-340" data-line-number="340">					<span class="cf">if</span> (aaa <span class="op">!=</span><span class="dv">0</span>):</a>
+<a class="sourceLine" id="cb1-341" data-line-number="341">						final <span class="op">=</span> aaa</a>
+<a class="sourceLine" id="cb1-342" data-line-number="342">					<span class="cf">elif</span> (bbb <span class="op">!=</span><span class="dv">0</span>):</a>
+<a class="sourceLine" id="cb1-343" data-line-number="343">						final <span class="op">=</span> bbb</a>
+<a class="sourceLine" id="cb1-344" data-line-number="344">					<span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb1-345" data-line-number="345">						final <span class="op">=</span> ccc				 </a>
+<a class="sourceLine" id="cb1-346" data-line-number="346">				contacto[k].append([inicio,final,final<span class="op">-</span>inicio])</a>
+<a class="sourceLine" id="cb1-347" data-line-number="347">				<span class="cf">break</span></a>
+<a class="sourceLine" id="cb1-348" data-line-number="348">			<span class="cf">elif</span> (<span class="bu">sum</span>([aaa<span class="op">==</span><span class="dv">0</span>,bbb<span class="op">==</span><span class="dv">0</span>,ccc<span class="op">==</span><span class="dv">0</span>])<span class="op">&gt;=</span><span class="dv">2</span>):</a>
+<a class="sourceLine" id="cb1-349" data-line-number="349">				final <span class="op">=</span> aa</a>
+<a class="sourceLine" id="cb1-350" data-line-number="350">				contacto[k].append([inicio,final,final<span class="op">-</span>inicio])</a>
+<a class="sourceLine" id="cb1-351" data-line-number="351">		<span class="cf">elif</span> (aa<span class="op">*</span>cc <span class="op">!=</span> <span class="dv">0</span>):</a>
+<a class="sourceLine" id="cb1-352" data-line-number="352">			<span class="co"># Si en el paso anterior no hubo contacto en NINGUNA CÁMARA entonces estamos en el inicio del contacto</span></a>
+<a class="sourceLine" id="cb1-353" data-line-number="353">			<span class="cf">if</span>  (<span class="bu">sum</span>([a<span class="op">==</span><span class="dv">0</span>,b<span class="op">==</span><span class="dv">0</span>,c<span class="op">==</span><span class="dv">0</span>])<span class="op">&gt;=</span><span class="dv">2</span>):</a>
+<a class="sourceLine" id="cb1-354" data-line-number="354">				inicio <span class="op">=</span> aa <span class="co"># puede ser bb también.</span></a>
+<a class="sourceLine" id="cb1-355" data-line-number="355">			<span class="co"># Si en el próximo ínidice termina el video, entonces </span></a>
+<a class="sourceLine" id="cb1-356" data-line-number="356">			<span class="cf">if</span> i<span class="op">+</span><span class="dv">1</span> <span class="op">==</span> <span class="bu">int</span>(length):</a>
+<a class="sourceLine" id="cb1-357" data-line-number="357">				<span class="co"># Si no detecta ningún contacto en alguna cámara, se termina ya</span></a>
+<a class="sourceLine" id="cb1-358" data-line-number="358">				<span class="cf">if</span> (aaa<span class="op">+</span>bbb<span class="op">+</span>ccc <span class="op">==</span> <span class="dv">0</span>):</a>
+<a class="sourceLine" id="cb1-359" data-line-number="359">					final <span class="op">=</span> aa</a>
+<a class="sourceLine" id="cb1-360" data-line-number="360">				<span class="co"># De lo contrario, termina el video tocando el objeto				</span></a>
+<a class="sourceLine" id="cb1-361" data-line-number="361">				<span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb1-362" data-line-number="362">					<span class="cf">if</span> (aaa <span class="op">!=</span><span class="dv">0</span>):</a>
+<a class="sourceLine" id="cb1-363" data-line-number="363">						final <span class="op">=</span> aaa</a>
+<a class="sourceLine" id="cb1-364" data-line-number="364">					<span class="cf">elif</span> (bbb <span class="op">!=</span><span class="dv">0</span>):</a>
+<a class="sourceLine" id="cb1-365" data-line-number="365">						final <span class="op">=</span> bbb</a>
+<a class="sourceLine" id="cb1-366" data-line-number="366">					<span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb1-367" data-line-number="367">						final <span class="op">=</span> ccc</a>
+<a class="sourceLine" id="cb1-368" data-line-number="368">				contacto[k].append([inicio,final,final<span class="op">-</span>inicio])</a>
+<a class="sourceLine" id="cb1-369" data-line-number="369">				<span class="cf">break</span></a>
+<a class="sourceLine" id="cb1-370" data-line-number="370">			<span class="cf">elif</span> (<span class="bu">sum</span>([aaa<span class="op">==</span><span class="dv">0</span>,bbb<span class="op">==</span><span class="dv">0</span>,ccc<span class="op">==</span><span class="dv">0</span>])<span class="op">&gt;=</span><span class="dv">2</span>):</a>
+<a class="sourceLine" id="cb1-371" data-line-number="371">				final <span class="op">=</span> aa</a>
+<a class="sourceLine" id="cb1-372" data-line-number="372">				contacto[k].append([inicio,final,final<span class="op">-</span>inicio])</a>
+<a class="sourceLine" id="cb1-373" data-line-number="373">		<span class="cf">elif</span> (bb<span class="op">*</span>cc <span class="op">!=</span> <span class="dv">0</span>):</a>
+<a class="sourceLine" id="cb1-374" data-line-number="374">			<span class="co"># Si en el paso anterior no hubo contacto en NINGUNA CÁMARA entonces estamos en el inicio del contacto</span></a>
+<a class="sourceLine" id="cb1-375" data-line-number="375">			<span class="cf">if</span>  (<span class="bu">sum</span>([a<span class="op">==</span><span class="dv">0</span>,b<span class="op">==</span><span class="dv">0</span>,c<span class="op">==</span><span class="dv">0</span>])<span class="op">&gt;=</span><span class="dv">2</span>):</a>
+<a class="sourceLine" id="cb1-376" data-line-number="376">				inicio <span class="op">=</span> bb <span class="co"># puede ser bb también.</span></a>
+<a class="sourceLine" id="cb1-377" data-line-number="377">			<span class="co"># Si en el próximo ínidice termina el video, entonces </span></a>
+<a class="sourceLine" id="cb1-378" data-line-number="378">			<span class="cf">if</span> i<span class="op">+</span><span class="dv">1</span> <span class="op">==</span> <span class="bu">int</span>(length):</a>
+<a class="sourceLine" id="cb1-379" data-line-number="379">				<span class="co"># Si no detecta ningún contacto en alguna cámara, se termina ya</span></a>
+<a class="sourceLine" id="cb1-380" data-line-number="380">				<span class="cf">if</span> (aaa<span class="op">+</span>bbb<span class="op">+</span>ccc <span class="op">==</span> <span class="dv">0</span>):</a>
+<a class="sourceLine" id="cb1-381" data-line-number="381">					final <span class="op">=</span> bb</a>
+<a class="sourceLine" id="cb1-382" data-line-number="382">				<span class="co"># De lo contrario, termina el video tocando el objeto				</span></a>
+<a class="sourceLine" id="cb1-383" data-line-number="383">				<span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb1-384" data-line-number="384">					<span class="cf">if</span> (aaa <span class="op">!=</span><span class="dv">0</span>):</a>
+<a class="sourceLine" id="cb1-385" data-line-number="385">						final <span class="op">=</span> aaa</a>
+<a class="sourceLine" id="cb1-386" data-line-number="386">					<span class="cf">elif</span> (bbb <span class="op">!=</span><span class="dv">0</span>):</a>
+<a class="sourceLine" id="cb1-387" data-line-number="387">						final <span class="op">=</span> bbb</a>
+<a class="sourceLine" id="cb1-388" data-line-number="388">					<span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb1-389" data-line-number="389">						final <span class="op">=</span> ccc</a>
+<a class="sourceLine" id="cb1-390" data-line-number="390">				contacto[k].append([inicio,final,final<span class="op">-</span>inicio])</a>
+<a class="sourceLine" id="cb1-391" data-line-number="391">				<span class="cf">break</span></a>
+<a class="sourceLine" id="cb1-392" data-line-number="392">			<span class="cf">elif</span> (<span class="bu">sum</span>([aaa<span class="op">==</span><span class="dv">0</span>,bbb<span class="op">==</span><span class="dv">0</span>,ccc<span class="op">==</span><span class="dv">0</span>])<span class="op">&gt;=</span><span class="dv">2</span>):</a>
+<a class="sourceLine" id="cb1-393" data-line-number="393">				final <span class="op">=</span> bb</a>
+<a class="sourceLine" id="cb1-394" data-line-number="394">				contacto[k].append([inicio,final,final<span class="op">-</span>inicio])</a>
+<a class="sourceLine" id="cb1-395" data-line-number="395"></a>
+<a class="sourceLine" id="cb1-396" data-line-number="396"><span class="bu">print</span>(contacto)</a>
+<a class="sourceLine" id="cb1-397" data-line-number="397"><span class="co"># Si el final de un contacto y el inicio del siguiente se diferencian en un &#39;intervalo_t&#39; entonces uno los dos segmentos.</span></a>
+<a class="sourceLine" id="cb1-398" data-line-number="398">intervalo_t <span class="op">=</span> <span class="fl">0.3</span> <span class="co">#segundos</span></a>
+<a class="sourceLine" id="cb1-399" data-line-number="399">contacto_mod <span class="op">=</span> [[],[]]</a>
+<a class="sourceLine" id="cb1-400" data-line-number="400"><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</a>
+<a class="sourceLine" id="cb1-401" data-line-number="401">	cant_elem <span class="op">=</span> <span class="bu">len</span>(contacto[k]) 	</a>
+<a class="sourceLine" id="cb1-402" data-line-number="402">	<span class="cf">if</span> cant_elem<span class="op">&gt;</span><span class="dv">1</span>:</a>
+<a class="sourceLine" id="cb1-403" data-line-number="403">		<span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(cant_elem<span class="dv">-1</span>):</a>
+<a class="sourceLine" id="cb1-404" data-line-number="404">			<span class="cf">if</span> ( contacto[k][i][<span class="dv">1</span>]<span class="op">-</span>contacto[k][i<span class="op">+</span><span class="dv">1</span>][<span class="dv">0</span>] ) <span class="op">&lt;</span> intervalo_t:</a>
+<a class="sourceLine" id="cb1-405" data-line-number="405">				inicio_mod <span class="op">=</span> contacto[k][i][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb1-406" data-line-number="406">				final_mod  <span class="op">=</span> contacto[k][i<span class="op">+</span><span class="dv">1</span>][<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb1-407" data-line-number="407">				contacto_mod[k].append([inicio_mod,final_mod,final_mod<span class="op">-</span>inicio_mod])</a>
+<a class="sourceLine" id="cb1-408" data-line-number="408">		</a>
+<a class="sourceLine" id="cb1-409" data-line-number="409"><span class="bu">print</span>(contacto_mod)</a>
+<a class="sourceLine" id="cb1-410" data-line-number="410"><span class="co"># Printeo los valores en la terminal:</span></a>
+<a class="sourceLine" id="cb1-411" data-line-number="411"><span class="bu">print</span>(<span class="st">&#39;Para la mano derecha:&#39;</span>)</a>
+<a class="sourceLine" id="cb1-412" data-line-number="412"><span class="cf">if</span> <span class="bu">len</span>(contacto_mod[<span class="dv">0</span>])<span class="op">==</span><span class="dv">0</span>:</a>
+<a class="sourceLine" id="cb1-413" data-line-number="413">	<span class="bu">print</span>(<span class="st">&#39;No toca la mano derecha el objeto&#39;</span>)</a>
+<a class="sourceLine" id="cb1-414" data-line-number="414"><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(contacto_mod[<span class="dv">0</span>])):</a>
+<a class="sourceLine" id="cb1-415" data-line-number="415">	<span class="bu">print</span>(<span class="st">&#39;inicio:&#39;</span>,contacto_mod[<span class="dv">0</span>][i][<span class="dv">0</span>], <span class="st">&#39;final:&#39;</span>, contacto_mod[<span class="dv">0</span>][i][<span class="dv">1</span>], <span class="st">&#39;duración:&#39;</span>, contacto_mod[<span class="dv">0</span>][i][<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb1-416" data-line-number="416"></a>
+<a class="sourceLine" id="cb1-417" data-line-number="417"><span class="bu">print</span>(<span class="st">&#39;Para la mano izquierda:&#39;</span>)</a>
+<a class="sourceLine" id="cb1-418" data-line-number="418"><span class="cf">if</span> <span class="bu">len</span>(contacto_mod[<span class="dv">1</span>])<span class="op">==</span><span class="dv">0</span>:</a>
+<a class="sourceLine" id="cb1-419" data-line-number="419">	<span class="bu">print</span>(<span class="st">&#39;No toca la mano izquierda el objeto&#39;</span>)</a>
+<a class="sourceLine" id="cb1-420" data-line-number="420"><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(contacto_mod[<span class="dv">1</span>])):</a>
+<a class="sourceLine" id="cb1-421" data-line-number="421">	<span class="bu">print</span>(<span class="st">&#39;inicio:&#39;</span>,contacto_mod[<span class="dv">1</span>][i][<span class="dv">0</span>], <span class="st">&#39;final:&#39;</span>, contacto_mod[<span class="dv">1</span>][i][<span class="dv">1</span>], <span class="st">&#39;duración:&#39;</span>, contacto_mod[<span class="dv">1</span>][i][<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb1-422" data-line-number="422"></a>
+<a class="sourceLine" id="cb1-423" data-line-number="423"><span class="co"># Guardo los inicios, finales y duraciones:</span></a>
+<a class="sourceLine" id="cb1-424" data-line-number="424">header <span class="op">=</span> <span class="st">&quot;Para el objeto &quot;</span><span class="op">+</span>args[<span class="st">&quot;objeto&quot;</span>]<span class="op">+</span><span class="st">&quot;, con escala &quot;</span> <span class="op">+</span><span class="bu">repr</span>(args[<span class="st">&quot;escala&quot;</span>])<span class="op">+</span><span class="st">&quot;, buffer &quot;</span><span class="op">+</span><span class="bu">repr</span>(args[<span class="st">&quot;buffer&quot;</span>])<span class="op">+</span><span class="st">&quot; y confianza 0.&quot;</span><span class="op">+</span><span class="bu">repr</span>(<span class="bu">int</span>(<span class="dv">10</span><span class="op">*</span>args[<span class="st">&quot;confianza&quot;</span>]))<span class="op">+</span><span class="st">&quot;:&quot;</span></a>
+<a class="sourceLine" id="cb1-425" data-line-number="425"></a>
+<a class="sourceLine" id="cb1-426" data-line-number="426">f <span class="op">=</span> <span class="bu">open</span>(<span class="st">&#39;data_objeto_&#39;</span><span class="op">+</span>args[<span class="st">&quot;objeto&quot;</span>]<span class="op">+</span><span class="st">&#39;.dat&#39;</span>, <span class="st">&#39;wb&#39;</span>)</a>
+<a class="sourceLine" id="cb1-427" data-line-number="427">np.savetxt(f, [], header<span class="op">=</span>header) </a>
+<a class="sourceLine" id="cb1-428" data-line-number="428"></a>
+<a class="sourceLine" id="cb1-429" data-line-number="429"><span class="co"># Defino los textos a colocar en el archivo:</span></a>
+<a class="sourceLine" id="cb1-430" data-line-number="430">string  <span class="op">=</span> [<span class="st">&quot;Para la distancia objeto - muñeca derecha:&quot;</span>]</a>
+<a class="sourceLine" id="cb1-431" data-line-number="431">string2 <span class="op">=</span> [<span class="st">&quot;Para la distancia objeto - muñeca izquierda:&quot;</span>]</a>
+<a class="sourceLine" id="cb1-432" data-line-number="432">infidu  <span class="op">=</span> [<span class="st">&quot;inicio,final,duración&quot;]</span></a>
+<a class="sourceLine" id="cb1-433" data-line-number="433"><span class="st">espacio = [&quot;</span> <span class="st">&quot;]</span></a>
+<a class="sourceLine" id="cb1-434" data-line-number="434"></a>
+<a class="sourceLine" id="cb1-435" data-line-number="435"><span class="st">np.savetxt(f,espacio,fmt=&quot;</span><span class="op">%</span>s<span class="st">&quot;)</span></a>
+<a class="sourceLine" id="cb1-436" data-line-number="436"><span class="st">np.savetxt(f,string,fmt=&quot;</span><span class="op">%</span>s<span class="st">&quot;)</span></a>
+<a class="sourceLine" id="cb1-437" data-line-number="437"><span class="st">np.savetxt(f,infidu,fmt=&quot;</span><span class="op">%</span>s<span class="st">&quot;)</span></a>
+<a class="sourceLine" id="cb1-438" data-line-number="438"><span class="st">for i in range(len(contacto_mod[0])):</span></a>
+<a class="sourceLine" id="cb1-439" data-line-number="439"><span class="st">    data = np.column_stack((contacto_mod[0][i][0], contacto_mod[0][i][1],contacto_mod[0][i][2]))</span></a>
+<a class="sourceLine" id="cb1-440" data-line-number="440"><span class="st">    np.savetxt(f, data,delimiter=&#39;  &#39;,fmt=&#39;</span><span class="sc">%1.3f</span><span class="st">&#39;)</span></a>
+<a class="sourceLine" id="cb1-441" data-line-number="441"></a>
+<a class="sourceLine" id="cb1-442" data-line-number="442"><span class="st">np.savetxt(f,espacio,fmt=&quot;</span><span class="op">%</span>s<span class="st">&quot;)</span></a>
+<a class="sourceLine" id="cb1-443" data-line-number="443"><span class="st">np.savetxt(f,string2,fmt=&quot;</span><span class="op">%</span>s<span class="st">&quot;)</span></a>
+<a class="sourceLine" id="cb1-444" data-line-number="444"><span class="st">np.savetxt(f,infidu,fmt=&quot;</span><span class="op">%</span>s<span class="st">&quot;)</span></a>
+<a class="sourceLine" id="cb1-445" data-line-number="445"><span class="st">for i in range(len(contacto_mod[1])):</span></a>
+<a class="sourceLine" id="cb1-446" data-line-number="446"><span class="st">    data = np.column_stack((contacto_mod[1][i][0], contacto_mod[1][i][1],contacto_mod[1][i][2]))</span></a>
+<a class="sourceLine" id="cb1-447" data-line-number="447"><span class="st">    np.savetxt(f, data,delimiter=&#39;  &#39;,fmt=&#39;</span><span class="sc">%1.3f</span><span class="st">&#39;)</span></a>
+<a class="sourceLine" id="cb1-448" data-line-number="448"></a>
+<a class="sourceLine" id="cb1-449" data-line-number="449"><span class="st">f.close()</span></a>
+<a class="sourceLine" id="cb1-450" data-line-number="450"></a>
+<a class="sourceLine" id="cb1-451" data-line-number="451"></a></code></pre></div>
+<section class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p><a href="https://www.cicea.ei.udelar.edu.uy/" class="uri">https://www.cicea.ei.udelar.edu.uy/</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p><a href="https://www.pyimagesearch.com/author/adrian/" class="uri">https://www.pyimagesearch.com/author/adrian/</a><a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p><a href="https://www.pyimagesearch.com/2015/09/14/ball-tracking-with-opencv/#" class="uri">https://www.pyimagesearch.com/2015/09/14/ball-tracking-with-opencv/#</a><a href="#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn4"><p><a href="https://github.com/jrosebr1/imutils/blob/master/bin/range-detector" class="uri">https://github.com/jrosebr1/imutils/blob/master/bin/range-detector</a><a href="#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p><a href="https://docs.opencv.org/3.1.0/dd/d49/tutorial_py_contour_features.html" class="uri">https://docs.opencv.org/3.1.0/dd/d49/tutorial_py_contour_features.html</a><a href="#fnref5" class="footnote-back">↩</a></p></li>
+<li id="fn6"><p><a href=" https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/output.md" class="uri"> https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/output.md</a><a href="#fnref6" class="footnote-back">↩</a></p></li>
+<li id="fn7"><p><a href="https://www.pyimagesearch.com/2015/06/01/home-surveillance-and-motion-detection-with-the-raspberry-pi-python-and-opencv/" class="uri">https://www.pyimagesearch.com/2015/06/01/home-surveillance-and-motion-detection-with-the-raspberry-pi-python-and-opencv/</a><span>background subtraction</span><a href="#fnref7" class="footnote-back">↩</a></p></li>
+</ol>
+</section>
+
+</div>
+
+<script src="js/bootstrap.min.js"></script>
+<script src="js/reload_video.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+</body>
+</html>
