@@ -58,11 +58,6 @@ I'm a **Research Engineer at Gradiant** (Vigo, Spain) specializing in **artifici
 
 ## 🛠️ Technical Stack
 
-### Languages & Frameworks
-![Python](https://img.shields.io/badge/Python-Advanced-3776AB?logo=python&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-Intermediate-F7DF1E?logo=javascript&logoColor=black)
-![HTML/CSS](https://img.shields.io/badge/HTML%2FCSS-Advanced-E34F26?logo=html5&logoColor=white)
-![SQL](https://img.shields.io/badge/SQL-Intermediate-4479A1?logo=postgresql&logoColor=white)
 
 ### Machine Learning & Data Science
 - **Deep Learning**: PyTorch, TensorFlow, Keras
@@ -71,70 +66,6 @@ I'm a **Research Engineer at Gradiant** (Vigo, Spain) specializing in **artifici
 - **Visualization**: matplotlib, seaborn, plotly
 - **Big Data**: Apache Spark, Kafka, Airflow
 
-### Web Development
-- **Frontend**: Bootstrap, Font Awesome, responsive design
-- **Deployment**: GitHub Pages, static site hosting
-- **Version Control**: Git, GitHub
-
-## 📁 Repository Structure
-
-```
-📦 MFernandezLakatos.github.io
-├── 📄 index.html                 # Main portfolio page
-├── 📁 codes/                     # Python projects and scripts
-│   ├── 🐍 Proyecto_Matias_Fernandez_Lakatos.py
-│   ├── 🎯 tracker_objetos_varias_camaras_*.py
-│   └── 📏 range-detector.py
-├── 📁 Stonks/                    # Financial analysis tools
-│   ├── 💹 Yahoo.py
-│   ├── 📊 yahoo_2.py
-│   └── 📁 Python Files/
-├── 📁 imgs_Nvideo_rename_Nmove_Wmetadata/  # Media organizer
-├── 📁 documents/                 # Academic papers and CV
-├── 📁 estilos/                   # CSS styles
-├── 📁 js/                        # JavaScript files
-└── 📁 imgs/                      # Image assets
-```
-
-## 🚀 Quick Start
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/MFLakatos/MFernandezLakatos.github.io.git
-   cd MFernandezLakatos.github.io
-   ```
-
-2. **Open locally**
-   ```bash
-   # Simply open index.html in your browser
-   # Or use a local server
-   python -m http.server 8000
-   ```
-
-3. **View the projects**
-   - Browse the `codes/` directory for Python implementations
-   - Check `Stonks/` for financial analysis tools
-   - Explore `imgs_Nvideo_rename_Nmove_Wmetadata/` for media organization utilities
-
-## 🔧 Running the Projects
-
-### Computer Vision Projects
-```bash
-cd codes/
-python tracker_objetos_varias_camaras_color-centroide_v3.py
-```
-
-### Financial Analysis
-```bash
-cd Stonks/
-python Yahoo.py
-```
-
-### Media Organizer
-```bash
-cd imgs_Nvideo_rename_Nmove_Wmetadata/
-python organizador_gui.py
-```
 
 ## 📈 Current Focus Areas
 
