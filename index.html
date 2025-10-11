@@ -5,6 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Matías Fernández Lakatos</title>
   <link href="./estilos/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    .timeline-item {
+      position: relative;
+    }
+    
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      height: 100%;
+      width: 2px;
+      background-color: #dee2e6;
+      transform: translateX(-50%);
+      z-index: -1;
+    }
+    
+    .timeline-item:last-child::before {
+      display: none;
+    }
+    
+    .card {
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    }
+    
+    .publication-item {
+      border-left: 3px solid #e9ecef;
+      padding-left: 15px;
+    }
+    
+    .publication-item:hover {
+      border-left-color: #007bff;
+      background-color: #f8f9fa;
+    }
+    
+    .badge {
+      font-size: 0.75em;
+    }
+    
+    @media (max-width: 768px) {
+      .timeline-item::before {
+        display: none;
+      }
+      
+      .text-end {
+        text-align: start !important;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -33,24 +88,239 @@
     </div>
   </div>
 
-  <div class="row mt-4">
+  <!-- Formación Académica -->
+  <div class="row mt-5">
     <div class="col">
-      <ul class="list-group">
-        <li class="list-group-item">
-          <a href="./Proyecto_Matias_Fernandez_Lakatos.html">Tratamiento de imágenes por computadora</a>
-        </li>
-        <li class="list-group-item">
-          <a href="./documents/CV_Template_MFernandezLakatos_english.pdf">CV Matías Fernández Lakatos in English</a>
-        </li>
-        <li class="list-group-item">
-          <a href="./documents/CV_Template_MFernandezLakatos_espanol.pdf">CV Matías Fernández Lakatos en español</a>
-        </li>
-        <li class="list-group-item">
-          <a href="./imgs_Nvideo_rename_Nmove_Wmetadata">Image and Video Rename and Move with Metadata</a>
-        </li>
-      </ul>
+      <h2 class="text-center mb-4">
+        <i class="fas fa-graduation-cap me-2"></i>Formación Académica
+      </h2>
+      
+      <!-- Timeline de formación -->
+      <div class="timeline">
+        <!-- MSc Big Data -->
+        <div class="timeline-item mb-4">
+          <div class="row">
+            <div class="col-md-3 text-end">
+              <span class="badge bg-primary fs-6">2024 - presente</span>
+            </div>
+            <div class="col-md-9">
+              <div class="card shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title text-primary">MSc Tecnologías de Análisis Masivo de Datos: Big Data</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">USC, Santiago de Compostela</h6>
+                  <p class="card-text">
+                    Cursos sobre Bases de Datos a Gran Escala, Tecnologías de Gestión de Información No Estructurada, 
+                    Tecnologías Informáticas para Datos Masivos, IoT, Estadísticas, Minería de Datos, Visualización de Datos, 
+                    Inteligencia Empresarial y Aplicaciones y Casos de Uso Empresarial.
+                  </p>
+                  <a href="./documents/TFM_Big_Data.pdf" class="btn btn-outline-primary btn-sm" target="_blank">
+                    <i class="fas fa-file-pdf me-1"></i>Ver TFM
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Doctorado -->
+        <div class="timeline-item mb-4">
+          <div class="row">
+            <div class="col-md-3 text-end">
+              <span class="badge bg-success fs-6">2019 - 2024</span>
+            </div>
+            <div class="col-md-9">
+              <div class="card shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title text-success">Doctorado en Óptica</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Udelar, Montevideo</h6>
+                  <p class="card-text">
+                    Cursos en Laboratorio de Electrónica Fundamental e Instrumentación Científica, Óptica Coherente, 
+                    Aprendizaje por Recompensas, Procesamiento de Imágenes por Computadora, Estadísticas Multivariadas 
+                    Computacionales y Aprendizaje Profundo para Visión por Computadora (cs231n).
+                  </p>
+                  <p class="card-text"><small class="text-muted">
+                    Tutores: Dr. José A. Ferrari, Dra. Erna Frins y Dr. Gastón A. Ayubi.
+                  </small></p>
+                  <a href="https://www.colibri.udelar.edu.uy/jspui/handle/20.500.12008/44860" class="btn btn-outline-success btn-sm" target="_blank">
+                    <i class="fas fa-external-link-alt me-1"></i>Tesis: Visualización y Caracterización de Objetos de Fase
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MSc Cromodinámica -->
+        <div class="timeline-item mb-4">
+          <div class="row">
+            <div class="col-md-3 text-end">
+              <span class="badge bg-info fs-6">2016 - 2018</span>
+            </div>
+            <div class="col-md-9">
+              <div class="card shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title text-info">MSc en Cromodinámica Cuántica</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Udelar, Montevideo</h6>
+                  <p class="card-text">
+                    Cursos de Mecánica Estadística, Teoría Cuántica de Campos I y II, y Relatividad General.
+                  </p>
+                  <p class="card-text"><small class="text-muted">
+                    Tutores: Dr. Nicolás Wschebor y Dra. Marcela Peláez.
+                  </small></p>
+                  <a href="https://www.colibri.udelar.edu.uy/jspui/handle/20.500.12008/26696" class="btn btn-outline-info btn-sm" target="_blank">
+                    <i class="fas fa-external-link-alt me-1"></i>Tesis: Rol de los diversos acoplamientos en la cromodinámica cuántica infrarroja
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- Publicaciones Científicas -->
+  <div class="row mt-5">
+    <div class="col">
+      <h2 class="text-center mb-4">
+        <i class="fas fa-book-open me-2"></i>Publicaciones Científicas
+      </h2>
+      
+      <div class="row">
+        <!-- Como Autor Principal -->
+        <div class="col-md-6 mb-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0"><i class="fas fa-user-edit me-2"></i>Como Autor Principal</h5>
+            </div>
+            <div class="card-body">
+              <div class="publication-item mb-3">
+                <span class="badge bg-warning text-dark mb-2">2024 - SPIE</span>
+                <p class="mb-2">
+                  <a href="https://www.spiedigitallibrary.org/conference-proceedings-of-spie/12852/3000403/Integration-with-one-partial-derivative-applied-to-quantitative-phase-imaging/10.1117/12.3000403.short" 
+                     class="text-decoration-none" target="_blank">
+                    <i class="fas fa-external-link-alt me-1"></i>Integration with one partial derivative applied to quantitative phase imaging
+                  </a>
+                </p>
+              </div>
+              
+              <div class="publication-item mb-3">
+                <span class="badge bg-warning text-dark mb-2">2023 - OLE Scopus</span>
+                <p class="mb-2">
+                  <a href="https://www.sciencedirect.com/science/article/abs/pii/S0143816623003342?via%3Dihub" 
+                     class="text-decoration-none" target="_blank">
+                    <i class="fas fa-external-link-alt me-1"></i>Artículo en Optics and Lasers in Engineering
+                  </a>
+                </p>
+              </div>
+              
+              <div class="publication-item mb-3">
+                <span class="badge bg-warning text-dark mb-2">2022 - Optik Scopus</span>
+                <p class="mb-2">
+                  <a href="https://www.sciencedirect.com/science/article/pii/S003040262201378X" 
+                     class="text-decoration-none" target="_blank">
+                    <i class="fas fa-external-link-alt me-1"></i>Artículo en Optik
+                  </a>
+                </p>
+              </div>
+              
+              <div class="publication-item mb-3">
+                <span class="badge bg-warning text-dark mb-2">2019 - IJMPA Scopus</span>
+                <p class="mb-2">
+                  <a href="https://www.worldscientific.com/worldscinet/ijmpa" 
+                     class="text-decoration-none" target="_blank">
+                    <i class="fas fa-external-link-alt me-1"></i>International Journal of Modern Physics A
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Como Coautor -->
+        <div class="col-md-6 mb-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-header bg-success text-white">
+              <h5 class="mb-0"><i class="fas fa-users me-2"></i>Como Coautor</h5>
+            </div>
+            <div class="card-body">
+              <div class="publication-item mb-3">
+                <span class="badge bg-secondary mb-2">2025 - OLT</span>
+                <p class="mb-2">
+                  <a href="https://www.sciencedirect.com/science/article/abs/pii/S0030399224015111" 
+                     class="text-decoration-none" target="_blank">
+                    <i class="fas fa-external-link-alt me-1"></i>Artículo en Optics & Laser Technology
+                  </a>
+                </p>
+              </div>
+              
+              <div class="publication-item mb-3">
+                <span class="badge bg-secondary mb-2">2024 - IOP Science</span>
+                <p class="mb-2">
+                  <a href="https://iopscience.iop.org/article/10.1088/1361-6501/ad2254" 
+                     class="text-decoration-none" target="_blank">
+                    <i class="fas fa-external-link-alt me-1"></i>Artículo en IOP Science
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recursos y Enlaces -->
+  <div class="row mt-5">
+    <div class="col">
+      <h2 class="text-center mb-4">
+        <i class="fas fa-link me-2"></i>Recursos y Enlaces
+      </h2>
+      
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><i class="fas fa-code me-2"></i>Proyectos Técnicos</h5>
+              <a href="./Proyecto_Matias_Fernandez_Lakatos.html" class="btn btn-outline-primary btn-sm mb-2 d-block">
+                <i class="fas fa-image me-1"></i>Tratamiento de imágenes por computadora
+              </a>
+              <a href="./imgs_Nvideo_rename_Nmove_Wmetadata" class="btn btn-outline-primary btn-sm d-block">
+                <i class="fas fa-folder-open me-1"></i>Organizador de Imágenes y Videos con Metadata
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6 mb-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><i class="fas fa-file-pdf me-2"></i>Currículum Vitae</h5>
+              <a href="./documents/CV_Template_MFernandezLakatos_english.pdf" class="btn btn-outline-secondary btn-sm mb-2 d-block" target="_blank">
+                <i class="fas fa-download me-1"></i>CV en Inglés
+              </a>
+              <a href="./documents/CV_Template_MFernandezLakatos_espanol.pdf" class="btn btn-outline-secondary btn-sm d-block" target="_blank">
+                <i class="fas fa-download me-1"></i>CV en Español
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-5 pt-4 pb-3 border-top">
+    <div class="row">
+      <div class="col text-center">
+        <p class="text-muted">
+          <i class="fas fa-envelope me-2"></i>Contacto profesional disponible en CV
+          <br>
+          <small>&copy; 2025 Matías Fernández Lakatos. Todos los derechos reservados.</small>
+        </p>
+      </div>
+    </div>
+  </footer>
 </div>
 
 <script src="./js/bootstrap.min.js"></script>
