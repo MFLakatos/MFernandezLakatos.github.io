@@ -2,7 +2,7 @@
 **Científico de Datos · Ingeniero de Machine Learning · Ingeniero de Investigación**
 
 📧 mfernandezlakatos@gmail.com · 📞 (+34) 673 242 030 · 📍 Santiago de Compostela, España  
-🔗 [LinkedIn](https://www.linkedin.com/in/mfernandezlakatos) · 🐙 [GitHub](https://github.com/MFernandezLakatos) · 🔬 [ORCID](https://orcid.org/0000-0002-5295-5338) · 🌐 [Portfolio](https://mflakatos.github.io)
+🔗 [LinkedIn](https://www.linkedin.com/in/mflakatos) · 🐙 [GitHub](https://github.com/MFLakatos) · 🔬 [ORCID](https://orcid.org/0000-0002-5295-5338) · 🌐 [Portfolio](https://mflakatos.github.io/MFernandezLakatos.github.io/)
 
 ---
 

@@ -1,638 +1,792 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Matías Fernández Lakatos</title>
+  <title>Matías Fernández Lakatos — Data Scientist & ML Engineer</title>
   <link href="./estilos/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <!-- Google Fonts - Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* Apply Inter font to the entire document */
-    * {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
-    
-    /* Custom Color Scheme - Professional Deep Blue & Teal */
+    * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+
     :root {
-      --primary-color: #1e3a8a;      /* Deep Blue */
-      --secondary-color: #0f766e;    /* Teal */
-      --accent-color: #7c3aed;       /* Purple */
-      --success-color: #059669;      /* Emerald */
-      --warning-color: #d97706;      /* Amber */
-      --danger-color: #dc2626;       /* Red */
-      --light-bg: #f8fafc;          /* Very light blue-gray */
-      --card-bg: #ffffff;           /* White */
-      --text-primary: #1e293b;      /* Dark slate */
-      --text-secondary: #64748b;    /* Slate */
+      --primary:   #1e3a8a;
+      --teal:      #0f766e;
+      --purple:    #7c3aed;
+      --amber:     #d97706;
+      --slate:     #64748b;
+      --light-bg:  #f8fafc;
+      --card-bg:   #ffffff;
+      --dark:      #1e293b;
+      --border:    #e2e8f0;
     }
-    
-    /* Override Bootstrap colors with custom palette */
-    .bg-primary { background-color: var(--primary-color) !important; }
-    .text-primary { color: var(--primary-color) !important; }
-    .btn-outline-primary { 
-      color: var(--primary-color) !important; 
-      border-color: var(--primary-color) !important; 
-    }
-    .btn-outline-primary:hover { 
-      background-color: var(--primary-color) !important; 
-      border-color: var(--primary-color) !important; 
-    }
-    
-    .bg-success { background-color: var(--secondary-color) !important; }
-    .text-success { color: var(--secondary-color) !important; }
-    .btn-outline-success { 
-      color: var(--secondary-color) !important; 
-      border-color: var(--secondary-color) !important; 
-    }
-    .btn-outline-success:hover { 
-      background-color: var(--secondary-color) !important; 
-      border-color: var(--secondary-color) !important; 
-    }
-    
-    .bg-info { background-color: var(--accent-color) !important; }
-    .text-info { color: var(--accent-color) !important; }
-    .btn-outline-info { 
-      color: var(--accent-color) !important; 
-      border-color: var(--accent-color) !important; 
-    }
-    .btn-outline-info:hover { 
-      background-color: var(--accent-color) !important; 
-      border-color: var(--accent-color) !important; 
-    }
-    
-    .bg-warning { background-color: var(--warning-color) !important; }
-    .bg-secondary { background-color: var(--text-secondary) !important; }
-    
-    /* Enhanced badge styling for timeline years */
-    .timeline-badge {
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
-      color: white !important;
-      font-weight: 600 !important;
-      padding: 8px 16px !important;
-      border-radius: 20px !important;
-      font-size: 0.9rem !important;
-      box-shadow: 0 2px 8px rgba(30, 58, 138, 0.3) !important;
-      border: 2px solid white !important;
-    }
-    
-    /* Enhanced body styling */
-    body {
-      background-color: var(--light-bg);
-      color: var(--text-primary);
-    }
-    
-    /* Enhanced card styling */
-    .card {
-      background-color: var(--card-bg);
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-    }
-    
-    /* Better subtitle visibility */
-    .card-subtitle {
-      color: var(--text-secondary) !important;
-      font-weight: 500 !important;
-    }
-    
-    /* Enhanced timeline styling */
-    .timeline-item::before {
-      background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
-    }
-    
-    /* Enhanced publication item hover */
-    .publication-item:hover {
-      border-left-color: var(--primary-color);
-      background-color: var(--light-bg);
-    }
-    .timeline-item {
+
+    body { background-color: var(--light-bg); color: var(--dark); }
+
+    /* ── Hero ───────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0f766e 100%);
+      color: white;
+      padding: 4rem 0 3rem;
       position: relative;
+      overflow: hidden;
     }
-    
-    .timeline-item::before {
+    .hero::before {
       content: '';
-      position: absolute;
-      left: 50%;
-      top: 0;
-      height: 100%;
-      width: 2px;
-      background-color: #dee2e6;
-      transform: translateX(-50%);
-      z-index: -1;
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
     }
-    
-    .timeline-item:last-child::before {
-      display: none;
+    .hero-photo {
+      width: 150px; height: 150px;
+      border-radius: 50%;
+      border: 4px solid rgba(255,255,255,0.3);
+      object-fit: cover;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
     }
-    
+    .hero h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px; }
+    .role-chip {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin: 3px 3px 3px 0;
+      backdrop-filter: blur(4px);
+    }
+    .hero-bio { color: rgba(255,255,255,0.85); font-size: 1rem; line-height: 1.7; max-width: 640px; }
+    .hero-stat { text-align: center; }
+    .hero-stat .num { font-size: 1.8rem; font-weight: 800; color: white; line-height: 1; }
+    .hero-stat .lbl { font-size: 0.72rem; color: rgba(255,255,255,0.65); text-transform: uppercase; letter-spacing: 0.5px; }
+    .hero-links a {
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+      font-size: 0.85rem;
+      margin-right: 1.2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding-bottom: 1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .hero-links a:hover { color: white; border-color: white; }
+
+    /* ── Section headings ───────────────────────────── */
+    .section-title {
+      font-size: 1.4rem; font-weight: 700;
+      color: var(--primary);
+      border-left: 4px solid var(--teal);
+      padding-left: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── Cards ──────────────────────────────────────── */
     .card {
-      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--card-bg);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
     }
-    
-    .card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    .card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important; }
+
+    /* ── What I do ──────────────────────────────────── */
+    .domain-card { border-top: 3px solid var(--primary); }
+    .domain-card.teal  { border-top-color: var(--teal); }
+    .domain-card.purple { border-top-color: var(--purple); }
+    .domain-card.amber  { border-top-color: var(--amber); }
+    .domain-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+
+    /* ── Projects ───────────────────────────────────── */
+    .project-card { position: relative; }
+    .project-tag {
+      display: inline-block;
+      font-size: 0.7rem; font-weight: 600;
+      padding: 3px 10px; border-radius: 12px;
+      margin: 2px 2px 6px 0;
     }
-    
-    .publication-item {
-      border-left: 3px solid #e9ecef;
-      padding-left: 15px;
+    .tag-blue   { background: #dbeafe; color: #1d4ed8; }
+    .tag-green  { background: #d1fae5; color: #065f46; }
+    .tag-purple { background: #ede9fe; color: #5b21b6; }
+    .tag-amber  { background: #fef3c7; color: #92400e; }
+    .tag-slate  { background: #f1f5f9; color: #475569; }
+
+    .status-badge {
+      position: absolute; top: 14px; right: 14px;
+      font-size: 0.68rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 20px;
+      text-transform: uppercase; letter-spacing: 0.5px;
     }
-    
-    .publication-item:hover {
-      border-left-color: #007bff;
-      background-color: #f8f9fa;
+    .status-wip  { background: #fef9c3; color: #a16207; border: 1px solid #fde68a; }
+    .status-live { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+
+    /* ── Skills ─────────────────────────────────────── */
+    .skill-group { margin-bottom: 0.75rem; }
+    .skill-group-label { font-size: 0.78rem; font-weight: 700; color: var(--slate); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; }
+    .skill-pill {
+      display: inline-block;
+      font-size: 0.8rem; font-weight: 500;
+      padding: 4px 12px; border-radius: 20px;
+      margin: 2px 3px;
+      background: white; color: var(--dark);
+      border: 1px solid var(--border);
     }
-    
-    .badge {
-      font-size: 0.75em;
+    .skill-pill.highlight { background: #eff6ff; color: var(--primary); border-color: #bfdbfe; font-weight: 600; }
+
+    /* ── Timeline ───────────────────────────────────── */
+    .timeline-year {
+      background: linear-gradient(135deg, var(--primary), var(--teal));
+      color: white; font-weight: 700;
+      padding: 5px 14px; border-radius: 20px;
+      font-size: 0.85rem; display: inline-block;
+      box-shadow: 0 2px 8px rgba(30,58,138,0.3);
     }
-    
+
+    /* ── Publications ───────────────────────────────── */
+    .pub-item { border-left: 3px solid var(--border); padding-left: 14px; margin-bottom: 12px; }
+    .pub-item:hover { border-left-color: var(--primary); background: var(--light-bg); border-radius: 0 6px 6px 0; }
+
+    /* ── Cert table ─────────────────────────────────── */
+    .cert-row { display: flex; align-items: center; padding: 10px 12px; border-radius: 8px; margin-bottom: 6px; background: white; border: 1px solid var(--border); }
+    .cert-row:hover { border-color: #93c5fd; background: #eff6ff; }
+    .cert-icon { font-size: 1.1rem; margin-right: 12px; flex-shrink: 0; }
+    .cert-name { font-weight: 600; font-size: 0.9rem; }
+    .cert-name a { color: var(--primary); text-decoration: none; }
+    .cert-name a:hover { text-decoration: underline; }
+    .cert-issuer { font-size: 0.78rem; color: var(--slate); }
+    .cert-date { font-size: 0.78rem; color: var(--slate); margin-left: auto; flex-shrink: 0; padding-left: 12px; }
+
+    /* ── Footer ─────────────────────────────────────── */
+    .footer-link {
+      color: var(--slate); text-decoration: none; font-size: 0.85rem;
+      margin: 0 0.6rem; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .footer-link:hover { color: var(--primary); }
+
     @media (max-width: 768px) {
-      .timeline-item::before {
-        display: none;
-      }
-      
-      .text-end {
-        text-align: start !important;
-      }
+      .hero h1 { font-size: 1.6rem; }
+      .hero-photo { width: 110px; height: 110px; }
+      .text-end { text-align: start !important; }
     }
   </style>
 </head>
 <body>
 
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-md-4 text-center">
-      <!-- Add your image here -->
-      <img src="./imgs/imgX.jpg" alt="Matías Fernández Lakatos" class="img-fluid rounded-circle mb-3">
-    </div>
-    <div class="col-md-8">
-      <h1>Matías Fernández Lakatos</h1>
-        <p>
-        Hola, soy <strong>Matías Fernández Lakatos</strong>, <strong>físico que se ha especializado en inteligencia artificial y análisis de datos</strong>.  
-        Trabajo como <strong>Ingeniero de Investigación en Gradiant</strong> (Vigo, España), donde desarrollo <strong>soluciones inteligentes para la detección temprana de amenazas en ciberseguridad corporativa</strong>.  
-        Mi labor se centra en el diseño e implementación de <strong>modelos de aprendizaje automático no supervisado</strong> —como β-Variational Autoencoders, Autoencoders y métodos basados en árboles— aplicados al <strong>análisis de comportamiento en tiempo real</strong> sobre grandes volúmenes de datos.  
-        También participo en el desarrollo de herramientas de <strong>explicabilidad de modelos (XAI)</strong> y su integración en arquitecturas escalables con <strong>Kafka, Spark y Airflow</strong>.  
+<!-- ══════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="row align-items-center gy-4">
 
-        Antes de incorporarme a Gradiant, trabajé durante casi una década en la <strong>Facultad de Ingeniería de la Universidad de la República (Uruguay)</strong> como investigador, docente y asistente educativo. Allí realicé mi <strong>Doctorado en Física (Óptica)</strong>, enfocándome en la <strong>visualización y caracterización de objetos de fase</strong>, el <strong>procesamiento digital de imágenes</strong> y el uso de técnicas estadísticas y de reconstrucción de fase.  
+      <!-- Photo -->
+      <div class="col-md-auto text-center">
+        <img src="./imgs/imgX.jpg" alt="Matías Fernández Lakatos" class="hero-photo">
+      </div>
 
-        He complementado mi formación con un <strong>Máster en Big Data Analytics</strong> y cursos avanzados en <strong>Aprendizaje por Recompensas</strong>, <strong>Procesamiento de Imágenes por Computadora</strong>, <strong>Estadísticas Multivariadas Computacionales</strong> y <strong>Deep Learning para Visión por Computadora (basado en CS231n)</strong>, consolidando mi perfil técnico en inteligencia artificial y análisis de datos.  
-
-        Con más de <strong>nueve años de experiencia en docencia e investigación</strong>, valoro especialmente el trabajo en equipo y el vínculo humano con los estudiantes. Disfruto transmitir conceptos complejos de forma accesible, fomentando la curiosidad y el pensamiento crítico. Estas experiencias fortalecieron mis habilidades de <strong>comunicación, colaboración, empatía y liderazgo</strong>, que hoy aplico en entornos profesionales multidisciplinarios.  
-
-        Fuera del ámbito técnico, me apasionan los <strong>juegos de mesa</strong> y la <strong>lectura</strong>. Sigo la filosofía de <em>"viaje antes que destino"</em>, que refleja mi forma de entender el aprendizaje continuo y la exploración creativa.
+      <!-- Name + bio -->
+      <div class="col-md">
+        <div class="mb-2">
+          <span class="role-chip">Data Scientist</span>
+          <span class="role-chip">ML Engineer</span>
+          <span class="role-chip">Research Engineer</span>
+          <span class="role-chip">Neo4j Certified</span>
+        </div>
+        <h1 class="mb-2">Matías Fernández Lakatos</h1>
+        <p class="hero-bio mb-3">
+          Physicist turned ML practitioner. I design <strong style="color:white">unsupervised anomaly detection</strong> and
+          <strong style="color:white">explainable AI</strong> systems for real-time, large-scale environments at
+          <strong style="color:white">Gradiant</strong> (Vigo, Spain). PhD in Optics · MSc Big Data Analytics · 6 Scopus publications.
         </p>
-    </div>
-  </div>
-
-  <!-- Formación Académica -->
-  <div class="row mt-5">
-    <div class="col">
-      <h2 class="text-center mb-4">
-        <i class="fas fa-graduation-cap me-2"></i>Formación Académica
-      </h2>
-      
-      <!-- Timeline de formación -->
-      <div class="timeline">
-        <!-- MSc Big Data -->
-        <div class="timeline-item mb-4">
-          <div class="row">
-            <div class="col-md-3 text-end">
-              <span class="badge timeline-badge fs-6">2024 - 2025</span>
-            </div>
-            <div class="col-md-9">
-              <div class="card shadow-sm">
-                <div class="card-body">
-                  <h5 class="card-title text-primary">MSc Tecnologías de Análisis Masivo de Datos: Big Data</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">USC, Santiago de Compostela</h6>
-                  <p class="card-text">
-                    Cursos sobre Bases de Datos a Gran Escala, Tecnologías de Gestión de Información No Estructurada, 
-                    Tecnologías Informáticas para Datos Masivos, IoT, Estadísticas, Minería de Datos, Visualización de Datos, 
-                    Inteligencia Empresarial y Aplicaciones y Casos de Uso Empresarial.
-                  </p>
-                  <a href="./documents/TFM_Big_Data.pdf" class="btn btn-outline-primary btn-sm" target="_blank">
-                    <i class="fas fa-file-pdf me-1"></i>Ver TFM
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="hero-links">
+          <a href="https://www.linkedin.com/in/mflakatos" target="_blank"><i class="fab fa-linkedin me-1"></i>LinkedIn</a>
+          <a href="https://github.com/MFLakatos" target="_blank"><i class="fab fa-github me-1"></i>GitHub</a>
+          <a href="https://graphacademy.neo4j.com/u/34d98b08-78b3-4f35-a97c-3c869a7dec4e/" target="_blank"><i class="fas fa-certificate me-1"></i>Neo4j Profile</a>
+          <a href="https://orcid.org/0000-0002-5295-5338" target="_blank"><i class="fab fa-orcid me-1"></i>ORCID</a>
+          <a href="mailto:mfernandezlakatos@gmail.com"><i class="fas fa-envelope me-1"></i>Email</a>
         </div>
+      </div>
 
-        <!-- Doctorado -->
-        <div class="timeline-item mb-4">
-          <div class="row">
-            <div class="col-md-3 text-end">
-              <span class="badge timeline-badge fs-6">2019 - 2024</span>
-            </div>
-            <div class="col-md-9">
-              <div class="card shadow-sm">
-                <div class="card-body">
-                  <h5 class="card-title text-primary">Doctorado en Óptica</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Udelar, Montevideo</h6>
-                  <p class="card-text">
-                    Cursos en Laboratorio de Electrónica Fundamental e Instrumentación Científica, Óptica Coherente, 
-                    Aprendizaje por Recompensas, Procesamiento de Imágenes por Computadora, Estadísticas Multivariadas 
-                    Computacionales y Aprendizaje Profundo para Visión por Computadora (cs231n).
-                  </p>
-                  <p class="card-text"><small class="text-muted">
-                    Tutores: Dr. José A. Ferrari, Dra. Erna Frins y Dr. Gastón A. Ayubi.
-                  </small></p>
-                  <a href="https://www.colibri.udelar.edu.uy/jspui/handle/20.500.12008/44860" class="btn btn-outline-primary btn-sm" target="_blank">
-                    <i class="fas fa-external-link-alt me-1"></i>Tesis: Visualización y Caracterización de Objetos de Fase
-                  </a>
-                </div>
-              </div>
-            </div>
+      <!-- Stats -->
+      <div class="col-md-auto">
+        <div class="d-flex gap-4 flex-wrap justify-content-center">
+          <div class="hero-stat">
+            <div class="num">9+</div>
+            <div class="lbl">Years Research</div>
           </div>
-        </div>
-
-        <!-- MSc Cromodinámica -->
-        <div class="timeline-item mb-4">
-          <div class="row">
-            <div class="col-md-3 text-end">
-              <span class="badge timeline-badge fs-6">2016 - 2018</span>
-            </div>
-            <div class="col-md-9">
-              <div class="card shadow-sm">
-                <div class="card-body">
-                  <h5 class="card-title text-primary">MSc en Cromodinámica Cuántica</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Udelar, Montevideo</h6>
-                  <p class="card-text">
-                    Cursos de Mecánica Estadística, Teoría Cuántica de Campos I y II, y Relatividad General.
-                  </p>
-                  <p class="card-text"><small class="text-muted">
-                    Tutores: Dr. Nicolás Wschebor y Dra. Marcela Peláez.
-                  </small></p>
-                  <a href="https://www.colibri.udelar.edu.uy/jspui/handle/20.500.12008/26696" class="btn btn-outline-primary btn-sm" target="_blank">
-                    <i class="fas fa-external-link-alt me-1"></i>Tesis: Rol de los diversos acoplamientos en la cromodinámica cuántica infrarroja
-                  </a>
-                </div>
-              </div>
-            </div>
+          <div class="hero-stat">
+            <div class="num">6</div>
+            <div class="lbl">Publications</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">3</div>
+            <div class="lbl">MSc / PhD</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">Neo4j</div>
+            <div class="lbl">Certified Pro</div>
           </div>
         </div>
       </div>
+
     </div>
   </div>
+</section>
 
-  <!-- Publicaciones Científicas -->
-  <div class="row mt-5">
-    <div class="col">
-      <h2 class="text-center mb-4">
-        <i class="fas fa-book-open me-2"></i>Publicaciones Científicas
-      </h2>
-      
-      <div class="row">
-        <!-- Como Autor Principal -->
-        <div class="col-md-6 mb-4">
-          <div class="card h-100 shadow-sm">
-            <div class="card-header bg-primary text-white">
-              <h5 class="mb-0"><i class="fas fa-user-edit me-2"></i>Como Autor Principal</h5>
-            </div>
-            <div class="card-body">
-              <div class="publication-item mb-3">
-                <span class="badge bg-warning text-dark mb-2">2024 - SPIE</span>
-                <p class="mb-2">
-                  <a href="https://www.spiedigitallibrary.org/conference-proceedings-of-spie/12852/3000403/Integration-with-one-partial-derivative-applied-to-quantitative-phase-imaging/10.1117/12.3000403.short" 
-                     class="text-decoration-none" target="_blank">
-                    <i class="fas fa-external-link-alt me-1"></i>Integration with one partial derivative applied to quantitative phase imaging
-                  </a>
-                </p>
-              </div>
-              
-              <div class="publication-item mb-3">
-                <span class="badge bg-warning text-dark mb-2">2023 - OLE Scopus</span>
-                <p class="mb-2">
-                  <a href="https://www.sciencedirect.com/science/article/abs/pii/S0143816623003342?via%3Dihub" 
-                     class="text-decoration-none" target="_blank">
-                    <i class="fas fa-external-link-alt me-1"></i>Common-path quantitative phase imaging by propagation through a sinusoidal intensity mask
-                  </a>
-                </p>
-              </div>
-              
-              <div class="publication-item mb-3">
-                <span class="badge bg-warning text-dark mb-2">2022 - Optik Scopus</span>
-                <p class="mb-2">
-                  <a href="https://www.sciencedirect.com/science/article/pii/S003040262201378X" 
-                     class="text-decoration-none" target="_blank">
-                    <i class="fas fa-external-link-alt me-1"></i>Phase retrieval by amplifying the prism term of the Transport of Intensity Equation with a sliding step function
-                  </a>
-                </p>
-              </div>
-              
-              <div class="publication-item mb-3">
-                <span class="badge bg-warning text-dark mb-2">2019 - IJMPA Scopus</span>
-                <p class="mb-2">
-                  <a href="https://www.worldscientific.com/doi/abs/10.1142/S0217751X19502142" 
-                     class="text-decoration-none" target="_blank">
-                    <i class="fas fa-external-link-alt me-1"></i>On the contribution of different coupling constants in the infrared regime of Yang–Mills theory: A Curci–Ferrari approach
-                  </a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+<div class="container py-5">
 
-        <!-- Como Coautor -->
-        <div class="col-md-6 mb-4">
-          <div class="card h-100 shadow-sm">
-            <div class="card-header bg-primary text-white">
-              <h5 class="mb-0"><i class="fas fa-users me-2"></i>Como Coautor</h5>
-            </div>
-            <div class="card-body">
-              <div class="publication-item mb-3">
-                <span class="badge bg-warning text-dark mb-2">2025 - OLT</span>
-                <p class="mb-2">
-                  <a href="https://www.sciencedirect.com/science/article/abs/pii/S0030399224015111" 
-                     class="text-decoration-none" target="_blank">
-                    <i class="fas fa-external-link-alt me-1"></i>Wavefront reconstruction of discontinuous phase objects using directional derivatives
-                  </a>
-                </p>
-              </div>
-              
-              <div class="publication-item mb-3">
-                <span class="badge bg-warning text-dark mb-2">2024 - IOP Science</span>
-                <p class="mb-2">
-                  <a href="https://iopscience.iop.org/article/10.1088/1361-6501/ad2254" 
-                     class="text-decoration-none" target="_blank">
-                    <i class="fas fa-external-link-alt me-1"></i>Hilbert's and Takeda's single-shot interferometry with a linear-carrier: a comparison
-                  </a>
-                </p>
-              </div>
-            </div>
+  <!-- ══════════════════════════════════════════════
+       WHAT I DO
+  ══════════════════════════════════════════════ -->
+  <section class="mb-5">
+    <h2 class="section-title"><i class="fas fa-brain me-2"></i>What I Do</h2>
+    <div class="row g-3">
+
+      <div class="col-md-3 col-sm-6">
+        <div class="card domain-card h-100 p-3">
+          <div class="domain-icon">🔍</div>
+          <h6 class="fw-bold mb-1">Anomaly Detection</h6>
+          <p class="text-muted small mb-2">Unsupervised ML for real-time threat detection on large-scale behavioural data streams.</p>
+          <div>
+            <span class="project-tag tag-blue">β-VAE</span>
+            <span class="project-tag tag-blue">Isolation Forest</span>
+            <span class="project-tag tag-blue">Autoencoders</span>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Certificaciones -->
-  <div class="row mt-5">
-    <div class="col">
-      <h2 class="text-center mb-4">
-        <i class="fas fa-certificate me-2"></i>Certificaciones
-      </h2>
-
-      <div class="row">
-        <!-- Neo4j -->
-        <div class="col-md-6 mb-4">
-          <div class="card h-100 shadow-sm">
-            <div class="card-header" style="background: linear-gradient(135deg, #018bff, #0069c1); color: white;">
-              <h5 class="mb-0">
-                <img src="https://cdn.graphacademy.neo4j.com/assets/img/og/og-landing.png" alt="Neo4j" style="height:20px; margin-right:8px; vertical-align:middle; background:white; border-radius:3px; padding:1px 3px;">
-                Neo4j GraphAcademy
-              </h5>
-            </div>
-            <div class="card-body">
-              <p class="text-muted small mb-3">
-                <i class="fas fa-user me-1"></i>Perfil público:
-                <a href="https://graphacademy.neo4j.com/u/34d98b08-78b3-4f35-a97c-3c869a7dec4e/" target="_blank" class="text-decoration-none">
-                  Ver todos mis logros en Neo4j GraphAcademy →
-                </a>
-              </p>
-
-              <div class="publication-item mb-3">
-                <span class="badge mb-2" style="background-color: var(--warning-color); color: white;">🏆 Certificación Profesional · Mayo 2026</span>
-                <p class="mb-1 fw-bold">
-                  <a href="https://graphacademy.neo4j.com/c/1762f6b4-ab16-409f-a33a-22495f92ee05/" class="text-decoration-none" target="_blank">
-                    <i class="fas fa-external-link-alt me-1"></i>Neo4j Certified Professional
-                  </a>
-                </p>
-              </div>
-
-              <div class="publication-item mb-3">
-                <span class="badge bg-secondary mb-2">Curso · Mayo 2026</span>
-                <p class="mb-1">
-                  <a href="https://graphacademy.neo4j.com/c/12d268df-59fb-491f-a0c8-f456bcea6f74/" class="text-decoration-none" target="_blank">
-                    <i class="fas fa-external-link-alt me-1"></i>Using Neo4j with Python
-                  </a>
-                </p>
-              </div>
-
-              <div class="publication-item mb-3">
-                <span class="badge bg-secondary mb-2">Curso · Mayo 2026</span>
-                <p class="mb-1">
-                  <a href="https://graphacademy.neo4j.com/c/d4fc952e-6121-40e1-a595-4f44072e02ca/" class="text-decoration-none" target="_blank">
-                    <i class="fas fa-external-link-alt me-1"></i>Intermediate Cypher Queries
-                  </a>
-                </p>
-              </div>
-
-              <div class="publication-item mb-3">
-                <span class="badge bg-secondary mb-2">Curso · Mayo 2026</span>
-                <p class="mb-1">
-                  <a href="https://graphacademy.neo4j.com/c/519c30c6-a901-4372-8cde-891b37b4739e/" class="text-decoration-none" target="_blank">
-                    <i class="fas fa-external-link-alt me-1"></i>Importing Data Fundamentals
-                  </a>
-                </p>
-              </div>
-
-              <div class="publication-item mb-3">
-                <span class="badge bg-secondary mb-2">Curso · Mayo 2026</span>
-                <p class="mb-1">
-                  <a href="https://graphacademy.neo4j.com/c/1f7508e8-995f-4354-9e1e-10fa78f787b5/" class="text-decoration-none" target="_blank">
-                    <i class="fas fa-external-link-alt me-1"></i>Graph Data Modeling Fundamentals
-                  </a>
-                </p>
-              </div>
-
-              <div class="publication-item mb-3">
-                <span class="badge bg-secondary mb-2">Curso · Abr 2026</span>
-                <p class="mb-1">
-                  <a href="https://graphacademy.neo4j.com/c/45dbc383-1c6f-4e68-aeb9-0a5a510e85ad/" class="text-decoration-none" target="_blank">
-                    <i class="fas fa-external-link-alt me-1"></i>Cypher Fundamentals
-                  </a>
-                </p>
-              </div>
-
-              <div class="publication-item mb-3">
-                <span class="badge bg-secondary mb-2">Curso · Abr 2026</span>
-                <p class="mb-1">
-                  <a href="https://graphacademy.neo4j.com/c/ba7fc5aa-19b0-4be4-b709-455e9c7b338c/" class="text-decoration-none" target="_blank">
-                    <i class="fas fa-external-link-alt me-1"></i>Neo4j Fundamentals
-                  </a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Python DevOps + other certs -->
-        <div class="col-md-6 mb-4">
-          <div class="card h-100 shadow-sm">
-            <div class="card-header" style="background: linear-gradient(135deg, var(--accent-color), #5b21b6); color: white;">
-              <h5 class="mb-0">
-                <i class="fab fa-python me-2"></i>Python & DevOps
-              </h5>
-            </div>
-            <div class="card-body">
-              <div class="publication-item mb-3">
-                <span class="badge mb-2" style="background-color: var(--accent-color); color: white;">Certificado · 2025</span>
-                <p class="mb-1 fw-bold">
-                  <a href="./documents/UC-2fe787e6-8Master Python for DevOps and CI:CD_d8c-41f9-8796-9e2e6b2942e1.pdf" class="text-decoration-none" target="_blank">
-                    <i class="fas fa-file-pdf me-1"></i>Master Python for DevOps and CI/CD
-                  </a>
-                </p>
-                <small class="text-muted">Udemy — Certificado completo disponible para descarga</small>
-              </div>
-            </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card domain-card teal h-100 p-3">
+          <div class="domain-icon">💡</div>
+          <h6 class="fw-bold mb-1">Explainable AI</h6>
+          <p class="text-muted small mb-2">Making black-box ML models interpretable for security analysts and non-technical stakeholders.</p>
+          <div>
+            <span class="project-tag tag-green">SHAP</span>
+            <span class="project-tag tag-green">XAI</span>
+            <span class="project-tag tag-green">Feature Attribution</span>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Habilidades Técnicas -->
-  <div class="row mt-5">
-    <div class="col">
-      <h2 class="text-center mb-4">
-        <i class="fas fa-tools me-2"></i>Habilidades Técnicas
-      </h2>
-      <div class="row">
-        <div class="col-md-4 mb-3">
-          <div class="card h-100 shadow-sm">
-            <div class="card-header bg-primary text-white">
-              <h6 class="mb-0"><i class="fas fa-brain me-2"></i>Machine Learning & IA</h6>
-            </div>
-            <div class="card-body">
-              <div class="d-flex flex-wrap gap-1">
-                <span class="badge bg-secondary">scikit-learn</span>
-                <span class="badge bg-secondary">PyTorch</span>
-                <span class="badge bg-secondary">TensorFlow</span>
-                <span class="badge bg-secondary">Keras</span>
-                <span class="badge bg-secondary">MLFlow</span>
-                <span class="badge bg-secondary">Autoencoders</span>
-                <span class="badge bg-secondary">VAE</span>
-                <span class="badge bg-secondary">Isolation Forest</span>
-                <span class="badge bg-secondary">XAI</span>
-                <span class="badge bg-secondary">Deep Learning</span>
-                <span class="badge bg-secondary">Computer Vision</span>
-                <span class="badge bg-secondary">RL</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-3">
-          <div class="card h-100 shadow-sm">
-            <div class="card-header bg-success text-white">
-              <h6 class="mb-0"><i class="fas fa-database me-2"></i>Datos & Infraestructura</h6>
-            </div>
-            <div class="card-body">
-              <div class="d-flex flex-wrap gap-1">
-                <span class="badge bg-secondary">Apache Kafka</span>
-                <span class="badge bg-secondary">Apache Spark</span>
-                <span class="badge bg-secondary">Airflow</span>
-                <span class="badge bg-secondary">MinIO</span>
-                <span class="badge bg-secondary">Neo4j</span>
-                <span class="badge bg-secondary">Cypher</span>
-                <span class="badge bg-secondary">SQL</span>
-                <span class="badge bg-secondary">Docker</span>
-                <span class="badge bg-secondary">Git</span>
-                <span class="badge bg-secondary">Linux</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-3">
-          <div class="card h-100 shadow-sm">
-            <div class="card-header bg-info text-white">
-              <h6 class="mb-0"><i class="fas fa-code me-2"></i>Lenguajes & Análisis</h6>
-            </div>
-            <div class="card-body">
-              <div class="d-flex flex-wrap gap-1">
-                <span class="badge bg-secondary">Python</span>
-                <span class="badge bg-secondary">R</span>
-                <span class="badge bg-secondary">SQL</span>
-                <span class="badge bg-secondary">MATLAB</span>
-                <span class="badge bg-secondary">pandas</span>
-                <span class="badge bg-secondary">NumPy</span>
-                <span class="badge bg-secondary">matplotlib</span>
-                <span class="badge bg-secondary">plotly</span>
-                <span class="badge bg-secondary">OpenCV</span>
-                <span class="badge bg-secondary">LaTeX</span>
-              </div>
-            </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card domain-card purple h-100 p-3">
+          <div class="domain-icon">🕸️</div>
+          <h6 class="fw-bold mb-1">Graph Data Science</h6>
+          <p class="text-muted small mb-2">Neo4j-powered graph modelling, Cypher analytics, and network analysis on relational data.</p>
+          <div>
+            <span class="project-tag tag-purple">Neo4j</span>
+            <span class="project-tag tag-purple">Cypher</span>
+            <span class="project-tag tag-purple">Knowledge Graphs</span>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Recursos y Enlaces -->
-  <div class="row mt-5">
-    <div class="col">
-      <h2 class="text-center mb-4">
-        <i class="fas fa-link me-2"></i>Recursos y Enlaces
-      </h2>
-
-      <div class="row">
-        <div class="col-md-6 mb-3">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title"><i class="fas fa-code me-2"></i>Proyectos Técnicos</h5>
-              <a href="./Proyecto_Matias_Fernandez_Lakatos.html" class="btn btn-outline-primary btn-sm mb-2 d-block">
-                <i class="fas fa-image me-1"></i>Tratamiento de imágenes por computadora
-              </a>
-              <a href="./imgs_Nvideo_rename_Nmove_Wmetadata" class="btn btn-outline-primary btn-sm d-block">
-                <i class="fas fa-folder-open me-1"></i>Organizador de Imágenes y Videos con Metadata
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 mb-3">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title"><i class="fas fa-file-pdf me-2"></i>Currículum Vitae</h5>
-              <a href="./documents/cv_english.pdf" class="btn btn-outline-secondary btn-sm mb-2 d-block" target="_blank">
-                <i class="fas fa-download me-1"></i>CV en Inglés (PDF)
-              </a>
-              <a href="./documents/cv_espanol.pdf" class="btn btn-outline-secondary btn-sm mb-2 d-block" target="_blank">
-                <i class="fas fa-download me-1"></i>CV en Español (PDF)
-              </a>
-              <a href="./documents/cv_english.md" class="btn btn-outline-primary btn-sm mb-2 d-block" target="_blank">
-                <i class="fab fa-markdown me-1"></i>CV en Inglés (Markdown)
-              </a>
-              <a href="./documents/cv_espanol.md" class="btn btn-outline-primary btn-sm d-block" target="_blank">
-                <i class="fab fa-markdown me-1"></i>CV en Español (Markdown)
-              </a>
-            </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card domain-card amber h-100 p-3">
+          <div class="domain-icon">🖼️</div>
+          <h6 class="fw-bold mb-1">Computer Vision</h6>
+          <p class="text-muted small mb-2">Statistical image reconstruction, phase retrieval, and object characterisation from research-grade data.</p>
+          <div>
+            <span class="project-tag tag-amber">OpenCV</span>
+            <span class="project-tag tag-amber">Phase Retrieval</span>
+            <span class="project-tag tag-amber">Statistical ML</span>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Footer -->
-  <footer class="mt-5 pt-4 pb-4 border-top">
-    <div class="row">
-      <div class="col text-center">
-        <div class="mb-3">
-          <a href="mailto:mfernandezlakatos@gmail.com" class="btn btn-outline-secondary btn-sm me-2">
-            <i class="fas fa-envelope me-1"></i>mfernandezlakatos@gmail.com
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       PROJECTS
+  ══════════════════════════════════════════════ -->
+  <section class="mb-5">
+    <h2 class="section-title"><i class="fas fa-flask me-2"></i>Projects</h2>
+    <div class="row g-3">
+
+      <!-- Anomaly detection notebook (WIP) -->
+      <div class="col-md-6">
+        <div class="card project-card h-100 p-3 shadow-sm">
+          <span class="status-badge status-wip">In Progress</span>
+          <h6 class="fw-bold mb-1">Anomaly Detection Benchmark</h6>
+          <p class="text-muted small mb-2">
+            Head-to-head comparison of <strong>Isolation Forest, Extended Isolation Forest, and a deep Autoencoder</strong>
+            on the KDD Cup '99 network intrusion dataset. Includes SHAP-based explanations so you can see
+            <em>why</em> each sample was flagged — mirroring the XAI work done at Gradiant.
+          </p>
+          <div class="mb-2">
+            <span class="project-tag tag-blue">scikit-learn</span>
+            <span class="project-tag tag-blue">PyTorch</span>
+            <span class="project-tag tag-green">SHAP</span>
+            <span class="project-tag tag-slate">KDD Cup '99</span>
+            <span class="project-tag tag-purple">Jupyter</span>
+          </div>
+          <a href="https://github.com/MFLakatos" target="_blank" class="btn btn-outline-primary btn-sm mt-auto">
+            <i class="fab fa-github me-1"></i>View on GitHub (coming soon)
           </a>
-          <a href="https://www.linkedin.com/in/mfernandezlakatos" class="btn btn-outline-primary btn-sm me-2" target="_blank">
-            <i class="fab fa-linkedin me-1"></i>LinkedIn
-          </a>
-          <a href="https://github.com/MFernandezLakatos" class="btn btn-outline-dark btn-sm me-2" target="_blank">
-            <i class="fab fa-github me-1"></i>GitHub
-          </a>
-          <a href="https://graphacademy.neo4j.com/u/34d98b08-78b3-4f35-a97c-3c869a7dec4e/" class="btn btn-outline-info btn-sm" target="_blank">
+        </div>
+      </div>
+
+      <!-- Neo4j demo (WIP) -->
+      <div class="col-md-6">
+        <div class="card project-card h-100 p-3 shadow-sm">
+          <span class="status-badge status-wip">In Progress</span>
+          <h6 class="fw-bold mb-1">Graph Data Science with Neo4j & Python</h6>
+          <p class="text-muted small mb-2">
+            End-to-end graph analytics pipeline using the <strong>Neo4j Python driver</strong>:
+            data loading, Cypher modelling, community detection, and PageRank on a public network dataset.
+            A practical companion to the <em>Neo4j Certified Professional</em> certification.
+          </p>
+          <div class="mb-2">
+            <span class="project-tag tag-purple">Neo4j</span>
+            <span class="project-tag tag-purple">Cypher</span>
+            <span class="project-tag tag-blue">Python</span>
+            <span class="project-tag tag-green">Graph Data Science</span>
+            <span class="project-tag tag-slate">Jupyter</span>
+          </div>
+          <a href="https://graphacademy.neo4j.com/u/34d98b08-78b3-4f35-a97c-3c869a7dec4e/" target="_blank" class="btn btn-outline-primary btn-sm mt-auto">
             <i class="fas fa-certificate me-1"></i>Neo4j Profile
           </a>
         </div>
-        <p class="text-muted mb-0">
-          <small>&copy; 2026 Matías Fernández Lakatos. Todos los derechos reservados.</small>
-        </p>
+      </div>
+
+      <!-- Phase object (existing, reframed) -->
+      <div class="col-md-6">
+        <div class="card project-card h-100 p-3 shadow-sm">
+          <span class="status-badge status-live">Live</span>
+          <h6 class="fw-bold mb-1">Phase Object Reconstruction via Statistical Image Processing</h6>
+          <p class="text-muted small mb-2">
+            Implemented and benchmarked novel phase retrieval algorithms (Transport of Intensity Equation,
+            sinusoidal mask propagation, sliding-step integration) for quantitative phase imaging.
+            Combines <strong>statistical signal processing, computer vision, and numerical optimisation</strong>
+            — core DS skills applied to scientific instrumentation.
+          </p>
+          <div class="mb-2">
+            <span class="project-tag tag-amber">OpenCV</span>
+            <span class="project-tag tag-amber">NumPy / SciPy</span>
+            <span class="project-tag tag-amber">Phase Retrieval</span>
+            <span class="project-tag tag-slate">Multi-camera</span>
+            <span class="project-tag tag-amber">Statistical Methods</span>
+          </div>
+          <a href="./Proyecto_Matias_Fernandez_Lakatos.html" class="btn btn-outline-primary btn-sm mt-auto">
+            <i class="fas fa-external-link-alt me-1"></i>View Project
+          </a>
+        </div>
+      </div>
+
+      <!-- Media organizer (existing, reframed) -->
+      <div class="col-md-6">
+        <div class="card project-card h-100 p-3 shadow-sm">
+          <span class="status-badge status-live">Live</span>
+          <h6 class="fw-bold mb-1">Automated Media Metadata Pipeline</h6>
+          <p class="text-muted small mb-2">
+            Python tool that extracts, parses, and normalises <strong>EXIF/metadata</strong> from images and videos,
+            then automatically classifies and relocates files by date, device, and type.
+            A practical ETL pipeline — same pattern used in data engineering workflows.
+          </p>
+          <div class="mb-2">
+            <span class="project-tag tag-blue">Python</span>
+            <span class="project-tag tag-green">ETL</span>
+            <span class="project-tag tag-blue">Metadata Extraction</span>
+            <span class="project-tag tag-slate">File Automation</span>
+            <span class="project-tag tag-blue">GUI (tkinter)</span>
+          </div>
+          <a href="./imgs_Nvideo_rename_Nmove_Wmetadata" class="btn btn-outline-primary btn-sm mt-auto">
+            <i class="fas fa-folder-open me-1"></i>View Project
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SKILLS
+  ══════════════════════════════════════════════ -->
+  <section class="mb-5">
+    <h2 class="section-title"><i class="fas fa-tools me-2"></i>Technical Skills</h2>
+    <div class="row g-3">
+
+      <div class="col-md-4">
+        <div class="card p-3 h-100">
+          <h6 class="fw-bold mb-3" style="color:var(--primary)"><i class="fas fa-brain me-2"></i>Machine Learning & AI</h6>
+          <div class="skill-group">
+            <div class="skill-group-label">Frameworks</div>
+            <span class="skill-pill highlight">scikit-learn</span>
+            <span class="skill-pill highlight">PyTorch</span>
+            <span class="skill-pill">TensorFlow</span>
+            <span class="skill-pill">Keras</span>
+            <span class="skill-pill">MLFlow</span>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">Techniques</div>
+            <span class="skill-pill highlight">Anomaly Detection</span>
+            <span class="skill-pill highlight">Autoencoders / VAE</span>
+            <span class="skill-pill highlight">Isolation Forest</span>
+            <span class="skill-pill highlight">XAI / SHAP</span>
+            <span class="skill-pill">Reinforcement Learning</span>
+            <span class="skill-pill">Deep Learning</span>
+            <span class="skill-pill">Computer Vision</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card p-3 h-100">
+          <h6 class="fw-bold mb-3" style="color:var(--teal)"><i class="fas fa-server me-2"></i>Data Engineering & Databases</h6>
+          <div class="skill-group">
+            <div class="skill-group-label">Big Data Stack</div>
+            <span class="skill-pill highlight">Apache Kafka</span>
+            <span class="skill-pill highlight">Apache Spark</span>
+            <span class="skill-pill highlight">Apache Airflow</span>
+            <span class="skill-pill">MinIO</span>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">Databases</div>
+            <span class="skill-pill highlight">Neo4j</span>
+            <span class="skill-pill highlight">Cypher</span>
+            <span class="skill-pill">SQL</span>
+            <span class="skill-pill">Graph Modelling</span>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">DevOps & Tools</div>
+            <span class="skill-pill">Git</span>
+            <span class="skill-pill">Linux</span>
+            <span class="skill-pill">Docker</span>
+            <span class="skill-pill">CI/CD</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card p-3 h-100">
+          <h6 class="fw-bold mb-3" style="color:var(--purple)"><i class="fas fa-code me-2"></i>Languages & Analysis</h6>
+          <div class="skill-group">
+            <div class="skill-group-label">Programming</div>
+            <span class="skill-pill highlight">Python</span>
+            <span class="skill-pill">R</span>
+            <span class="skill-pill">SQL</span>
+            <span class="skill-pill">MATLAB</span>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">Data & Viz</div>
+            <span class="skill-pill">pandas</span>
+            <span class="skill-pill">NumPy</span>
+            <span class="skill-pill">SciPy</span>
+            <span class="skill-pill">matplotlib</span>
+            <span class="skill-pill">seaborn</span>
+            <span class="skill-pill">plotly</span>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">Image Processing</div>
+            <span class="skill-pill">OpenCV</span>
+            <span class="skill-pill">scikit-image</span>
+            <span class="skill-pill">PIL</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       CERTIFICATIONS
+  ══════════════════════════════════════════════ -->
+  <section class="mb-5">
+    <h2 class="section-title"><i class="fas fa-certificate me-2"></i>Certifications</h2>
+    <div class="row g-3">
+
+      <div class="col-md-8">
+        <div class="card p-3 h-100">
+          <div class="d-flex align-items-center mb-3">
+            <h6 class="fw-bold mb-0 me-2" style="color:#0069c1">Neo4j GraphAcademy</h6>
+            <small class="text-muted">·
+              <a href="https://graphacademy.neo4j.com/u/34d98b08-78b3-4f35-a97c-3c869a7dec4e/" target="_blank" class="text-decoration-none ms-1">
+                View full public profile →
+              </a>
+            </small>
+          </div>
+
+          <div class="cert-row" style="border-color:#fde68a; background:#fffbeb;">
+            <div class="cert-icon">🏆</div>
+            <div>
+              <div class="cert-name"><a href="https://graphacademy.neo4j.com/c/1762f6b4-ab16-409f-a33a-22495f92ee05/" target="_blank">Neo4j Certified Professional</a></div>
+              <div class="cert-issuer">Neo4j GraphAcademy</div>
+            </div>
+            <div class="cert-date">May 2026</div>
+          </div>
+
+          <div class="cert-row">
+            <div class="cert-icon">🌐</div>
+            <div>
+              <div class="cert-name"><a href="https://graphacademy.neo4j.com/c/12d268df-59fb-491f-a0c8-f456bcea6f74/" target="_blank">Using Neo4j with Python</a></div>
+              <div class="cert-issuer">Neo4j GraphAcademy</div>
+            </div>
+            <div class="cert-date">May 2026</div>
+          </div>
+
+          <div class="cert-row">
+            <div class="cert-icon">📊</div>
+            <div>
+              <div class="cert-name"><a href="https://graphacademy.neo4j.com/c/d4fc952e-6121-40e1-a595-4f44072e02ca/" target="_blank">Intermediate Cypher Queries</a></div>
+              <div class="cert-issuer">Neo4j GraphAcademy</div>
+            </div>
+            <div class="cert-date">May 2026</div>
+          </div>
+
+          <div class="cert-row">
+            <div class="cert-icon">🗃️</div>
+            <div>
+              <div class="cert-name"><a href="https://graphacademy.neo4j.com/c/519c30c6-a901-4372-8cde-891b37b4739e/" target="_blank">Importing Data Fundamentals</a></div>
+              <div class="cert-issuer">Neo4j GraphAcademy</div>
+            </div>
+            <div class="cert-date">May 2026</div>
+          </div>
+
+          <div class="cert-row">
+            <div class="cert-icon">🧩</div>
+            <div>
+              <div class="cert-name"><a href="https://graphacademy.neo4j.com/c/1f7508e8-995f-4354-9e1e-10fa78f787b5/" target="_blank">Graph Data Modeling Fundamentals</a></div>
+              <div class="cert-issuer">Neo4j GraphAcademy</div>
+            </div>
+            <div class="cert-date">May 2026</div>
+          </div>
+
+          <div class="cert-row">
+            <div class="cert-icon">🔤</div>
+            <div>
+              <div class="cert-name"><a href="https://graphacademy.neo4j.com/c/45dbc383-1c6f-4e68-aeb9-0a5a510e85ad/" target="_blank">Cypher Fundamentals</a></div>
+              <div class="cert-issuer">Neo4j GraphAcademy</div>
+            </div>
+            <div class="cert-date">Apr 2026</div>
+          </div>
+
+          <div class="cert-row">
+            <div class="cert-icon">🏗️</div>
+            <div>
+              <div class="cert-name"><a href="https://graphacademy.neo4j.com/c/ba7fc5aa-19b0-4be4-b709-455e9c7b338c/" target="_blank">Neo4j Fundamentals</a></div>
+              <div class="cert-issuer">Neo4j GraphAcademy</div>
+            </div>
+            <div class="cert-date">Apr 2026</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card p-3 h-100">
+          <h6 class="fw-bold mb-3" style="color:var(--purple)"><i class="fab fa-python me-2"></i>Python & DevOps</h6>
+          <div class="cert-row" style="border-color:#ddd6fe; background:#f5f3ff;">
+            <div class="cert-icon">🐍</div>
+            <div>
+              <div class="cert-name">
+                <a href="./documents/UC-2fe787e6-8Master Python for DevOps and CI:CD_d8c-41f9-8796-9e2e6b2942e1.pdf" target="_blank" style="color:var(--purple)">
+                  Master Python for DevOps &amp; CI/CD
+                </a>
+              </div>
+              <div class="cert-issuer">Udemy</div>
+            </div>
+            <div class="cert-date">2025</div>
+          </div>
+
+          <div class="mt-3 p-3 rounded" style="background:var(--light-bg); border:1px solid var(--border);">
+            <p class="small text-muted mb-2"><strong>Currently learning:</strong></p>
+            <span class="project-tag tag-purple">Graph Data Science</span>
+            <span class="project-tag tag-blue">LLM Integration</span>
+            <span class="project-tag tag-green">MLOps</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       CURRICULUM VITAE
+  ══════════════════════════════════════════════ -->
+  <section class="mb-5">
+    <h2 class="section-title"><i class="fas fa-file-pdf me-2"></i>Curriculum Vitae</h2>
+    <div class="card p-4">
+      <div class="row g-2">
+        <div class="col-sm-6 col-md-3">
+          <a href="./documents/cv_english.pdf" class="btn btn-primary d-block" target="_blank">
+            <i class="fas fa-download me-2"></i>CV English <small>(PDF)</small>
+          </a>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <a href="./documents/cv_espanol.pdf" class="btn btn-primary d-block" target="_blank">
+            <i class="fas fa-download me-2"></i>CV Español <small>(PDF)</small>
+          </a>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <a href="./documents/cv_english.md" class="btn btn-outline-primary d-block" target="_blank">
+            <i class="fab fa-markdown me-2"></i>CV English <small>(MD)</small>
+          </a>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <a href="./documents/cv_espanol.md" class="btn btn-outline-primary d-block" target="_blank">
+            <i class="fab fa-markdown me-2"></i>CV Español <small>(MD)</small>
+          </a>
+        </div>
       </div>
     </div>
-  </footer>
-</div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       EDUCATION
+  ══════════════════════════════════════════════ -->
+  <section class="mb-5">
+    <h2 class="section-title"><i class="fas fa-graduation-cap me-2"></i>Education</h2>
+    <div class="timeline">
+
+      <div class="timeline-item mb-4">
+        <div class="row">
+          <div class="col-md-3 text-end"><span class="timeline-year">2024 – 2025</span></div>
+          <div class="col-md-9">
+            <div class="card shadow-sm p-3">
+              <h6 class="fw-bold mb-1" style="color:var(--primary)">MSc Big Data Analytics Technologies</h6>
+              <div class="text-muted small mb-2">Universidad de Santiago de Compostela (USC), Spain</div>
+              <p class="small mb-2">Thesis: <em>Application of new anomaly detection models in Big Data contexts.</em> Courses: Large-Scale Databases, Data Mining, Data Visualization, Business Intelligence, IoT, Statistics.</p>
+              <a href="./documents/TFM_Big_Data.pdf" class="btn btn-outline-primary btn-sm" target="_blank">
+                <i class="fas fa-file-pdf me-1"></i>View Thesis
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item mb-4">
+        <div class="row">
+          <div class="col-md-3 text-end"><span class="timeline-year">2019 – 2024</span></div>
+          <div class="col-md-9">
+            <div class="card shadow-sm p-3">
+              <h6 class="fw-bold mb-1" style="color:var(--primary)">PhD in Optics (Physics)</h6>
+              <div class="text-muted small mb-2">Universidad de la República (UdelaR), Montevideo, Uruguay</div>
+              <p class="small mb-2">Thesis: <em>Visualization and Characterization of Phase Objects.</em> Key ML/DS courses: Reinforcement Learning, Computer Image Processing, Computational Multivariate Statistics, Deep Learning for CV (CS231n).</p>
+              <a href="https://www.colibri.udelar.edu.uy/jspui/handle/20.500.12008/44860" class="btn btn-outline-primary btn-sm" target="_blank">
+                <i class="fas fa-external-link-alt me-1"></i>View Thesis
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item mb-4">
+        <div class="row">
+          <div class="col-md-3 text-end"><span class="timeline-year">2016 – 2018</span></div>
+          <div class="col-md-9">
+            <div class="card shadow-sm p-3">
+              <h6 class="fw-bold mb-1" style="color:var(--primary)">MSc in Quantum Chromodynamics (Theoretical Physics)</h6>
+              <div class="text-muted small mb-2">Universidad de la República (UdelaR), Montevideo, Uruguay</div>
+              <a href="https://www.colibri.udelar.edu.uy/jspui/handle/20.500.12008/26696" class="btn btn-outline-primary btn-sm" target="_blank">
+                <i class="fas fa-external-link-alt me-1"></i>View Thesis
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item mb-4">
+        <div class="row">
+          <div class="col-md-3 text-end"><span class="timeline-year">2011 – 2015</span></div>
+          <div class="col-md-9">
+            <div class="card shadow-sm p-3">
+              <h6 class="fw-bold mb-1" style="color:var(--primary)">Bachelor's Degree in Physics</h6>
+              <div class="text-muted small">Universidad de la República (UdelaR), Montevideo, Uruguay</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       PUBLICATIONS
+  ══════════════════════════════════════════════ -->
+  <section class="mb-5">
+    <h2 class="section-title"><i class="fas fa-book-open me-2"></i>Scientific Publications</h2>
+    <div class="row g-3">
+
+      <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-header" style="background:var(--primary); color:white; border-radius:12px 12px 0 0;">
+            <h6 class="mb-0"><i class="fas fa-user-edit me-2"></i>First Author</h6>
+          </div>
+          <div class="card-body">
+            <div class="pub-item">
+              <span class="badge mb-1" style="background:var(--amber);color:white;">2024 – SPIE</span>
+              <p class="small mb-0"><a href="https://www.spiedigitallibrary.org/conference-proceedings-of-spie/12852/3000403/Integration-with-one-partial-derivative-applied-to-quantitative-phase-imaging/10.1117/12.3000403.short" class="text-decoration-none" target="_blank"><i class="fas fa-external-link-alt me-1"></i>Integration with one partial derivative applied to quantitative phase imaging</a></p>
+            </div>
+            <div class="pub-item">
+              <span class="badge mb-1" style="background:var(--amber);color:white;">2023 – OLE Scopus</span>
+              <p class="small mb-0"><a href="https://www.sciencedirect.com/science/article/abs/pii/S0143816623003342" class="text-decoration-none" target="_blank"><i class="fas fa-external-link-alt me-1"></i>Common-path quantitative phase imaging by propagation through a sinusoidal intensity mask</a></p>
+            </div>
+            <div class="pub-item">
+              <span class="badge mb-1" style="background:var(--amber);color:white;">2022 – Optik Scopus</span>
+              <p class="small mb-0"><a href="https://www.sciencedirect.com/science/article/pii/S003040262201378X" class="text-decoration-none" target="_blank"><i class="fas fa-external-link-alt me-1"></i>Phase retrieval by amplifying the prism term of the Transport of Intensity Equation</a></p>
+            </div>
+            <div class="pub-item">
+              <span class="badge mb-1" style="background:var(--amber);color:white;">2019 – IJMPA Scopus</span>
+              <p class="small mb-0"><a href="https://www.worldscientific.com/doi/abs/10.1142/S0217751X19502142" class="text-decoration-none" target="_blank"><i class="fas fa-external-link-alt me-1"></i>On the contribution of different coupling constants in the infrared regime of Yang–Mills theory</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+          <div class="card-header" style="background:var(--teal); color:white; border-radius:12px 12px 0 0;">
+            <h6 class="mb-0"><i class="fas fa-users me-2"></i>Co-Author</h6>
+          </div>
+          <div class="card-body">
+            <div class="pub-item">
+              <span class="badge mb-1" style="background:var(--amber);color:white;">2025 – OLT</span>
+              <p class="small mb-0"><a href="https://www.sciencedirect.com/science/article/abs/pii/S0030399224015111" class="text-decoration-none" target="_blank"><i class="fas fa-external-link-alt me-1"></i>Wavefront reconstruction of discontinuous phase objects using directional derivatives</a></p>
+            </div>
+            <div class="pub-item">
+              <span class="badge mb-1" style="background:var(--amber);color:white;">2024 – IOP Science</span>
+              <p class="small mb-0"><a href="https://iopscience.iop.org/article/10.1088/1361-6501/ad2254" class="text-decoration-none" target="_blank"><i class="fas fa-external-link-alt me-1"></i>Hilbert's and Takeda's single-shot interferometry with a linear-carrier: a comparison</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- /container -->
+
+<!-- ══════════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════ -->
+<footer style="background:#0f172a; color:rgba(255,255,255,0.7);" class="py-4 mt-4">
+  <div class="container text-center">
+    <div class="mb-3">
+      <a href="https://www.linkedin.com/in/mflakatos" target="_blank" class="footer-link" style="color:rgba(255,255,255,0.7)">
+        <i class="fab fa-linkedin"></i>LinkedIn
+      </a>
+      <a href="https://github.com/MFLakatos" target="_blank" class="footer-link" style="color:rgba(255,255,255,0.7)">
+        <i class="fab fa-github"></i>GitHub
+      </a>
+      <a href="https://graphacademy.neo4j.com/u/34d98b08-78b3-4f35-a97c-3c869a7dec4e/" target="_blank" class="footer-link" style="color:rgba(255,255,255,0.7)">
+        <i class="fas fa-certificate"></i>Neo4j
+      </a>
+      <a href="https://orcid.org/0000-0002-5295-5338" target="_blank" class="footer-link" style="color:rgba(255,255,255,0.7)">
+        <i class="fab fa-orcid"></i>ORCID
+      </a>
+      <a href="mailto:mfernandezlakatos@gmail.com" class="footer-link" style="color:rgba(255,255,255,0.7)">
+        <i class="fas fa-envelope"></i>Email
+      </a>
+    </div>
+    <small style="color:rgba(255,255,255,0.4)">
+      &copy; 2026 Matías Fernández Lakatos &nbsp;·&nbsp;
+      <em>"Journey before destination"</em>
+    </small>
+  </div>
+</footer>
 
 <script src="./js/bootstrap.min.js"></script>
 </body>
