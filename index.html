@@ -307,49 +307,56 @@
     <h2 class="section-title"><i class="fas fa-flask me-2"></i>Projects</h2>
     <div class="row g-3">
 
-      <!-- Anomaly detection notebook (WIP) -->
+      <!-- Anomaly detection -->
       <div class="col-md-6">
         <div class="card project-card h-100 p-3 shadow-sm">
-          <span class="status-badge status-wip">In Progress</span>
+          <span class="status-badge status-live">Live</span>
           <h6 class="fw-bold mb-1">Anomaly Detection Benchmark</h6>
           <p class="text-muted small mb-2">
             Head-to-head comparison of <strong>Isolation Forest, Extended Isolation Forest, and a deep Autoencoder</strong>
-            on the KDD Cup '99 network intrusion dataset. Includes SHAP-based explanations so you can see
-            <em>why</em> each sample was flagged — mirroring the XAI work done at Gradiant.
+            on the KDD Cup '99 network intrusion dataset. Full MLflow tracking, MinIO artifact store, SHAP explanations,
+            and CLI orchestration — mirroring the production stack at Gradiant.
           </p>
           <div class="mb-2">
             <span class="project-tag tag-blue">scikit-learn</span>
             <span class="project-tag tag-blue">PyTorch</span>
             <span class="project-tag tag-green">SHAP</span>
-            <span class="project-tag tag-slate">KDD Cup '99</span>
-            <span class="project-tag tag-purple">Jupyter</span>
+            <span class="project-tag tag-green">MLflow</span>
+            <span class="project-tag tag-slate">Docker</span>
+            <span class="project-tag tag-purple">CLI</span>
           </div>
-          <a href="https://github.com/MFLakatos" target="_blank" class="btn btn-outline-primary btn-sm mt-auto">
-            <i class="fab fa-github me-1"></i>View on GitHub (coming soon)
+          <a href="https://github.com/MFLakatos/portfolio_anomaly_detection" target="_blank" class="btn btn-outline-primary btn-sm mt-auto">
+            <i class="fab fa-github me-1"></i>View on GitHub
           </a>
         </div>
       </div>
 
-      <!-- Neo4j demo (WIP) -->
+      <!-- Neo4j -->
       <div class="col-md-6">
         <div class="card project-card h-100 p-3 shadow-sm">
-          <span class="status-badge status-wip">In Progress</span>
+          <span class="status-badge status-live">Live</span>
           <h6 class="fw-bold mb-1">Graph Data Science with Neo4j & Python</h6>
           <p class="text-muted small mb-2">
-            End-to-end graph analytics pipeline using the <strong>Neo4j Python driver</strong>:
-            data loading, Cypher modelling, community detection, and PageRank on a public network dataset.
-            A practical companion to the <em>Neo4j Certified Professional</em> certification.
+            End-to-end graph analytics pipeline: MovieLens data loading, Cypher modelling,
+            <strong>PageRank, Louvain community detection, Node Similarity</strong>, and collaborative-filter
+            recommendations. CLI-driven with Docker Compose for one-command setup.
           </p>
           <div class="mb-2">
             <span class="project-tag tag-purple">Neo4j</span>
             <span class="project-tag tag-purple">Cypher</span>
+            <span class="project-tag tag-purple">GDS</span>
             <span class="project-tag tag-blue">Python</span>
-            <span class="project-tag tag-green">Graph Data Science</span>
-            <span class="project-tag tag-slate">Jupyter</span>
+            <span class="project-tag tag-slate">Docker</span>
+            <span class="project-tag tag-purple">CLI</span>
           </div>
-          <a href="https://graphacademy.neo4j.com/u/34d98b08-78b3-4f35-a97c-3c869a7dec4e/" target="_blank" class="btn btn-outline-primary btn-sm mt-auto">
-            <i class="fas fa-certificate me-1"></i>Neo4j Profile
-          </a>
+          <div class="d-flex gap-2 flex-wrap mt-auto">
+            <a href="https://github.com/MFLakatos/portfolio_neo4j" target="_blank" class="btn btn-outline-primary btn-sm">
+              <i class="fab fa-github me-1"></i>View on GitHub
+            </a>
+            <a href="https://graphacademy.neo4j.com/u/34d98b08-78b3-4f35-a97c-3c869a7dec4e/" target="_blank" class="btn btn-outline-secondary btn-sm">
+              <i class="fas fa-certificate me-1"></i>Neo4j Profile
+            </a>
+          </div>
         </div>
       </div>
 
