@@ -1,28 +1,39 @@
 # MATÍAS FERNÁNDEZ LAKATOS
-**Científico de Datos · Ingeniero de Machine Learning · Ingeniero de Investigación**
+**Investigador Senior en Computación Neuromórfica · Ingeniero de Machine Learning · Científico de Datos**
 
-📧 mfernandezlakatos@gmail.com · 📞 (+34) 673 242 030 · 📍 Santiago de Compostela, España  
+📧 mfernandezlakatos@gmail.com · 📞 (+34) 673 242 030 · 📍 Santiago de Compostela, España
 🔗 [LinkedIn](https://www.linkedin.com/in/mflakatos) · 🐙 [GitHub](https://github.com/MFLakatos) · 🔬 [ORCID](https://orcid.org/0000-0002-5295-5338) · 🌐 [Portfolio](https://mflakatos.github.io/MFernandezLakatos.github.io/)
 
 ---
 
 ## PERFIL PROFESIONAL
 
-Físico con formación de posgrado (Ph.D. y MSc en Física, MSc en Big Data Analytics), actualmente trabajando como **Ingeniero de Investigación en Gradiant**, donde desarrollo sistemas inteligentes para la detección temprana de anomalías y amenazas en ciberseguridad corporativa. Especialización en **aprendizaje automático no supervisado**, **procesamiento de datos a gran escala en tiempo real** e **IA explicable (XAI)**. Más de 9 años de experiencia en investigación y docencia, con sólida formación en modelado estadístico, visión por computadora y toma de decisiones basada en datos. **Certificado Profesional de Neo4j** con experiencia práctica en bases de datos de grafos y ciencia de grafos.
+Físico con formación de posgrado (Ph.D. y MSc en Física, MSc en Big Data Analytics), actualmente **Investigador Senior en Computación Neuromórfica en Gradiant**, liderando investigación aplicada en redes neuronales de tercera generación (Spiking Neural Networks), visión basada en eventos e IA energéticamente eficiente en el edge. Anteriormente desarrollé sistemas inteligentes para la detección temprana de anomalías y amenazas en ciberseguridad corporativa, con especialización en **aprendizaje automático no supervisado**, **procesamiento de datos a gran escala en tiempo real** e **IA explicable (XAI)**. Más de 10 años de experiencia en investigación y docencia, con sólida formación en modelado estadístico, visión por computadora y toma de decisiones basada en datos. **Certificado Profesional de Neo4j** con experiencia práctica en bases de datos de grafos y ciencia de grafos.
 
 ---
 
 ## EXPERIENCIA PROFESIONAL
 
-### Ingeniero/a de Investigación
-**Gradiant** · Vigo, España · *2025 – presente*
+### Investigador Senior en Computación Neuromórfica
+**Gradiant** · Vigo, España · *Jul 2026 – actualidad*
+
+- Liderando la investigación aplicada en **redes neuronales artificiales de tercera generación (Spiking Neural Networks, SNNs)**: nuevos modelos matemáticos y computacionales que imitan las neuronas biológicas y la **plasticidad sináptica**.
+- Investigación de arquitecturas SNN para el análisis de distintos tipos de datos (**imágenes, series temporales**), buscando el paralelismo masivo y la **eficiencia energética** que requieren los casos de uso de IA en el edge.
+- Investigación de frameworks y tecnologías para **compilar modelos SNN en FPGAs**, así como el diseño de hardware neuromórfico específico.
+- Exploración de cómo las **arquitecturas fotónicas** desarrolladas en Gradiant pueden evolucionar y vincularse con la computación neuromórfica.
+- Investigación de nuevas técnicas de **IA explicable (xAI)** aplicadas a modelos basados en SNNs.
+- Investigación de **sensores de visión neuromórficos (DVS)** y cómo sus características (información basada en eventos, bajo throughput) pueden integrarse en aplicaciones como vehículos autónomos, industria y salud.
+- Revisión, ampliación y actualización del **estado del arte** en computación neuromórfica: nuevas publicaciones, dispositivos hardware y herramientas software, contextualizados frente a los objetivos del proyecto.
+
+### Ingeniero de Investigación
+**Gradiant** · Vigo, España · *2025 – Jun 2026*
 
 - Desarrollo de soluciones inteligentes para la **detección temprana de amenazas en ciberseguridad corporativa** mediante modelos de ML no supervisados.
 - Diseño e implementación de modelos **β-Variational Autoencoder, Autoencoder, Extended Isolation Forest e Isolation Forest** para la detección de anomalías y análisis de comportamiento en tiempo real en entornos de datos a gran escala.
 - Enfoque en la **explicabilidad de los modelos (XAI)** para mejorar la usabilidad por parte de usuarios no técnicos y generar confianza en los sistemas de IA.
 - Integración en una arquitectura de datos escalable usando **Kafka, Spark y Airflow** para el procesamiento eficiente de flujos de datos en tiempo real.
-- Seguimiento de experimentos y versionado de modelos con **MLFlow**.
-- Almacenamiento y gestión de artefactos de modelos de gran escala con **MinIO**.
+- Seguimiento de experimentos y versionado de modelos con **MLFlow**; gestión de artefactos de modelos de gran escala con **MinIO**.
+- Redacción de documentación técnica para stakeholders (INCIBE) y colaboración con equipos de ingeniería y seguridad en la integración de modelos y revisiones de código.
 
 ### Investigador, Docente y Asistente Educativo
 **Facultad de Ingeniería, Universidad de la República (UdelaR)** · Montevideo, Uruguay · *2015 – 2024*
@@ -37,20 +48,20 @@ Físico con formación de posgrado (Ph.D. y MSc en Física, MSc en Big Data Anal
 ## FORMACIÓN ACADÉMICA
 
 ### MSc en Tecnologías de Análisis Masivo de Datos: Big Data
-**Universidad de Santiago de Compostela (USC)** · Santiago de Compostela, España · *2024 – 2025*  
-Tesis: *Aplicación de nuevos modelos de detección de anomalías en contextos de Big Data.*  
+**Universidad de Santiago de Compostela (USC)** · Santiago de Compostela, España · *2024 – 2025*
+Tesis: *Aplicación de nuevos modelos de detección de anomalías en contextos de Big Data.*
 Cursos: Bases de Datos a Gran Escala, Tecnologías de Gestión de Información No Estructurada, Tecnologías Informáticas para Datos Masivos, IoT, Estadísticas, Minería de Datos, Visualización de Datos, Inteligencia Empresarial, Aplicaciones y Casos de Uso Empresarial.
 
 ### Doctorado en Óptica (Física)
-**Universidad de la República (UdelaR)** · Montevideo, Uruguay · *2019 – 2024*  
-Tesis: [Visualización y Caracterización de Objetos de Fase](https://www.colibri.udelar.edu.uy/jspui/handle/20.500.12008/44860)  
-Cursos: Óptica Coherente, **Aprendizaje por Recompensas**, **Procesamiento de Imágenes por Computadora**, **Estadísticas Multivariadas Computacionales**, **Aprendizaje Profundo para Visión por Computadora (CS231n)**, Laboratorio de Electrónica Fundamental.  
+**Universidad de la República (UdelaR)** · Montevideo, Uruguay · *2019 – 2024*
+Tesis: [Visualización y Caracterización de Objetos de Fase](https://www.colibri.udelar.edu.uy/jspui/handle/20.500.12008/44860)
+Cursos: Óptica Coherente, **Aprendizaje por Recompensas**, **Procesamiento de Imágenes por Computadora**, **Estadísticas Multivariadas Computacionales**, **Aprendizaje Profundo para Visión por Computadora (CS231n)**, Laboratorio de Electrónica Fundamental.
 Tutores: Dr. José A. Ferrari, Dra. Erna Frins, Dr. Gastón A. Ayubi.
 
 ### MSc en Cromodinámica Cuántica (Física Teórica)
-**Universidad de la República (UdelaR)** · Montevideo, Uruguay · *2016 – 2018*  
-Tesis: [Rol de los diversos acoplamientos en la cromodinámica cuántica infrarroja](https://www.colibri.udelar.edu.uy/jspui/handle/20.500.12008/26696)  
-Cursos: Mecánica Estadística, Teoría Cuántica de Campos I y II, Relatividad General.  
+**Universidad de la República (UdelaR)** · Montevideo, Uruguay · *2016 – 2018*
+Tesis: [Rol de los diversos acoplamientos en la cromodinámica cuántica infrarroja](https://www.colibri.udelar.edu.uy/jspui/handle/20.500.12008/26696)
+Cursos: Mecánica Estadística, Teoría Cuántica de Campos I y II, Relatividad General.
 Tutores: Dr. Nicolás Wschebor, Dra. Marcela Peláez.
 
 ### Licenciado en Ciencias Físicas
@@ -77,34 +88,34 @@ Tutores: Dr. Nicolás Wschebor, Dra. Marcela Peláez.
 
 ## HABILIDADES TÉCNICAS
 
+### Computación Neuromórfica (investigación actual)
+Spiking Neural Networks (SNNs) · Plasticidad Sináptica · Visión Basada en Eventos (sensores DVS)
+Compilación de SNNs en FPGAs · Arquitecturas Neuromórficas Fotónicas · IA Eficiente / Edge AI · xAI para SNNs
+
 ### Machine Learning e IA
-`scikit-learn` · `PyTorch` · `TensorFlow` · `Keras` · `MLFlow`  
-Aprendizaje No Supervisado · Detección de Anomalías · Autoencoders · Autoencoders Variacionales · Isolation Forest  
+`scikit-learn` · `PyTorch` · `TensorFlow` · `Keras` · `MLFlow`
+Aprendizaje No Supervisado · Detección de Anomalías · Autoencoders · Autoencoders Variacionales · Isolation Forest
 IA Explicable (XAI) · Aprendizaje por Recompensas · Deep Learning · Visión por Computadora
 
 ### Ingeniería de Datos y Big Data
-`Apache Kafka` · `Apache Spark` · `Apache Airflow` · `MinIO`  
+`Apache Kafka` · `Apache Spark` · `Apache Airflow` · `MinIO`
 Procesamiento de Flujos en Tiempo Real · Pipelines de Datos a Gran Escala · ETL · Datos IoT
 
 ### Bases de Datos de Grafos
-`Neo4j` · `Cypher` · Modelado de Datos de Grafos · Graph Data Science  
+`Neo4j` · `Cypher` · Modelado de Datos de Grafos · Graph Data Science
 Knowledge Graphs · Análisis de Redes
 
 ### Programación y Herramientas
-`Python` · `R` · `SQL` · `MATLAB` · `LaTeX`  
+`Python` · `R` · `SQL` · `MATLAB` · `LaTeX`
 `Git` · `Linux` · `Docker` (básico)
 
 ### Análisis y Visualización de Datos
-`pandas` · `NumPy` · `SciPy` · `matplotlib` · `seaborn` · `plotly`  
+`pandas` · `NumPy` · `SciPy` · `matplotlib` · `seaborn` · `plotly`
 Análisis Estadístico · Análisis Multivariado · Optimización · Procesamiento de Señales
 
 ### Visión por Computadora y Procesamiento de Imágenes
-`OpenCV` · `scikit-image` · `PIL/Pillow`  
+`OpenCV` · `scikit-image` · `PIL/Pillow`
 Visualización de Objetos de Fase · Procesamiento Digital de Imágenes · Reconocimiento de Patrones
-
-### Bases de Datos
-`SQL` (relacional) · `Neo4j` (grafos) · `MinIO` (almacenamiento de objetos)  
-Modelado de Bases de Datos · Optimización de Consultas
 
 ---
 
@@ -148,4 +159,4 @@ Modelado de Bases de Datos · Optimización de Consultas
 
 ---
 
-*Última actualización: Mayo 2026*
+*Última actualización: Julio 2026*

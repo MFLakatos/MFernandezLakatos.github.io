@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Matías Fernández Lakatos — Data Scientist & ML Engineer</title>
+  <title>Matías Fernández Lakatos — Senior Neuromorphic Researcher & ML Engineer</title>
   <link href="./estilos/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -98,6 +98,8 @@
     .domain-card.teal  { border-top-color: var(--teal); }
     .domain-card.purple { border-top-color: var(--purple); }
     .domain-card.amber  { border-top-color: var(--amber); }
+    .domain-card.rose   { border-top-color: #be123c; }
+    .tag-rose { background: #ffe4e6; color: #9f1239; }
     .domain-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
 
     /* ── Projects ───────────────────────────────────── */
@@ -190,16 +192,17 @@
       <!-- Name + bio -->
       <div class="col-md">
         <div class="mb-2">
-          <span class="role-chip">Data Scientist</span>
+          <span class="role-chip">Senior Neuromorphic Researcher</span>
           <span class="role-chip">ML Engineer</span>
-          <span class="role-chip">Research Engineer</span>
+          <span class="role-chip">Data Scientist</span>
           <span class="role-chip">Neo4j Certified</span>
         </div>
         <h1 class="mb-2">Matías Fernández Lakatos</h1>
         <p class="hero-bio mb-3">
-          Physicist turned ML practitioner. I design <strong style="color:white">unsupervised anomaly detection</strong> and
-          <strong style="color:white">explainable AI</strong> systems for real-time, large-scale environments at
-          <strong style="color:white">Gradiant</strong> (Vigo, Spain). PhD in Optics · MSc Big Data Analytics · 6 Scopus publications.
+          Physicist turned ML researcher. I lead <strong style="color:white">neuromorphic computing</strong> research at
+          <strong style="color:white">Gradiant</strong> (Vigo, Spain): <strong style="color:white">spiking neural networks</strong>,
+          event-based vision (DVS), and energy-efficient AI on the edge. Previously: unsupervised anomaly detection &amp;
+          explainable AI for cybersecurity. PhD in Optics · MSc Big Data Analytics · 6 Scopus publications.
         </p>
         <div class="hero-links">
           <a href="https://www.linkedin.com/in/mflakatos" target="_blank"><i class="fab fa-linkedin me-1"></i>LinkedIn</a>
@@ -214,7 +217,7 @@
       <div class="col-md-auto">
         <div class="d-flex gap-4 flex-wrap justify-content-center">
           <div class="hero-stat">
-            <div class="num">9+</div>
+            <div class="num">10+</div>
             <div class="lbl">Years Research</div>
           </div>
           <div class="hero-stat">
@@ -245,7 +248,21 @@
     <h2 class="section-title"><i class="fas fa-brain me-2"></i>What I Do</h2>
     <div class="row g-3">
 
-      <div class="col-md-3 col-sm-6">
+      <div class="col-md-4 col-sm-6">
+        <div class="card domain-card rose h-100 p-3">
+          <div class="domain-icon">🧠</div>
+          <h6 class="fw-bold mb-1">Neuromorphic Computing</h6>
+          <p class="text-muted small mb-2">Third-generation neural networks (SNNs), synaptic plasticity, and event-based vision for energy-efficient AI on the edge.</p>
+          <div>
+            <span class="project-tag tag-rose">Spiking Neural Networks</span>
+            <span class="project-tag tag-rose">DVS Sensors</span>
+            <span class="project-tag tag-rose">FPGA</span>
+            <span class="project-tag tag-rose">Edge AI</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6">
         <div class="card domain-card h-100 p-3">
           <div class="domain-icon">🔍</div>
           <h6 class="fw-bold mb-1">Anomaly Detection</h6>
@@ -258,7 +275,7 @@
         </div>
       </div>
 
-      <div class="col-md-3 col-sm-6">
+      <div class="col-md-4 col-sm-6">
         <div class="card domain-card teal h-100 p-3">
           <div class="domain-icon">💡</div>
           <h6 class="fw-bold mb-1">Explainable AI</h6>
@@ -271,7 +288,7 @@
         </div>
       </div>
 
-      <div class="col-md-3 col-sm-6">
+      <div class="col-md-4 col-sm-6">
         <div class="card domain-card purple h-100 p-3">
           <div class="domain-icon">🕸️</div>
           <h6 class="fw-bold mb-1">Graph Data Science</h6>
@@ -284,7 +301,7 @@
         </div>
       </div>
 
-      <div class="col-md-3 col-sm-6">
+      <div class="col-md-4 col-sm-6">
         <div class="card domain-card amber h-100 p-3">
           <div class="domain-icon">🖼️</div>
           <h6 class="fw-bold mb-1">Computer Vision</h6>
@@ -293,6 +310,84 @@
             <span class="project-tag tag-amber">OpenCV</span>
             <span class="project-tag tag-amber">Phase Retrieval</span>
             <span class="project-tag tag-amber">Statistical ML</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       EXPERIENCE
+  ══════════════════════════════════════════════ -->
+  <section class="mb-5">
+    <h2 class="section-title"><i class="fas fa-briefcase me-2"></i>Experience</h2>
+    <div class="timeline">
+
+      <div class="timeline-item mb-4">
+        <div class="row">
+          <div class="col-md-3 text-end"><span class="timeline-year">Jul 2026 – Present</span></div>
+          <div class="col-md-9">
+            <div class="card shadow-sm p-3">
+              <h6 class="fw-bold mb-1" style="color:var(--primary)">Senior Neuromorphic Researcher · Gradiant</h6>
+              <div class="text-muted small mb-2">Vigo, Spain</div>
+              <p class="small mb-2">
+                Leading applied research on <strong>third-generation neural networks (Spiking Neural Networks)</strong>:
+                synaptic plasticity, SNN architectures for images and time series, SNN-to-FPGA compilation,
+                links with Gradiant's <strong>photonic architectures</strong>, xAI for SNNs, and
+                <strong>neuromorphic vision sensors (DVS)</strong> — targeting energy-efficient AI on the edge for
+                use cases in autonomous vehicles, manufacturing, and healthcare.
+              </p>
+              <div>
+                <span class="project-tag tag-rose">SNNs</span>
+                <span class="project-tag tag-rose">Synaptic Plasticity</span>
+                <span class="project-tag tag-rose">DVS</span>
+                <span class="project-tag tag-slate">FPGA</span>
+                <span class="project-tag tag-slate">Photonics</span>
+                <span class="project-tag tag-green">xAI</span>
+                <span class="project-tag tag-blue">Edge AI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item mb-4">
+        <div class="row">
+          <div class="col-md-3 text-end"><span class="timeline-year">2025 – Jun 2026</span></div>
+          <div class="col-md-9">
+            <div class="card shadow-sm p-3">
+              <h6 class="fw-bold mb-1" style="color:var(--primary)">Research Engineer · Gradiant</h6>
+              <div class="text-muted small mb-2">Vigo, Spain</div>
+              <p class="small mb-2">
+                Built <strong>unsupervised anomaly detection</strong> systems (β-VAE, Autoencoders, Isolation Forest variants)
+                for real-time threat detection in corporate cybersecurity — custom TensorFlow/Keras architectures,
+                MLflow experiment tracking, SHAP explainability, integrated on a Kafka/Spark/Airflow streaming stack.
+              </p>
+              <div>
+                <span class="project-tag tag-blue">β-VAE</span>
+                <span class="project-tag tag-blue">Anomaly Detection</span>
+                <span class="project-tag tag-green">SHAP / XAI</span>
+                <span class="project-tag tag-green">MLflow</span>
+                <span class="project-tag tag-slate">Kafka · Spark · Airflow</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item mb-4">
+        <div class="row">
+          <div class="col-md-3 text-end"><span class="timeline-year">2015 – 2024</span></div>
+          <div class="col-md-9">
+            <div class="card shadow-sm p-3">
+              <h6 class="fw-bold mb-1" style="color:var(--primary)">Researcher, Lecturer &amp; Teaching Assistant · UdelaR</h6>
+              <div class="text-muted small mb-2">Faculty of Engineering, Universidad de la República — Montevideo, Uruguay</div>
+              <p class="small mb-0">
+                Research in QCD, multispectral instrumentation, and novel phase retrieval methods;
+                6 peer-reviewed publications (4 first-author, Scopus); university-level physics teaching.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -420,6 +515,14 @@
       <div class="col-md-4">
         <div class="card p-3 h-100">
           <h6 class="fw-bold mb-3" style="color:var(--primary)"><i class="fas fa-brain me-2"></i>Machine Learning & AI</h6>
+          <div class="skill-group">
+            <div class="skill-group-label">Neuromorphic (current research)</div>
+            <span class="skill-pill highlight">Spiking Neural Networks</span>
+            <span class="skill-pill highlight">Event-based Vision (DVS)</span>
+            <span class="skill-pill">Synaptic Plasticity</span>
+            <span class="skill-pill">SNN-to-FPGA</span>
+            <span class="skill-pill">Edge AI</span>
+          </div>
           <div class="skill-group">
             <div class="skill-group-label">Frameworks</div>
             <span class="skill-pill highlight">scikit-learn</span>
@@ -600,9 +703,10 @@
 
           <div class="mt-3 p-3 rounded" style="background:var(--light-bg); border:1px solid var(--border);">
             <p class="small text-muted mb-2"><strong>Currently learning:</strong></p>
-            <span class="project-tag tag-purple">Graph Data Science</span>
+            <span class="project-tag tag-rose">SNN Frameworks</span>
+            <span class="project-tag tag-slate">FPGA Compilation</span>
+            <span class="project-tag tag-purple">Photonic Computing</span>
             <span class="project-tag tag-blue">LLM Integration</span>
-            <span class="project-tag tag-green">MLOps</span>
           </div>
         </div>
       </div>
@@ -616,26 +720,45 @@
   <section class="mb-5">
     <h2 class="section-title"><i class="fas fa-file-pdf me-2"></i>Curriculum Vitae</h2>
     <div class="card p-4">
-      <div class="row g-2">
-        <div class="col-sm-6 col-md-3">
-          <a href="./documents/cv_english.pdf" class="btn btn-primary d-block" target="_blank">
-            <i class="fas fa-download me-2"></i>CV English <small>(PDF)</small>
-          </a>
+      <p class="small text-muted mb-3">Four profiles, each available in English &amp; Spanish, PDF &amp; Markdown. <em>Last updated: July 2026.</em></p>
+
+      <div class="mb-3 pb-3" style="border-bottom:1px solid var(--border);">
+        <div class="fw-bold mb-2"><i class="fas fa-star me-2" style="color:var(--primary)"></i>General</div>
+        <div class="d-flex gap-2 flex-wrap">
+          <a href="./documents/cv_english.pdf" class="btn btn-primary btn-sm" target="_blank"><i class="fas fa-download me-1"></i>English PDF</a>
+          <a href="./documents/cv_espanol.pdf" class="btn btn-primary btn-sm" target="_blank"><i class="fas fa-download me-1"></i>Español PDF</a>
+          <a href="./documents/cv_english.md" class="btn btn-outline-primary btn-sm" target="_blank"><i class="fab fa-markdown me-1"></i>English MD</a>
+          <a href="./documents/cv_espanol.md" class="btn btn-outline-primary btn-sm" target="_blank"><i class="fab fa-markdown me-1"></i>Español MD</a>
         </div>
-        <div class="col-sm-6 col-md-3">
-          <a href="./documents/cv_espanol.pdf" class="btn btn-primary d-block" target="_blank">
-            <i class="fas fa-download me-2"></i>CV Español <small>(PDF)</small>
-          </a>
+      </div>
+
+      <div class="mb-3 pb-3" style="border-bottom:1px solid var(--border);">
+        <div class="fw-bold mb-2"><i class="fas fa-brain me-2" style="color:var(--teal)"></i>Machine Learning</div>
+        <div class="d-flex gap-2 flex-wrap">
+          <a href="./documents/cv_machine_learning_english.pdf" class="btn btn-primary btn-sm" target="_blank"><i class="fas fa-download me-1"></i>English PDF</a>
+          <a href="./documents/cv_machine_learning_espanol.pdf" class="btn btn-primary btn-sm" target="_blank"><i class="fas fa-download me-1"></i>Español PDF</a>
+          <a href="./documents/cv_machine_learning_english.md" class="btn btn-outline-primary btn-sm" target="_blank"><i class="fab fa-markdown me-1"></i>English MD</a>
+          <a href="./documents/cv_machine_learning_espanol.md" class="btn btn-outline-primary btn-sm" target="_blank"><i class="fab fa-markdown me-1"></i>Español MD</a>
         </div>
-        <div class="col-sm-6 col-md-3">
-          <a href="./documents/cv_english.md" class="btn btn-outline-primary d-block" target="_blank">
-            <i class="fab fa-markdown me-2"></i>CV English <small>(MD)</small>
-          </a>
+      </div>
+
+      <div class="mb-3 pb-3" style="border-bottom:1px solid var(--border);">
+        <div class="fw-bold mb-2"><i class="fas fa-eye me-2" style="color:var(--amber)"></i>Computer Vision</div>
+        <div class="d-flex gap-2 flex-wrap">
+          <a href="./documents/cv_computer_vision_english.pdf" class="btn btn-primary btn-sm" target="_blank"><i class="fas fa-download me-1"></i>English PDF</a>
+          <a href="./documents/cv_computer_vision_espanol.pdf" class="btn btn-primary btn-sm" target="_blank"><i class="fas fa-download me-1"></i>Español PDF</a>
+          <a href="./documents/cv_computer_vision_english.md" class="btn btn-outline-primary btn-sm" target="_blank"><i class="fab fa-markdown me-1"></i>English MD</a>
+          <a href="./documents/cv_computer_vision_espanol.md" class="btn btn-outline-primary btn-sm" target="_blank"><i class="fab fa-markdown me-1"></i>Español MD</a>
         </div>
-        <div class="col-sm-6 col-md-3">
-          <a href="./documents/cv_espanol.md" class="btn btn-outline-primary d-block" target="_blank">
-            <i class="fab fa-markdown me-2"></i>CV Español <small>(MD)</small>
-          </a>
+      </div>
+
+      <div>
+        <div class="fw-bold mb-2"><i class="fas fa-chart-bar me-2" style="color:var(--purple)"></i>Data Analyst</div>
+        <div class="d-flex gap-2 flex-wrap">
+          <a href="./documents/cv_data_analyst_english.pdf" class="btn btn-primary btn-sm" target="_blank"><i class="fas fa-download me-1"></i>English PDF</a>
+          <a href="./documents/cv_data_analyst_espanol.pdf" class="btn btn-primary btn-sm" target="_blank"><i class="fas fa-download me-1"></i>Español PDF</a>
+          <a href="./documents/cv_data_analyst_english.md" class="btn btn-outline-primary btn-sm" target="_blank"><i class="fab fa-markdown me-1"></i>English MD</a>
+          <a href="./documents/cv_data_analyst_espanol.md" class="btn btn-outline-primary btn-sm" target="_blank"><i class="fab fa-markdown me-1"></i>Español MD</a>
         </div>
       </div>
     </div>

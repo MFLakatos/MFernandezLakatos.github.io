@@ -1,28 +1,39 @@
 # MATÍAS FERNÁNDEZ LAKATOS
-**Data Scientist · Machine Learning Engineer · Research Engineer**
+**Senior Neuromorphic Researcher · Machine Learning Engineer · Data Scientist**
 
-📧 mfernandezlakatos@gmail.com · 📞 (+34) 673 242 030 · 📍 Santiago de Compostela, Spain  
+📧 mfernandezlakatos@gmail.com · 📞 (+34) 673 242 030 · 📍 Santiago de Compostela, Spain
 🔗 [LinkedIn](https://www.linkedin.com/in/mflakatos) · 🐙 [GitHub](https://github.com/MFLakatos) · 🔬 [ORCID](https://orcid.org/0000-0002-5295-5338) · 🌐 [Portfolio](https://mflakatos.github.io/MFernandezLakatos.github.io/)
 
 ---
 
 ## PROFESSIONAL SUMMARY
 
-Physicist with postgraduate training (Ph.D. and MSc in Physics, MSc in Big Data Analytics) currently working as a **Research Engineer at Gradiant**, developing intelligent systems for early anomaly and threat detection in corporate cybersecurity. Expertise in **unsupervised machine learning**, **real-time large-scale data processing**, and **explainable AI (XAI)**. Over 9 years of experience in research and teaching, with a strong background in statistical modeling, computer vision, and data-driven decision making. Neo4j Certified Professional with hands-on experience in **graph databases** and **graph data science**.
+Physicist with postgraduate training (Ph.D. and MSc in Physics, MSc in Big Data Analytics), currently **Senior Neuromorphic Researcher at Gradiant**, leading applied research on third-generation neural networks (Spiking Neural Networks), event-based vision, and energy-efficient AI at the edge. Previously developed intelligent systems for early anomaly and threat detection in corporate cybersecurity, with expertise in **unsupervised machine learning**, **real-time large-scale data processing**, and **explainable AI (XAI)**. More than 10 years of experience in research and teaching, with a strong background in statistical modeling, computer vision, and data-driven decision making. Neo4j Certified Professional with hands-on experience in **graph databases** and **graph data science**.
 
 ---
 
 ## PROFESSIONAL EXPERIENCE
 
-### Research Engineer
-**Gradiant** · Vigo, Spain · *2025 – present*
+### Senior Neuromorphic Researcher
+**Gradiant** · Vigo, Spain · *Jul 2026 – present*
 
-- Development of intelligent solutions for **early threat detection in corporate cybersecurity** using unsupervised ML models.
-- Design and implementation of **β-Variational Autoencoder, Autoencoder, Extended Isolation Forest, and Isolation Forest** models for real-time anomaly detection and behavioral analysis on large-scale data environments.
-- Focus on **model explainability (XAI)** to enhance usability for non-technical users and improve trust in AI systems.
-- Integration into a scalable data architecture using **Kafka, Spark, and Airflow** for efficient real-time data stream processing.
-- Experimentation tracking and model versioning using **MLFlow**.
-- Storage and management of large model artifacts using **MinIO**.
+- Leading applied research on **third-generation artificial neural networks (Spiking Neural Networks, SNNs)**: new mathematical and computational models that mimic biological neurons and **synaptic plasticity**.
+- Investigating SNN architectures for the analysis of different data types (**images, time series**), targeting the massive parallelism and **energy efficiency** required by AI-on-the-edge use cases.
+- Researching frameworks and technologies for **compiling SNN models onto FPGAs**, as well as the design of specific neuromorphic hardware.
+- Exploring how Gradiant's **photonic architectures** can evolve and be linked to neuromorphic computing.
+- Investigating novel **explainable AI (xAI)** techniques applied to SNN-based models.
+- Researching **neuromorphic vision sensors (DVS)** and how their event-based, low-throughput characteristics can be integrated into applications such as autonomous vehicles, manufacturing, and healthcare.
+- Reviewing, expanding, and updating the **state of the art** in neuromorphic computing: new publications, hardware devices, and software tools, contextualized against project objectives.
+
+### Research Engineer
+**Gradiant** · Vigo, Spain · *2025 – Jun 2026*
+
+- Developed intelligent solutions for **early threat detection in corporate cybersecurity** using unsupervised ML models.
+- Designed and implemented **β-Variational Autoencoder, Autoencoder, Extended Isolation Forest, and Isolation Forest** models for real-time anomaly detection and behavioral analysis on large-scale data environments.
+- Focused on **model explainability (XAI)** to enhance usability for non-technical users and improve trust in AI systems.
+- Integrated models into a scalable data architecture using **Kafka, Spark, and Airflow** for efficient real-time data stream processing.
+- Tracked experiments and versioned models with **MLFlow**; managed large model artifacts with **MinIO**.
+- Authored technical documentation for stakeholders (INCIBE) and collaborated with engineering/security teams in model integration and peer code reviews.
 
 ### Researcher, Lecturer & Teaching Assistant
 **Faculty of Engineering, Universidad de la República (UdelaR)** · Montevideo, Uruguay · *2015 – 2024*
@@ -37,20 +48,20 @@ Physicist with postgraduate training (Ph.D. and MSc in Physics, MSc in Big Data 
 ## EDUCATION
 
 ### MSc in Big Data Analytics Technologies
-**Universidad de Santiago de Compostela (USC)** · Santiago de Compostela, Spain · *2024 – 2025*  
-Thesis: *Application of new anomaly detection models in Big Data contexts.*  
+**Universidad de Santiago de Compostela (USC)** · Santiago de Compostela, Spain · *2024 – 2025*
+Thesis: *Application of new anomaly detection models in Big Data contexts.*
 Coursework: Large-Scale Databases, Technologies for Unstructured Information Management, Computing Technologies for Big Data, IoT, Statistics, Data Mining, Data Visualization, Business Intelligence, Business Applications and Use Cases.
 
 ### Ph.D. in Optics (Physics)
-**Universidad de la República (UdelaR)** · Montevideo, Uruguay · *2019 – 2024*  
-Thesis: [Visualization and Characterization of Phase Objects](https://www.colibri.udelar.edu.uy/jspui/handle/20.500.12008/44860)  
-Coursework: Coherent Optics, **Reinforcement Learning**, **Computer Image Processing**, **Computational Multivariate Statistics**, **Deep Learning for Computer Vision (CS231n)**, Fundamental Electronics Lab.  
+**Universidad de la República (UdelaR)** · Montevideo, Uruguay · *2019 – 2024*
+Thesis: [Visualization and Characterization of Phase Objects](https://www.colibri.udelar.edu.uy/jspui/handle/20.500.12008/44860)
+Coursework: Coherent Optics, **Reinforcement Learning**, **Computer Image Processing**, **Computational Multivariate Statistics**, **Deep Learning for Computer Vision (CS231n)**, Fundamental Electronics Lab.
 Advisors: PhD. José A. Ferrari, PhD. Erna Frins, PhD. Gastón A. Ayubi.
 
 ### MSc in Quantum Chromodynamics (Theoretical Physics)
-**Universidad de la República (UdelaR)** · Montevideo, Uruguay · *2016 – 2018*  
-Thesis: [Role of the various couplings in infrared Quantum Chromodynamics](https://www.colibri.udelar.edu.uy/jspui/handle/20.500.12008/26696)  
-Coursework: Statistical Mechanics, Quantum Field Theory I & II, General Relativity.  
+**Universidad de la República (UdelaR)** · Montevideo, Uruguay · *2016 – 2018*
+Thesis: [Role of the various couplings in infrared Quantum Chromodynamics](https://www.colibri.udelar.edu.uy/jspui/handle/20.500.12008/26696)
+Coursework: Statistical Mechanics, Quantum Field Theory I & II, General Relativity.
 Advisors: PhD. Nicolás Wschebor, PhD. Marcela Peláez.
 
 ### Bachelor's Degree in Physics
@@ -77,34 +88,34 @@ Advisors: PhD. Nicolás Wschebor, PhD. Marcela Peláez.
 
 ## TECHNICAL SKILLS
 
+### Neuromorphic Computing (current research)
+Spiking Neural Networks (SNNs) · Synaptic Plasticity · Event-based Vision (DVS sensors)
+SNN-to-FPGA Compilation · Photonic Neuromorphic Architectures · Energy-efficient / Edge AI · xAI for SNNs
+
 ### Machine Learning & AI
-`scikit-learn` · `PyTorch` · `TensorFlow` · `Keras` · `MLFlow`  
-Unsupervised Learning · Anomaly Detection · Autoencoders · Variational Autoencoders · Isolation Forest  
+`scikit-learn` · `PyTorch` · `TensorFlow` · `Keras` · `MLFlow`
+Unsupervised Learning · Anomaly Detection · Autoencoders · Variational Autoencoders · Isolation Forest
 Explainable AI (XAI) · Reinforcement Learning · Deep Learning · Computer Vision
 
 ### Data Engineering & Big Data
-`Apache Kafka` · `Apache Spark` · `Apache Airflow` · `MinIO`  
+`Apache Kafka` · `Apache Spark` · `Apache Airflow` · `MinIO`
 Real-time Stream Processing · Large-Scale Data Pipelines · ETL · IoT Data
 
 ### Graph Databases
-`Neo4j` · `Cypher` · Graph Data Modeling · Graph Data Science  
+`Neo4j` · `Cypher` · Graph Data Modeling · Graph Data Science
 Knowledge Graphs · Network Analysis
 
 ### Programming & Tools
-`Python` · `R` · `SQL` · `MATLAB` · `LaTeX`  
+`Python` · `R` · `SQL` · `MATLAB` · `LaTeX`
 `Git` · `Linux` · `Docker` (basic)
 
 ### Data Analysis & Visualization
-`pandas` · `NumPy` · `SciPy` · `matplotlib` · `seaborn` · `plotly`  
+`pandas` · `NumPy` · `SciPy` · `matplotlib` · `seaborn` · `plotly`
 Statistical Analysis · Multivariate Analysis · Optimization · Signal Processing
 
 ### Computer Vision & Image Processing
-`OpenCV` · `scikit-image` · `PIL/Pillow`  
+`OpenCV` · `scikit-image` · `PIL/Pillow`
 Phase Object Visualization · Digital Image Processing · Pattern Recognition
-
-### Databases
-`SQL` (relational) · `Neo4j` (graph) · `MinIO` (object storage)  
-Database Modeling · Query Optimization
 
 ---
 
@@ -148,4 +159,4 @@ Database Modeling · Query Optimization
 
 ---
 
-*Last updated: May 2026*
+*Last updated: July 2026*
